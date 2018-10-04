@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, NetInfo } from "react-native";
+import { Alert, NetInfo, Platform } from "react-native";
 import { Provider } from 'react-redux'
 //import Permissions from 'react-native-permissions';
 import configureStore from "./config/configureStore";
@@ -51,7 +51,10 @@ class Main extends Component{
 		/* *
 		 * @function: Initiliazing push notification utility
 		 * */
-		pushNotificationInit(store); 
+		if(Platform.OS === 'android'){ // remove this condition when ios configuration done
+			pushNotificationInit(store);
+		}
+		 
 		function handleFirstConnectivityChange(isConnected) {
 	      NetInfo.isConnected.removeEventListener('change',handleFirstConnectivityChange);
 	    }
@@ -65,7 +68,10 @@ class Main extends Component{
 		/* *
 		 * @function: Stop listening push notification events
 		 * */
-		pushNotificationRemove();       
+	 	if(Platform.OS === 'android'){ // remove this condition when ios configuration done
+			pushNotificationRemove();
+		}
+		       
 	}
 
 	/* *
