@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import configureStore from "./config/configureStore";
 import Root from './Root';
 //import configureClient, { destroySocketClient } from "./utilities/SocketClient";
-//import { pushNotificationInit , pushNotificationRemove }from "./utilities/PushNotification";
+import { pushNotificationInit , pushNotificationRemove }from "./utilities/PushNotification";
 //import { checkPermissions }from "./utilities/Locations";
 
 //let socketClient = null;
@@ -51,7 +51,7 @@ class Main extends Component{
 		/* *
 		 * @function: Initiliazing push notification utility
 		 * */
-		//pushNotificationInit(store); 
+		pushNotificationInit(store); 
 		function handleFirstConnectivityChange(isConnected) {
 	      NetInfo.isConnected.removeEventListener('change',handleFirstConnectivityChange);
 	    }
@@ -65,7 +65,7 @@ class Main extends Component{
 		/* *
 		 * @function: Stop listening push notification events
 		 * */
-		//pushNotificationRemove();       
+		pushNotificationRemove();       
 	}
 
 	/* *
