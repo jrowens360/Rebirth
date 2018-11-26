@@ -6,6 +6,8 @@ import {
   StyleSheet,
   View
 } from 'react-native'; 
+import Constants from '../../constants';
+
 
 const BackgroundImgCompo = (props) => {
 
