@@ -6,11 +6,12 @@ import { Text,
 import Constants from '../constants';
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 import Info_Profile from "../containers/info_profile";
+import Background from '../components/common/BackgroundImg';
+import { connect } from 'react-redux';
 
 
-
-
-export default class Info extends Component {
+ class Info extends Component {
+     
     
     constructor(props) {
         super(props);
@@ -20,20 +21,26 @@ export default class Info extends Component {
          
         };
       }
+      onPress(){
+       this.props.navigation.navigate("dashboard")
+        //this.props.navigation.dispatch({ type: 'REPLACE'  });
+      
 
+      }
+  
 
 
   render() {
   
     return (
 
-      <View style = {styles.container}>
+      <Background style = {styles.container} src={Constants.Images.user.infobg}>
       
-        <Text style = {styles.maintext}>How to take Photo ?</Text>
+        <Text style = {styles.maintext}>How to take Photos ?</Text>
         <Text style = {styles.text}>Please select how you prefer to take photos</Text>
         <View style = {styles.mainContainer}>
         <ScrollableTabView 
-        tabBarUnderlineStyle={{color:'green'}}
+        
         onChangeTab={(value)=>{
           
                 this.setState(
@@ -45,8 +52,8 @@ export default class Info extends Component {
         }}
         
         >
-        <Info_Profile tabLabel="Take a Selfie" />
-        <Info_Profile tabLabel="ask for help" />
+        <Info_Profile tabLabel="Take a Selfie" img={Constants.Images.user.infoFront} />
+        <Info_Profile tabLabel="Ask for help" img={Constants.Images.user.infoSide}/>
       </ScrollableTabView>
       </View>
 
@@ -63,53 +70,55 @@ export default class Info extends Component {
 
 
       <TouchableOpacity
-                  
+                  onPress = {()=>this.onPress()}
                   style={styles.buttonStyle} >
                   <Text style={{ color: "#fff" }}>I Understand</Text>
                 </TouchableOpacity>
-      </View>
+      </Background>
     );
   }
 }
 const styles = StyleSheet.create({
     container: {
-      backgroundColor:'pink',
+    
       flex: 1,
       //alignItems: 'center',
       //justifyContent: 'center'
     },
     maintext:{
         marginTop:18,
-        color:"black",
+        color:"white",
         fontSize:25,
         fontWeight:"bold",
         textAlign:"center"
     },
     text:{
-        color:"black",
+        color:"white",
         fontSize:14,
         textAlign:"center"
     },
-    activeDot:{backgroundColor:'black',height:8,width:8,borderRadius:4},
+    activeDot:{backgroundColor:Constants.Colors.Purple,height:8,width:8,borderRadius:4},
     inactiveDot:{backgroundColor:'gray',height:8,width:8,borderRadius:4},
     mainContainer:{
         flex:1,
           paddingTop:Constants.BaseStyle.DEVICE_HEIGHT/100*1,
           //paddingBottom:Constants.BaseStyle.DEVICE_HEIGHT/100*10,
           marginBottom:Constants.BaseStyle.DEVICE_HEIGHT/100*2,
-          marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*6,
+          marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*7,
           backgroundColor:Constants.Colors.White,
-          marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*2,
+          marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*4,
           borderRadius:10
        
       },
       buttonStyle:{
         marginBottom:Constants.BaseStyle.DEVICE_HEIGHT / 100 *4,
         borderRadius: 20,
-        backgroundColor: "#3474cc",
+        backgroundColor: Constants.Colors.Purple,
         padding:12,
         width: "40%",
         alignSelf:'center',
         justifyContent: "center", alignItems: 'center'
       },
 })
+
+export default connect(null, null)(Info);

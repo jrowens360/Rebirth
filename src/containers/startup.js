@@ -8,15 +8,37 @@ import {
 } from 'react-native';
 
 import Constants from '../constants';
+import Background from '../components/common/BackgroundImg';
 
  
 
 export default class Startup extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+       
+
+    };
+  }
+
+
+  onSignUp(){
+    this.props.navigation.navigate("signup")
+
+  }
+  onSignIn(){
+    this.props.navigation.navigate("SignIn")
+
+  }
+
+
   
   render() {
     return (
       
-      <View style={styles.container}>
+      <Background style={styles.container} src={Constants.Images.user.splashbg}>
+        <Image source={Constants.Images.user.splashLogo} style={styles.imageStyle}  resizeMode='contain'/>
+        
 
      <View style={styles.bottomConatiner}>
 
@@ -25,23 +47,24 @@ export default class Startup extends Component {
           </Text>
           <View  style={styles.subConatiner}>
           <TouchableOpacity
-                  
+                  onPress = {()=>this.onSignIn()}
                   style={styles.buttonStyle} >
-                  <Text style={{ color: "#fff" }}>Sign In</Text>
+                  <Text style={{ color: Constants.Colors.Purple,fontWeight: '500' }}>Sign In</Text>
                 </TouchableOpacity>
                 
 
         <TouchableOpacity
-                  
-                  style={[styles.buttonStyle,{marginLeft:15}]} >
-                  <Text style={{ color: "#fff" }}>Sign Up</Text>
+        onPress = {()=>this.onSignUp()}
+                
+                  style={[styles.buttonStyle,{marginLeft:18,backgroundColor:Constants.Colors.Purple }]} >
+                  <Text style={{ color: 'white',fontWeight: '500'}}>Sign Up</Text>
                 </TouchableOpacity>
           
           </View>
      </View>
 
   
-      </View>
+      </Background>
     );
   }
 }
@@ -55,8 +78,17 @@ const styles = StyleSheet.create({
  
   },
   textStyle: {
+    color:'white',
     fontSize: 22,
     textAlign: "center",
+    
+  },
+  imageStyle: {
+    
+    width: Constants.BaseStyle.DEVICE_WIDTH*70/100,
+    height:Constants.BaseStyle.DEVICE_HEIGHT*18/100,
+    alignSelf:'center',
+    marginTop:Constants.BaseStyle.DEVICE_HEIGHT*20/100,
     
   },
  
@@ -64,15 +96,19 @@ const styles = StyleSheet.create({
   buttonStyle:{
    // marginTop:Constants.BaseStyle.DEVICE_HEIGHT / 100 *4,
     borderRadius: 20,
-    backgroundColor: "#3474cc",
-    padding:10,
+    backgroundColor:'white',
+    padding:12,
     width: "40%",
     justifyContent: "center", alignItems: 'center'
   },
   bottomConatiner: { 
-      position: 'absolute',  bottom: 0, padding:10,
-      alignItems: 'center',justifyContent: "center",
-      height:Constants.BaseStyle.DEVICE_HEIGHT / 100 * 40,},
+  flex:1,
+    marginBottom:Constants.BaseStyle.DEVICE_HEIGHT / 100 *20,
+      position: 'absolute',  bottom: 0,
+      alignItems: 'center',
+    justifyContent: "center",
+     //height:Constants.BaseStyle.DEVICE_HEIGHT / 100 * 40,
+  },
   subConatiner: {
     marginTop:Constants.BaseStyle.DEVICE_HEIGHT / 100 *5,
     alignItems: 'center',

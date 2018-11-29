@@ -13,13 +13,11 @@ let colors = {
     SettingLightGray: "#f2f2f2",
     Black:'#212123',
     PureBlack : "#000000",
-    LightBlack: "#575758",
-    Green: '#009a0e',
-    LightGreen: "#7cce6e",
-    HeaderGreen: "#1e980a",
-    HeaderLightGreen: "#2cba14",
-    Magenta: "#ef3881",
-    Purple: "#a2a1b8",
+    yellow:'#ffdc00',
+   
+   
+   
+    Purple: "#6000ba",
     LightBrown: "#938d8a",
     SmokeWhite:"#F5F5F5"
 };

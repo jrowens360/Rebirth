@@ -3,52 +3,117 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View,Image,TextInput,TouchableOpacity,ScrollView
+  View, Image, TextInput, TouchableOpacity, ScrollView
 
 } from 'react-native';
-import NavigationBar from 'react-native-navbar';
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { ToastActionsCreators } from 'react-native-redux-toast';
+import { connect } from 'react-redux';
+import _ from "lodash";
+import Regex from '../utilities/Regex';
+import { bindActionCreators } from "redux";
+import * as UserActions from '../redux/modules/user';
+import Background from '../components/common/BackgroundImg';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 import Constants from '../constants';
-const titleConfig = {
-    title: 'Forgot Password ',
-  };
- 
 
-export default class ForgotPassword extends Component {
-  
+
+class ForgotPassword extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      hasFocus: false
+
+    }
+  }
+
+
+  forgotSubmit() {
+
+    let { dispatch } = this.props.navigation;
+    let { email } = this.state;
+    //let { navigate } = this.props.navigation;
+
+    if (_.isEmpty(email.trim())) {
+      //alert(enterEmail);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
+      return;
+    }
+    if (!Regex.validateEmail(email.trim())) {
+      //alert(enterValidEmail);
+      dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
+      return;
+    }
+
+
+
+    this.props.UserActions.forgotPasswordFirebase({ ...this.state });
+
+
+  }
+
+  _onBlur() {
+    this.setState({ hasFocus: false });
+  }
+
+  _onFocus() {
+    this.setState({ hasFocus: true });
+  }
+
+  _getULColor(hasFocus) {
+
+    return (hasFocus === true) ? 'white' : 'gray';
+  }
+
   render() {
     return (
-      
-      <View style={styles.container}>
-        <NavigationBar
-        title={titleConfig}
-        backgroundColor='#F5FCFF'
-      
-      />
 
-     <View style={{flex:1,paddingHorizontal:20,  justifyContent: "center", }}>
-     <Image source={{uri: 'http://lorempixel.com/100/100/'}} style={styles.imageStyle} />
+      <Background style={styles.container} src={Constants.Images.user.resetbg}>
+        <KeyboardAwareScrollView>
+
+          <ScrollView keyboardDismissMode={Platform.OS === 'ios' ? 'on-drag' : 'interactive'} keyboardShouldPersistTaps="always" >
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Icon name="angle-left" size={40} color='white' />
+              </TouchableOpacity>
+              <Text style={styles.forgotTxt}> Forgot Password </Text>
+              <View></View>
+            </View>
+            <View style={{ flex: 1, paddingHorizontal: 20, justifyContent: "center", }}>
+              <Image source={Constants.Images.user.splashLogo} style={styles.imageStyle} />
 
 
-          <TextInput
-        style={styles.textInputStyle}
-        placeholder='Email'
-        placeholderTextColor={Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-      /> 
-                
+              <TextInput
+                autoFocus={false}
+                onBlur={() => this._onBlur()}
+                onFocus={() => this._onFocus()}
+                style={styles.textInputStyle}
+                placeholder='Email'
+                keyboardType='email-address'
+                placeholderTextColor={'gray'}
+                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                onChangeText={(email) => this.setState({ email })}
+              />
 
-        <TouchableOpacity
-                  
-                  style={styles.buttonStyle} >
-                  <Text style={{ color: "#fff" }}>Submit</Text>
-                </TouchableOpacity>
-          
-          </View>
-     </View>
 
-  
-     
+              <TouchableOpacity onPress={() => this.forgotSubmit()}
+
+                style={styles.buttonStyle} >
+                <Text style={{ color: Constants.Colors.Purple }}>Submit</Text>
+              </TouchableOpacity>
+
+            </View>
+          </ScrollView>
+        </KeyboardAwareScrollView>
+      </Background>
+
+
+
     );
   }
 }
@@ -58,29 +123,50 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingHorizontal:Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,
     backgroundColor: '#F5FCFF',
-   
- 
+
+
   },
   textInputStyle: {
-    padding:10,
-    marginTop:Constants.BaseStyle.DEVICE_HEIGHT / 100 * 6,
-  
-    },
-    imageStyle: {
-        width: Constants.BaseStyle.DEVICE_WIDTH*30/100,
-        height:Constants.BaseStyle.DEVICE_WIDTH*30/100,
-        alignSelf:'center',
-        
-      },
- 
-  buttonStyle:{
-    marginTop:Constants.BaseStyle.DEVICE_HEIGHT / 100 *4,
+    padding: 10,
+    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 6,
+    color: 'white'
+
+  },
+
+  navIcons: {
+    // marginLeft:Constants.BaseStyle.DEVICE_WIDTH/100 * 5,
+
+    // height:Constants.BaseStyle.DEVICE_WIDTH*6/100,
+  },
+  imageStyle: {
+    width: Constants.BaseStyle.DEVICE_WIDTH * 70 / 100,
+    height: Constants.BaseStyle.DEVICE_HEIGHT * 21 / 100,
+    alignSelf: 'center',
+    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 10,
+
+
+  },
+
+  buttonStyle: {
+    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 5,
     borderRadius: 20,
-    backgroundColor: "#3474cc",
-    padding:12,
+    backgroundColor: "white",
+    padding: 12,
     width: "40%",
-    alignSelf:'center',
+    alignSelf: 'center',
     justifyContent: "center", alignItems: 'center'
   },
-  
+  forgotTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
+
 });
+
+// const mapStateToProps = state => ({
+//   modalstate: state.ModalHandleReducer,
+//   deviceToken: state.user.deviceToken
+// });
+
+const mapDispatchToProps = dispatch => ({
+  UserActions: bindActionCreators(UserActions, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(ForgotPassword);

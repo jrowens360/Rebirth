@@ -13,10 +13,13 @@ import SignIn from "../containers/signin.js";
 import Payment from "../containers/payment.js";
 import Measurement from "../containers/measurement_detail";
 import Info from "../containers/info.js";
+import Splash from "../containers/splash";
+import dashboard from "../containers/dashboard";
 
 // export list of routes.
 export default routes = {
 	Loader : { screen: Loader },
+	Splash	: { screen: Splash },
 	signup	: { screen: SignUp },
 	startup	: { screen: Startup },
 	forgotPassword	: { screen: ForgotPassword },
@@ -29,6 +32,7 @@ export default routes = {
 	Payment	: { screen: Payment },
 	Measurement	: { screen: Measurement },
 	Info	: { screen: Info },
+	dashboard	: { screen: dashboard },
 
 
 };

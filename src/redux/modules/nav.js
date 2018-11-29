@@ -3,7 +3,7 @@ import Idx from "../../utilities/Idx";
 import { NavigationActions } from "react-navigation";
 import { AppNavigator } from "../../config/navigator";
 import { REHYDRATE } from "redux-persist/constants";
-import { GO_TO_TYPE_FORM } from './user';
+import { USER_STARTUP,USER_INFO} from './user';
 
 //Actions
 const GOBACK            = "GOBACK";
@@ -30,7 +30,7 @@ const initialState = AppNavigator.router.getStateForAction(NavigationActions.res
 
 export default function reducer(state = initialState, action) {
     //console.log('action *********',action.payload)
-    let firstState = "Info";
+    let firstState = "dashboard";
     // if(action.payload && action.payload.user && action.payload.user.userDetails){
     //     firstState = "profile"
     // }
@@ -41,12 +41,31 @@ export default function reducer(state = initialState, action) {
             return AppNavigator.router.getStateForAction(
                 NavigationActions.reset({
                   index: 0,
-                  actions: [NavigationActions.navigate({ routeName: "Welcome" })],
+                  actions: [NavigationActions.navigate({ routeName: "welcome" })],
                 }),
                 state
             );
 
+            case USER_STARTUP:
+           
+                return AppNavigator.router.getStateForAction(
+                    NavigationActions.reset({
+                      index: 0,
+                      actions: [NavigationActions.navigate({ routeName: "startup" })],
+                    }),
+                    state
+                );
 
+                case USER_INFO:
+           
+                return AppNavigator.router.getStateForAction(
+                    NavigationActions.reset({
+                      index: 0,
+                      actions: [NavigationActions.navigate({ routeName: "Info" })],
+                    }),
+                    state
+                );
+            
             
             // return this.props.navigation.navigate("Home")
 

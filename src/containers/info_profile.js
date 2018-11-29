@@ -12,10 +12,19 @@ import ChangePassword from "../containers/signup";
 
 
 export default class InfoProfile extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+   
+
+    }
+  }
+
   render() {
     return (
       <View style = {styles.container}>
-      <Image source={{uri: 'http://lorempixel.com/100/100/'}} style={styles.imageStyle} />
+      <Image source={this.props.img} style={styles.imageStyle}  resizeMode='contain' />
        
       </View>
     );
@@ -23,20 +32,23 @@ export default class InfoProfile extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-      backgroundColor:'pink',
+      borderBottomLeftRadius: 10, 
+      borderBottomRightRadius: 10,
       flex: 1,
       //alignItems: 'center',
       //justifyContent: 'center'
     },
     imageStyle: {
-        flex:1,
-        width: Constants.BaseStyle.DEVICE_WIDTH*90/100,
-        height:Constants.BaseStyle.DEVICE_WIDTH*90/100,
+     
+      backgroundColor:'white',
+        //flex:1,
+       width: '100%',
+        height:'100%',
         // alignSelf:'center',
         // marginTop:Constants.BaseStyle.DEVICE_HEIGHT / 100 * 10,
        // borderRadius:10,
        borderBottomLeftRadius: 10, 
-       borderBottomRightRadius: 20,
+       borderBottomRightRadius: 10,
 
         
       },
@@ -49,7 +61,9 @@ const styles = StyleSheet.create({
           marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*6,
           backgroundColor:Constants.Colors.White,
           //marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*2,
-          borderRadius:10
+          borderRadius:10,
+          borderBottomLeftRadius: 10, 
+          borderBottomRightRadius: 10,
           //alignItems: 'center',
           //justifyContent: 'center'
       },

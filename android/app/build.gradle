@@ -138,11 +138,14 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-vector-icons')
+    
+
+    implementation project(':react-native-vector-icons')
     implementation project(':react-native-fcm')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project(':react-native-fcm')
+
     implementation 'com.google.firebase:firebase-core:+'
+
     implementation "com.android.support:appcompat-v7:27.0.0"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.firebase:firebase-messaging:+'

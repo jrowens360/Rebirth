@@ -9,10 +9,13 @@ import { Text,
    Image,
   } from 'react-native';
    import Constants from '../constants';
+   import { connect } from 'react-redux';
    import NavigationBar from 'react-native-navbar';
    import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
    import Icon from 'react-native-vector-icons/FontAwesome';
-   export default class ChangePassword extends Component {
+   import * as UserActions from '../redux/modules/user';
+   import { bindActionCreators } from "redux";
+class ChangePassword extends Component {
        constructor(props) {
          super(props);
          this.state = {
@@ -27,58 +30,8 @@ import { Text,
           return re.test(str);
       }
       save(){
-    //    this.setState({
-    //        visible:true
-    //    })
-    //    if(this.state.currentPassword.length === 0){
-    //      this.setState({
-    //                  visible:false
-    //              })
-    //      alert('You must enter current Password');
-    //      return;
-    //  }
-    //  else if(!this.checkPassword(this.state.currentPassword)){
-    //        this.setState({
-    //                    visible:false
-    //                })
-    //        alert('Please enter a valid current password')
-    //        return;
-    //  }
-    //   else  if(!this.state.newPassword.length === 0){
-    //        this.setState({
-    //                    visible:false
-    //                })
-    //        alert('You must enter a new password')
-    //        return;
-    //    }
-    //    else if(!this.checkPassword(this.state.newPassword)){
-    //        this.setState({
-    //                    visible:false
-    //                })
-    //        alert('Please enter a valid password')
-    //        return;
-    //    }
-    //    else if(!this.state.confirmNewPassword.length === 0){
-    //      this.setState({
-    //                  visible:false
-    //              })
-    //      alert('You must enter confirm New Password ');
-    //      return;
-    //            }
-    //      else if(this.state.newPassword === this.state.confirmNewPassword ){
-    //        this.setState({
-    //                    visible:false
-    //                })
-    //        alert('password do not match ');
-    //        return;
-    //              }
-    //  else if(!this.checkPassword(this.state.confirmNewPassword)){
-    //        this.setState({
-    //                    visible:false
-    //                })
-    //        alert('Please enter a valid confirm New Password')
-    //        return;
-    //  }
+    
+    this.props.UserActions.changePasswordFirebase({ ...this.state });
    }
 render() {
       
@@ -191,3 +144,13 @@ const styles = StyleSheet.create({
           },
          
        })
+// const mapStateToProps = state => ({
+//   modalstate: state.ModalHandleReducer,
+//   deviceToken: state.user.deviceToken
+// });
+
+const mapDispatchToProps = dispatch => ({
+  UserActions: bindActionCreators(UserActions, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(ChangePassword);
