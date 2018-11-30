@@ -15,6 +15,7 @@ import Measurement from "../containers/measurement_detail";
 import Info from "../containers/info.js";
 import Splash from "../containers/splash";
 import dashboard from "../containers/dashboard";
+import measurements from "../containers/measurements";
 
 // export list of routes.
 export default routes = {
@@ -33,6 +34,7 @@ export default routes = {
 	Measurement	: { screen: Measurement },
 	Info	: { screen: Info },
 	dashboard	: { screen: dashboard },
+	measurements	: { screen: measurements },
 
 
 };

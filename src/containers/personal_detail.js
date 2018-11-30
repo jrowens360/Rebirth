@@ -12,6 +12,7 @@ import { Text,
    import NavigationBar from 'react-native-navbar';
    import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
    import Icon from 'react-native-vector-icons/FontAwesome';
+   import Background from '../components/common/BackgroundImg';
    export default class PersonalDetail extends Component {
        constructor(props) {
          super(props);
@@ -26,29 +27,23 @@ import { Text,
    }
 render() {
       
-           const titleConfig = {
-             title: 'Profile Deatil',
-             tintColor:'white'
-           };
            return (
-             <View style={styles.container}>
-           
-            <NavigationBar style = {styles.navBar}
-             title={titleConfig}
-             rightButton={
-                <TouchableOpacity onPress={()=>goBack()}>
-                  <Icon name="angle-left" size={40} color='white' style={[styles.navIcons,{marginLeft:Constants.BaseStyle.DEVICE_WIDTH/100 * 2}]} />
-                </TouchableOpacity>
-              }
-              leftButton={
-                <TouchableOpacity onPress={()=>goBack()}>
-                  <Icon name="angle-left" size={40} color='white' style={[styles.navIcons,{marginLeft:Constants.BaseStyle.DEVICE_WIDTH/100 * 2}]} />
-                </TouchableOpacity>
-              }
-               />
-             
-             <View style = {styles.mainContainer}>
+            <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
+       
+       <KeyboardAwareScrollView>
+            
              <ScrollView>
+             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Icon name="angle-left" size={40} color='white' />
+            </TouchableOpacity>
+            <Text style={styles.headerTxt}> Personal Details  </Text>
+            <View></View>
+          </View>
+
+            
+             <View style = {styles.mainContainer}>
+               
       <View style={styles.container}>
       <View  style={styles.profileRow}>
       <Image source={{uri: 'http://lorempixel.com/100/100/'}} style={styles.imageStyle} />
@@ -56,7 +51,7 @@ render() {
         <View> 
         
         <Text style={[styles.textStyle]}>
-            change photo
+            Change Photo
           </Text>
           <View style={{ flexDirection: "row",paddingLeft:Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,paddingTop:5}}>
           <Icon name="camera" size={18} color='black' />
@@ -120,19 +115,21 @@ render() {
       <TouchableOpacity
                   
                   style={styles.buttonStyle} >
-                  <Text style={{ color: "#fff" }}>Save</Text>
+                  <Text style={{ color: "#fff",fontWeight: '500' }}>Save</Text>
                 </TouchableOpacity>
                
       </View>
+      </View>
+     
       </ScrollView>
           
           
         
             
              
-               </View>
+      </KeyboardAwareScrollView>  
              
-             </View>
+             </Background>
            );
          }
        }
@@ -148,17 +145,19 @@ const styles = StyleSheet.create({
       
          mainContainer:{
            
-             paddingTop:Constants.BaseStyle.DEVICE_HEIGHT/100*4,
+             paddingTop:Constants.BaseStyle.DEVICE_HEIGHT/100*3,
              height:Constants.BaseStyle.DEVICE_HEIGHT/100*80,
              marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*6,
              paddingHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*4,
              backgroundColor:Constants.Colors.White,
-             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*4,
+             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*2,
              borderRadius:10
          
          },
          textStyle: {
+          fontWeight: '400',
             fontSize: 16,
+            color:'black',
             paddingLeft:Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,
           },
           textInputStyle: {
@@ -178,9 +177,9 @@ const styles = StyleSheet.create({
             marginTop:15,
             alignSelf: 'center',
             borderRadius: 20,
-            backgroundColor: "#3474cc",
+            backgroundColor: Constants.Colors.Purple,
             padding:10,
-            width: "30%",
+            width: "32%",
             justifyContent: "center", alignItems: 'center'
           },
           profileRow: {
@@ -188,6 +187,7 @@ const styles = StyleSheet.create({
             alignItems: "center"
             
           },
+          headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
         
        
          

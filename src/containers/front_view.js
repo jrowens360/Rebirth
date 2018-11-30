@@ -18,17 +18,37 @@ export default class FrontView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
-
+      buttonPress: 0,
+      sideView: false,
+      nextButton: false,
+      buttonTxt: 'Next'
     };
   }
 
   save() {
 
   }
+  onNext() {
+    switch (this.state.buttonPress) {
+      case 0:
+        this.setState({
+          sideView: !this.state.sideView,
+          buttonTxt: 'Continue',
+          buttonPress: 1
+        });
+        break;
+      case 1:
+        this.props.navigation.navigate("Payment")
+        break;
+    }
+
+
+
+
+  }
   render() {
 
-    
+
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
 
@@ -43,30 +63,80 @@ export default class FrontView extends Component {
             <View></View>
           </View>
 
-          <View style={styles.mainContainer}>
-            <Text style={styles.textStyle}>Front View </Text>
-            <Image source={Constants.Images.user.frontView} style={styles.imageStyle} resizeMode='contain' />
-            <View style={{ flexDirection: "row", backgroundColor: 'yellow', padding: 10, justifyContent: 'space-evenly', marginTop: 5 }}>
-              <View style={{ flexDirection: "row" }}>
-                <Icon name="camera" size={25} color='black' />
-                <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Camera </Text>
-              </View>
 
-              <View style={{ width: 1, lexDirection: "row", backgroundColor: 'black' }}></View>
-              <View style={{ flexDirection: "row" }}>
-                <Icon name="edit" size={25} color='black' />
-                <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Gallery </Text>
-              </View>
-            </View>
 
+          {this.state.sideView ? this.cardSideView() : this.cardFrontView()}
+
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity style={styles.nextTxt} disabled={this.state.nextButton} onPress={() => this.onNext()}>
+              <Text style={styles.bottomText} >{this.state.buttonTxt}</Text>
+            </TouchableOpacity>
           </View>
 
-          <Text style={styles.bottomText}>Next</Text>
         </ScrollView>
       </Background>
     );
   }
+  cardFrontView() {
+    return (
+      <View style={styles.mainContainer}>
+        <Text style={styles.textStyle}>Front View </Text>
+        <Image source={Constants.Images.user.frontView} style={styles.imageStyle} resizeMode='contain' />
+        <View style={{ flexDirection: "row", backgroundColor: Constants.Colors.darkYellow, padding: 13, borderRadius: 8, justifyContent: 'space-evenly', marginTop: 5 }}>
+          <View style={{ flexDirection: "row" }}>
+            <Icon name="camera" size={25} color='black' />
+            <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Camera </Text>
+          </View>
+
+          <View style={{ width: 1, lexDirection: "row", backgroundColor: 'black' }}></View>
+          <View style={{ flexDirection: "row" }}>
+            <Icon name="edit" size={25} color='black' />
+            <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Gallery </Text>
+          </View>
+        </View>
+
+      </View>
+
+
+    )
+  }
+  cardSideView() {
+    return (
+      <View style={styles.mainContainer}>
+        <Text style={styles.textStyle}>Side View </Text>
+        <Image source={Constants.Images.user.sideView} style={styles.imageStyle} resizeMode='contain' />
+        <View style={{ flexDirection: "row", backgroundColor: Constants.Colors.darkYellow, padding: 13, borderRadius: 8, justifyContent: 'space-evenly', marginTop: 5 }}>
+          <View style={{ flexDirection: "row" }}>
+            <Icon name="camera" size={25} color='black' />
+            <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Camera </Text>
+          </View>
+
+          <View style={{ width: 1, lexDirection: "row", backgroundColor: 'black' }}></View>
+          <View style={{ flexDirection: "row" }}>
+            <Icon name="edit" size={25} color='black' />
+            <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Gallery </Text>
+          </View>
+        </View>
+
+      </View>
+
+
+    )
+  }
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',
@@ -81,8 +151,8 @@ const styles = StyleSheet.create({
     height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 7,
     width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
   },
-  textStyle: { color: "black", flex: 1, paddingLeft: 10 },
-  bottomText: { color: 'white', alignSelf: 'center', fontSize: 18, marginVertical: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2 },
+  textStyle: { color: "black", flex: 1, paddingLeft: 10, fontWeight: '500' },
+  bottomText: { color: 'white', alignSelf: 'center', fontSize: 18, },
   itemStyle: {
     flexDirection: 'row',
     borderBottomColor: 'black',
@@ -114,7 +184,7 @@ const styles = StyleSheet.create({
   },
   textStyle: { color: 'black', alignSelf: 'center', padding: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2.5, fontSize: 20 },
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
-
+  nextTxt: { padding: 2 }
 
 
 })

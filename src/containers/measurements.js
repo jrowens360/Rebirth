@@ -16,30 +16,21 @@ import { Text,
    import * as UserActions from '../redux/modules/user';
    import Background from '../components/common/BackgroundImg';
    import { bindActionCreators } from "redux";
-class ChangePassword extends Component {
+class Measurements extends Component {
        constructor(props) {
          super(props);
          this.state = {
-           currentPassword:'',
-           newPassword: '',
-           confirmNewPassword:'',
+         
           
          };
        }
-     checkPassword(str){
-           var re = /^(?=.\d)(?=.[!@#$%^&])(?=.[a-z])(?=.*[A-Z]).{8,}$/;
-          return re.test(str);
-      }
+    
       save(){
     
     this.props.UserActions.changePasswordFirebase({ ...this.state });
    }
 render() {
       
-           const titleConfig = {
-             title: 'Change Password',
-             tintColor:'white'
-           };
            return (
             <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
 
@@ -52,7 +43,7 @@ render() {
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity>
-            <Text style={styles.headerTxt}> Change Password  </Text>
+            <Text style={styles.headerTxt}> Measurements  </Text>
             <View></View>
           </View>
 
@@ -60,47 +51,23 @@ render() {
 
              <View style = {styles.mainContainer}>
              
-            
-             <TextInput
-                   //style={{flex:1}}
-                   placeholder="Current Password"
-                   keyboardType={'email-address'}
-                   autoCapitalize={false}
-                   autoCorrect={false}
-                   placeholderTextColor='black'
-                   underlineColorAndroid={Constants.Colors.Black}
-                   secureTextEntry={true}
-                   onChangeText={(currentPassword) => this.setState({currentPassword})}
-            />
-         
-         <TextInput
-                   //style={{flex:1}}
-                   placeholder="New Password"
-                   keyboardType={'email-address'}
-                   autoCapitalize={false}
-                   autoCorrect={false}
-                   placeholderTextColor='gray'
-                   underlineColorAndroid='gray'
-                   onChangeText={(newPassword) => this.setState({newPassword})}
-                   secureTextEntry={true}
-            />
+             <View style={{ flexDirection: "row", backgroundColor: Constants.Colors.darkYellow, padding: 14, justifyContent: 'space-evenly', borderRadius:8}}>
+              <View style={{ flexDirection: "row" }}>
+                <Icon name="camera" size={22} color='black' />
+                <Text style={{ fontSize: 17, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Filter </Text>
+              </View>
+
+              <View style={{ width: 1, lexDirection: "row", backgroundColor: 'black' }}></View>
+              <View style={{ flexDirection: "row" }}>
+                <Icon name="edit" size={22} color='black' />
+                <Text style={{ fontSize: 17, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Sort By </Text>
+              </View>
+            </View>
+
+
            
-        
-             <TextInput
-                   //style={{flex:1}}
-                   placeholder="Confirm New Password"
-                   keyboardType={'email-address'}
-                   autoCapitalize={false}
-                   autoCorrect={false}
-                   placeholderTextColor='black'
-                   secureTextEntry={true}
-                   underlineColorAndroid={Constants.Colors.Black}
-                   onChangeText={(confirmNewPassword) => this.setState({confirmNewPassword})}
-                  
-            />
-             
               <TouchableOpacity style={styles.buttonStyle} onPress = {()=>this.save()}>
-                   <Text style = {styles.savetxt}>Save</Text>
+                   <Text style = {styles.savetxt}>+ Add New</Text>
                </TouchableOpacity>
              
                </View>
@@ -121,10 +88,10 @@ const styles = StyleSheet.create({
          },
          mainContainer:{
           
-             paddingTop:Constants.BaseStyle.DEVICE_HEIGHT/100*4,
+             padding:Constants.BaseStyle.DEVICE_HEIGHT/100*1,
              height:Constants.BaseStyle.DEVICE_HEIGHT/100*80,
              marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*6,
-             paddingHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*4,
+            
              backgroundColor:Constants.Colors.White,
              marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*4,
              borderRadius:10
@@ -157,4 +124,4 @@ const mapDispatchToProps = dispatch => ({
   UserActions: bindActionCreators(UserActions, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(ChangePassword);
+export default connect(null, mapDispatchToProps)(Measurements);

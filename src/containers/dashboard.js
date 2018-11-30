@@ -20,7 +20,7 @@ export default class Dashboard extends Component {
       }
 
       onMeasurement(){
-        this.props.navigation.navigate("signup")
+        this.props.navigation.navigate("measurements")
     
       }
       onFront(){
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
       floatStyle:{
         marginTop:Constants.BaseStyle.DEVICE_HEIGHT*3/100,
         borderWidth:1,
-        borderColor:Constants.Colors.yellow,
+        borderColor:Constants.Colors.darkYellow,
         alignItems:'center',
         justifyContent:'center',
         width:Constants.BaseStyle.DEVICE_WIDTH*18/100,

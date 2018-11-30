@@ -13,6 +13,7 @@ import { Text,
    import NavigationBar from 'react-native-navbar';
    import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
    import Icon from 'react-native-vector-icons/FontAwesome';
+   import Background from '../components/common/BackgroundImg';
    export default class Payment extends Component {
        constructor(props) {
          super(props);
@@ -53,30 +54,24 @@ render() {
              
            };
            return (
-             <View style={styles.container}>
+            <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
              <KeyboardAwareScrollView>
-            <NavigationBar style = {styles.navBar}
-             title={titleConfig}
-             rightButton={
-                <TouchableOpacity onPress={()=>goBack()}>
-                  <Icon name="angle-left" size={40} color='white' style={[styles.navIcons,{marginLeft:Constants.BaseStyle.DEVICE_WIDTH/100 * 2}]} />
-                </TouchableOpacity>
-              }
-             leftButton={
-                <TouchableOpacity onPress={()=>goBack()}>
-                  <Icon name="angle-right" size={40} color='white' style={[styles.navIcons,{marginLeft:Constants.BaseStyle.DEVICE_WIDTH/100 * 2}]} />
-                </TouchableOpacity>
-              }
-
-
-               />
+          
               <ScrollView keyboardDismissMode='on-drag'>
+
+               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Icon name="angle-left" size={40} color='white' />
+            </TouchableOpacity>
+            <Text style={styles.headerTxt}> Payment </Text>
+            <View></View>
+          </View>
              <View style = {styles.mainContainer}>
-             <View style = {{height:Constants.BaseStyle.DEVICE_HEIGHT/100*15,paddingHorizontal:15,
-                 borderRadius:10,flexDirection:'row',justifyContent:'space-between',backgroundColor:'yellow',alignItems:'center'}}>
-             <Text style={{color: 'red'}}> Payment Amount
+             <View style = {{height:Constants.BaseStyle.DEVICE_HEIGHT/100*13,paddingHorizontal:15,fontWeight:'500',
+                 borderRadius:10,flexDirection:'row',justifyContent:'space-between',backgroundColor:Constants.Colors.darkYellow,alignItems:'center'}}>
+             <Text style={{color: 'black'}}> Payment Amount
                 </Text> 
-                <Text style={{color: 'red',textAlign:'right',fontSize:50}}> 
+                <Text style={{color: 'black',textAlign:'right',fontSize:50}}> 
                 
                 <Text style={{fontSize:25}} > {'\u0024'} </Text>
                 9.99
@@ -84,7 +79,7 @@ render() {
 
              </View>
              
-             <Text style={{color: 'black',fontSize:20,marginTop:Constants.BaseStyle.DEVICE_WIDTH/100*4,}}> Saved Cards </Text> 
+             <Text style={{color: 'black',fontSize:18,marginTop:Constants.BaseStyle.DEVICE_WIDTH/100*3,fontWeight:'500'}}> Saved Cards </Text> 
          
              <FlatList
              style={styles.flatlist}
@@ -103,16 +98,16 @@ render() {
        
              
               <TouchableOpacity style={styles.buttonStyle} onPress = {()=>this.save()}>
-                   <Text style = {styles.signInText}>Complete payment</Text>
+                   <Text style = {styles.paymenText}>Complete payment</Text>
                </TouchableOpacity>
                <TouchableOpacity onPress = {()=>this.addCardForm()}>
-                   <Text style = {{textAlign:'center',fontSize:20 ,padding:10}}>Add  Card +</Text>
+                   <Text style = {{textAlign:'center',fontSize:18 ,padding:10,color:Constants.Colors.Purple}}>Add  Card +</Text>
                </TouchableOpacity>
              
                </View>
                </ScrollView>
               </KeyboardAwareScrollView>
-             </View>
+             </Background>
            );
          }
          cardFormView(){
@@ -170,6 +165,9 @@ const styles = StyleSheet.create({
            
             
           },
+          paymenText:{
+            color:'white'
+          },
           flatlist: {
          
           flexGrow: 0
@@ -186,9 +184,9 @@ const styles = StyleSheet.create({
             
              height:Constants.BaseStyle.DEVICE_HEIGHT/100*80,
              marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*6,
-             padding:Constants.BaseStyle.DEVICE_WIDTH/100*2,
+             padding:Constants.BaseStyle.DEVICE_WIDTH/100*1,
              backgroundColor:Constants.Colors.White,
-             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*4,
+             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*1,
              borderRadius:10
          
          },
@@ -199,7 +197,7 @@ const styles = StyleSheet.create({
             marginTop:15,
             alignSelf: 'center',
             borderRadius: 20,
-            backgroundColor: "#3474cc",
+            backgroundColor: Constants.Colors.Purple,
             padding:12,
             width: "45%",
             justifyContent: "center", alignItems: 'center'
@@ -208,5 +206,6 @@ const styles = StyleSheet.create({
             height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 7,
             width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
           },
+          headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
          
        })

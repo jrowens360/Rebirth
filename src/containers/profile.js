@@ -43,25 +43,28 @@ export default class Profile extends Component {
 
 
         <View style={styles.mainContainer}>
-
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonalDetail')}>
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Personal} style={styles.iconStyle} />
 
             <Text style={styles.textStyle}>Personal Details</Text>
             <Icon name="angle-right" size={25} color='black' />
           </View>
+          </TouchableOpacity>
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Payment} style={styles.iconStyle} />
 
             <Text style={styles.textStyle}>Payment Methods</Text>
             <Icon name="angle-right" size={25} color='black' />
           </View>
+          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ChangePassword')}>
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
 
             <Text style={styles.textStyle}>Change Password</Text>
             <Icon name="angle-right" size={25} color='black' />
           </View>
+          </TouchableOpacity>
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
 
