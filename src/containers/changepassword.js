@@ -60,8 +60,8 @@ render() {
 
              <View style = {styles.mainContainer}>
              
-            
-             <TextInput
+            {/* <View> */}
+            <TextInput
                    //style={{flex:1}}
                    placeholder="Current Password"
                    keyboardType={'email-address'}
@@ -69,9 +69,19 @@ render() {
                    autoCorrect={false}
                    placeholderTextColor='black'
                    underlineColorAndroid={Constants.Colors.Black}
-                   secureTextEntry={true}
+                   secureTextEntry={this.state.secureEntry}
                    onChangeText={(currentPassword) => this.setState({currentPassword})}
             />
+
+            {/* {this.state.currentPassword != '' && <TouchableOpacity
+              style={{ position: 'absolute', right: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, bottom: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1.5 }}
+              onPress={() => this.setState({ secureEntry: !this.state.secureEntry, passwordEye: !this.state.passwordEye })}>
+              <Image source={this.state.passwordEye ? Constants.Images.user.crossEye : Constants.Images.user.eye} style={[{ width: 20, height: 20 }]} style={styles.eye} resizeMode="contain" />
+            </TouchableOpacity>}
+
+
+            </View>
+             */}
          
          <TextInput
                    //style={{flex:1}}
@@ -82,7 +92,7 @@ render() {
                    placeholderTextColor='gray'
                    underlineColorAndroid='gray'
                    onChangeText={(newPassword) => this.setState({newPassword})}
-                   secureTextEntry={true}
+                  
             />
            
         
@@ -146,7 +156,11 @@ const styles = StyleSheet.create({
             width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
           },
           headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
-         savetxt:{ color: 'white', alignSelf: 'center', padding: 5 }
+         savetxt:{ color: 'white', alignSelf: 'center', padding: 5 },
+         eye: {
+          height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 4,
+          width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6
+        }
        })
 // const mapStateToProps = state => ({
 //   modalstate: state.ModalHandleReducer,

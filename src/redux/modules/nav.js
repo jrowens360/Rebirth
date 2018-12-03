@@ -3,7 +3,7 @@ import Idx from "../../utilities/Idx";
 import { NavigationActions } from "react-navigation";
 import { AppNavigator } from "../../config/navigator";
 import { REHYDRATE } from "redux-persist/constants";
-import { USER_STARTUP,USER_INFO} from './user';
+import { USER_STARTUP,USER_INFO,USER_LOGOUT} from './user';
 
 //Actions
 const GOBACK            = "GOBACK";
@@ -30,10 +30,10 @@ const initialState = AppNavigator.router.getStateForAction(NavigationActions.res
 
 export default function reducer(state = initialState, action) {
     //console.log('action *********',action.payload)
-    let firstState = "dashboard";
-    // if(action.payload && action.payload.user && action.payload.user.userDetails){
-    //     firstState = "profile"
-    // }
+    let firstState = "Splash";
+    if(action.payload && action.payload.user && action.payload.user.userStatus){
+        firstState = "dashboard"
+    }
     switch (action.type) {
     
         case ResetNavigator:
@@ -47,7 +47,7 @@ export default function reducer(state = initialState, action) {
             );
 
             case USER_STARTUP:
-           
+            console.log('move user USER_STARTUP');
                 return AppNavigator.router.getStateForAction(
                     NavigationActions.reset({
                       index: 0,
@@ -57,7 +57,7 @@ export default function reducer(state = initialState, action) {
                 );
 
                 case USER_INFO:
-           
+                console.log('move user USER_INFO');
                 return AppNavigator.router.getStateForAction(
                     NavigationActions.reset({
                       index: 0,
@@ -65,6 +65,16 @@ export default function reducer(state = initialState, action) {
                     }),
                     state
                 );
+                case USER_LOGOUT:
+                console.log('move user start up');
+                return AppNavigator.router.getStateForAction(
+                    NavigationActions.reset({
+                      index: 0,
+                      actions: [NavigationActions.navigate({ routeName: "startup" })],
+                    }),
+                    state
+                );
+            
             
             
             // return this.props.navigation.navigate("Home")

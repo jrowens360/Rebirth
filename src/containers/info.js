@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
         };
       }
       onPress(){
+          console.log('move user dashboard');
        this.props.navigation.navigate("dashboard")
         //this.props.navigation.dispatch({ type: 'REPLACE'  });
       

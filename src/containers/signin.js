@@ -39,25 +39,25 @@ import Constants from '../constants';
 
   signInSubmit() {
 
-    // let { dispatch } = this.props.navigation;
-    // let { email, password } = this.state;
-    // //let { navigate } = this.props.navigation;
+    let { dispatch } = this.props.navigation;
+    let { email, password } = this.state;
+    //let { navigate } = this.props.navigation;
 
-    // if (_.isEmpty(email.trim())) {
-    //   //alert(enterEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
-    //   return;
-    // }
-    // if (!Regex.validateEmail(email.trim())) {
-    //   //alert(enterValidEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
-    //   return;
-    // }
+    if (_.isEmpty(email.trim())) {
+      //alert(enterEmail);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
+      return;
+    }
+    if (!Regex.validateEmail(email.trim())) {
+      //alert(enterValidEmail);
+      dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
+      return;
+    }
 
-    // if (_.isEmpty(password.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
-    //   return;
-    // }
+    if (_.isEmpty(password.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
+      return;
+    }
 
     // if (!Regex.validatePassword(password)) {
     //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
@@ -124,6 +124,7 @@ import Constants from '../constants';
 
               <TextInput
                 style={styles.textInputStyle}
+                autoCorrect={false}
                 autoFocus={false}
                 onBlur={ () => this._onBlur() }
                 onFocus={ () => this._onFocus() }
@@ -137,6 +138,7 @@ import Constants from '../constants';
               <TextInput
                 style={[styles.textInputStyle, { marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3 }]}
                 autoFocus={false}
+                autoCorrect={false}
                 onBlur={ () => this._onBlur() }
                 onFocus={ () => this._onFocus() }
                 placeholder='Password'
@@ -156,7 +158,7 @@ import Constants from '../constants';
               </View>
               <TouchableOpacity style={styles.forgotBtn}
                 onPress={() => this.onForgot()}>
-                <Text style={{ color: 'yellow', textAlign: 'right', padding: 5 }}> Forgot password ?
+                <Text style={{ color: Constants.Colors.darkYellow, textAlign: 'right', padding: 5 }}> Forgot password ?
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.signInSubmit()}
@@ -165,7 +167,7 @@ import Constants from '../constants';
                 <Text style={{ color: Constants.Colors.Purple,fontWeight: '500' }}>Sign In</Text>
               </TouchableOpacity >
               <TouchableOpacity style={styles.signInbtn} onPress={() => this.onSignUp()}>
-                <Text style={styles.bottomText}>New User?<Text style={{ color: 'yellow' }}> Sign Up Now
+                <Text style={styles.bottomText}>New User?<Text style={{ color: Constants.Colors.darkYellow }}> Sign Up Now
                 </Text>
                 </Text>
               </TouchableOpacity>
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
 
 
   },
-  signUpTxt: { padding: 10, alignSelf: 'center', fontSize: 20 },
+  signUpTxt: { padding: 10, alignSelf: 'center', fontSize: 20,color:'white' },
   textInputStyle: {
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 6,
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 12,
     alignSelf: 'center'
   },
-  forgotBtn: { width: '38%', alignSelf: 'flex-end' },
+  forgotBtn: {  alignSelf: 'flex-end' },
   eye: {
     height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 4,
     width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6

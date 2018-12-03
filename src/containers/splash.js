@@ -26,15 +26,17 @@ export default class Splash extends Component {
     constructor(props) {
         super(props);
         setTimeout(() => {
+
          
           this.props.navigation.navigate("startup")
-        }, 5000);
+        }, 3000);
       }
 
       componentDidMount(){
         if (!firebase.apps.length) {
             firebase.initializeApp(config);
         }
+        console.disableYellowBox = true;
 
       }
 

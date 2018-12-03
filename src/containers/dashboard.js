@@ -20,11 +20,11 @@ export default class Dashboard extends Component {
       }
 
       onMeasurement(){
-        this.props.navigation.navigate("measurements")
+       // this.props.navigation.navigate("measurements")
     
       }
       onFront(){
-        this.props.navigation.navigate("FrontView")
+       // this.props.navigation.navigate("FrontView")
     
       }
       onProfile(){

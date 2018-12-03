@@ -10,11 +10,17 @@ import {
   Image,
 } from 'react-native';
 import Constants from '../constants';
+import { connect } from 'react-redux';
 import NavigationBar from 'react-native-navbar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 import Background from '../components/common/BackgroundImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
-export default class Profile extends Component {
+import * as UserActions from '../redux/modules/user';
+import { bindActionCreators } from "redux";
+var firebase = require("firebase");
+
+ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +30,11 @@ export default class Profile extends Component {
   }
 
   save() {
+
+  }
+  logout(){
+    this.props.UserActions.logoutFirebase();
+   
 
   }
   render() {
@@ -43,7 +54,7 @@ export default class Profile extends Component {
 
 
         <View style={styles.mainContainer}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonalDetail')}>
+        <TouchableOpacity >
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Personal} style={styles.iconStyle} />
 
@@ -57,7 +68,7 @@ export default class Profile extends Component {
             <Text style={styles.textStyle}>Payment Methods</Text>
             <Icon name="angle-right" size={25} color='black' />
           </View>
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate('ChangePassword')}>
+          <TouchableOpacity  >
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
 
@@ -65,13 +76,14 @@ export default class Profile extends Component {
             <Icon name="angle-right" size={25} color='black' />
           </View>
           </TouchableOpacity>
+          <TouchableOpacity  onPress={() => this.logout()}>
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
 
             <Text style={styles.textStyle}>Logout</Text>
 
           </View>
-
+          </TouchableOpacity>
 
 
         </View>
@@ -119,3 +131,15 @@ const styles = StyleSheet.create({
 
 
 })
+
+// const mapStateToProps = state => ({
+ 
+//   userStatus: state.user.userStatus
+// });
+
+const mapDispatchToProps = dispatch => ({
+  UserActions: bindActionCreators(UserActions, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(Profile);
+

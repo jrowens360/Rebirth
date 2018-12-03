@@ -20,6 +20,7 @@ module.exports = {
 		lock: require("../assets/images/lock.png"),
 		Payment: require("../assets/images/Payment.png"),
 		Logout: require("../assets/images/Logout.png"),
+		gallery: require("../assets/images/gallery.png"),
 
 
 	}

@@ -49,16 +49,16 @@ export default class Startup extends Component {
           <TouchableOpacity
                   onPress = {()=>this.onSignIn()}
                   style={styles.buttonStyle} >
-                  <Text style={{ color: Constants.Colors.Purple,fontWeight: '500' }}>Sign In</Text>
+                  <Text style={{ color: Constants.Colors.Purple}}>Sign In</Text>
                 </TouchableOpacity>
                 
 
-        <TouchableOpacity
+         <TouchableOpacity
         onPress = {()=>this.onSignUp()}
                 
                   style={[styles.buttonStyle,{marginLeft:18,backgroundColor:Constants.Colors.Purple }]} >
                   <Text style={{ color: 'white',fontWeight: '500'}}>Sign Up</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> 
           
           </View>
      </View>
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     padding:12,
     width: "40%",
-    justifyContent: "center", alignItems: 'center'
+    justifyContent: "center", 
+    alignItems: 'center'
   },
   bottomConatiner: { 
   flex:1,

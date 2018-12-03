@@ -66,83 +66,83 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
 
    signUpSubmit() {
-    // console.log(firebase);
+    console.log(firebase);
 
-    // let { dispatch } = this.props.navigation;
-     let { name, email, phone, password, height, width, confirmPassword, dob } = this.state;
-    // //let { navigate } = this.props.navigation;
-    // if (_.isEmpty(name.trim())) {
+    let { dispatch } = this.props.navigation;
+     let { name, email, phone, password, height, weight, confirmPassword, dob } = this.state;
+    //let { navigate } = this.props.navigation;
+    if (_.isEmpty(name.trim())) {
 
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
-    //   return;
-    // }
-    // if (_.isEmpty(phone.trim())) {
-    //   //alert(enterMobile);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
-    //   return;
-    // }
-    // if (!Regex.validateMobile(phone.trim())) {
-    //   //alert(enterValidMobile);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
-    //   return;
-    // }
-
-
-
-    // if (_.isEmpty(email.trim())) {
-    //   //alert(enterEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
-    //   return;
-    // }
-    // if (!Regex.validateEmail(email.trim())) {
-    //   //alert(enterValidEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(height.trim())) {
-    //   //alert(enterEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(width.trim())) {
-
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your width'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(dob.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
-    //   return;
-    // }
+      dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
+      return;
+    }
+    if (_.isEmpty(phone.trim())) {
+      //alert(enterMobile);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
+      return;
+    }
+    if (!Regex.validateMobile(phone.trim())) {
+      //alert(enterValidMobile);
+      dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
+      return;
+    }
 
 
-    // if (_.isEmpty(password.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
-    //   return;
-    // }
 
-    // if (!Regex.validatePassword(password)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-    //   return;
-    // }
+    if (_.isEmpty(email.trim())) {
+      //alert(enterEmail);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
+      return;
+    }
+    if (!Regex.validateEmail(email.trim())) {
+      //alert(enterValidEmail);
+      dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
+      return;
+    }
 
-    // if (_.isEmpty(confirmPassword.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
-    //   return;
-    // }
+    if (_.isEmpty(height.trim())) {
+      //alert(enterEmail);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
+      return;
+    }
 
-    // if (!Regex.validatePassword(confirmPassword)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-    //   return;
-    // }
+    if (_.isEmpty(weight.trim())) {
 
-    // if (password != confirmPassword) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please match password and confirm password'))
-    //   return;
+      dispatch(ToastActionsCreators.displayInfo('Please enter your width'))
+      return;
+    }
 
-    // }
+    if (_.isEmpty(dob.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
+      return;
+    }
+
+
+    if (_.isEmpty(password.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
+      return;
+    }
+
+    if (!Regex.validatePassword(password)) {
+      dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+      return;
+    }
+
+    if (_.isEmpty(confirmPassword.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
+      return;
+    }
+
+    if (!Regex.validatePassword(confirmPassword)) {
+      dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+      return;
+    }
+
+    if (password != confirmPassword) {
+      dispatch(ToastActionsCreators.displayInfo('Please match password and confirm password'))
+      return;
+
+    }
  
 
     this.props.UserActions.signUpFirebase({ ...this.state });
@@ -176,7 +176,10 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
             <View style={styles.container}>
               <View style={styles.profileRow}>
-                <Image source={{ uri: 'http://lorempixel.com/100/100/' }} style={styles.imageStyle} />
+                <Image source={{
+    uri: 'http://www.free-avatars.com/data/media/37/cat_avatar_0597.jpg'
+   
+  }} style={styles.imageStyle}  />
 
                 <View>
 
@@ -184,7 +187,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
                     Change Photo</Text>
                   <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
                     <Icon name="camera" size={20} color='white' />
-                    <Icon name="gallery" size={20} color='white' style={{ marginLeft: 18 }} />
+                    <Image source={Constants.Images.user.gallery} style={styles.iconStyle} />
 
                   </View>
                   <View>
@@ -195,6 +198,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               <TextInput
                 style={styles.textInputStyle}
                 autoFocus={false}
+                autoCorrect={false}
                 onBlur={ () => this._onBlur() }
                 onFocus={ () => this._onFocus() }
                 placeholder='Name'
@@ -204,7 +208,9 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               />
               <TextInput
                 style={styles.textInputStyle}
+                maxLength={10}
                 autoFocus={false}
+                autoCorrect={false}
                 onBlur={ () => this._onBlur() }
                 onFocus={ () => this._onFocus() }
                 placeholder='Phone'
@@ -215,6 +221,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               />
               <TextInput
                 autoFocus={false}
+                autoCorrect={false}
                 onBlur={ () => this._onBlur() }
                 onFocus={ () => this._onFocus() }
                 style={styles.textInputStyle}
@@ -227,22 +234,26 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               />
               <View style={{ flexDirection: 'row' }}>
                 <TextInput
+                 
                  autoFocus={false}
+                 autoCorrect={false}
                  onBlur={ () => this._onBlur() }
                  onFocus={ () => this._onFocus() }
                   style={{ flex: 1, padding: 10 ,color:'white'}}
-                  placeholder='Height'
+                  placeholder='Height(cm)'
                   placeholderTextColor={'gray'}
                   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                   keyboardType='number-pad'
                   onChangeText={(height) => this.setState({ height })}
                 />
                 <TextInput
+                  maxLength={3}
                   autoFocus={false}
+                  autoCorrect={false}
                   onBlur={ () => this._onBlur() }
                   onFocus={ () => this._onFocus() }
                   style={{ flex: 1, padding: 10, marginLeft: 10 ,color:'white'}}
-                  placeholder='Weight'
+                  placeholder='Weight(kg)'
                   placeholderTextColor={'gray'}
                   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                   keyboardType='number-pad'
@@ -276,6 +287,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
               <TextInput
                 autoFocus={false}
+                autoCorrect={false}
                 onBlur={ () => this._onBlur() }
                 onFocus={ () => this._onFocus() }
                 style={styles.textInputStyle}
@@ -289,6 +301,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               />
               <TextInput
                 autoFocus={false}
+                autoCorrect={false}
                 onBlur={ () => this._onBlur() }
                 onFocus={ () => this._onFocus() }
                 style={styles.textInputStyle}
@@ -336,7 +349,7 @@ const styles = StyleSheet.create({
   },
   signUpTxt: { padding: 10, alignSelf: 'center', fontSize: 20,color:'white' },
   signInbtn: {
-    width: '50%',
+   padding:5,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
     alignSelf: 'center'
   },
@@ -385,6 +398,11 @@ const styles = StyleSheet.create({
 
 
     //borderBottomColor:Constants.Colors.Blue
+  },
+  iconStyle: {
+    height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
+    width: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
+    marginLeft:18
   },
 });
 

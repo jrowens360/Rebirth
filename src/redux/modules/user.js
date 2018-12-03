@@ -12,11 +12,15 @@ var firebase = require("firebase");
 // Actions
 export const USER_STARTUP = "USER_STARTUP";
 export const USER_INFO = "USER_INFO";
+export const USER_LOGOUT = "USER_LOGOUT";
+export const USER_LOGIN = "USER_LOGIN";
 
 // Action Creators
 
 export const STARTUP = () => ({ type: USER_STARTUP});
 export const USERINFO = () => ({ type: USER_INFO});
+export const USERLOGOUT = () => ({ type: USER_LOGOUT});
+export const USERLOGIN = () => ({ type: USER_LOGIN});
 //perform API's
 
 
@@ -30,7 +34,8 @@ export const signUpFirebase = (data) => {
       console.log('result signup ******* ',user)
 
       dispatch(stopLoading());
-      dispatch(ToastActionsCreators.displayInfo("user register"));
+      dispatch(ToastActionsCreators.displayInfo("user register successfully"));
+      dispatch(USERLOGIN());
      dispatch(USERINFO());
     }).catch(error => {
       console.log("error=> ", error)
@@ -47,14 +52,16 @@ export const signInFirebase = (data) => {
     dispatch(startLoading());
     firebase.auth().signInWithEmailAndPassword(data.email,data.password).then((user)=>{
 
-      console.log('result signup ******* ',user)
+      console.log('result sign ******* ',user)
     
       dispatch(stopLoading());
-      dispatch(ToastActionsCreators.displayInfo("user login"));
+      dispatch(ToastActionsCreators.displayInfo("user login successfully"));
+      dispatch(USERLOGIN());
       dispatch(USERINFO());
 
     }).catch(error => {
       console.log("error=> ", error)
+      dispatch(ToastActionsCreators.displayInfo(error.message))
       dispatch(stopLoading());
   });
 }
@@ -80,6 +87,33 @@ export const forgotPasswordFirebase = (data) => {
 }
 
 };
+
+
+export const logoutFirebase = () => {
+
+	return dispatch => {
+    dispatch(USERLOGOUT());
+//     dispatch(startLoading());
+//     firebase.auth().signOut().then((user)=>{
+//       dispatch(stopLoading());
+//       console.log('result forgot  password ******* ',user)
+//       dispatch(ToastActionsCreators.displayInfo("user logout"));
+
+//       dispatch(USERLOGOUT());
+
+//     }).catch(error => {
+//       console.log("error=> ", error)
+//       dispatch(ToastActionsCreators.displayInfo(error));
+//       dispatch(stopLoading());
+//   });
+ }
+
+};
+
+
+
+
+
 
 export const changePasswordFirebase = (data) => {
 
@@ -113,6 +147,8 @@ export const changePasswordFirebase = (data) => {
 
 
 export const writeUserData = (data) => {
+ 
+
   const { currentUser } = firebase.auth();
 	return dispatch => {
     dispatch(startLoading());
@@ -149,8 +185,8 @@ export const writeUserData = (data) => {
 * Initial state
 */
 const initialState = {
-  userDetails : null,
-  deviceToken : "test",
+ 
+  userStatus:false,
 };
 
 /**
@@ -160,6 +196,10 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
         // case LOG_IN_SUCCESS:
         //   return { ...state, userDetails: action.data };
+           case USER_LOGOUT:
+           return { ...state, userStatus: false };
+           case USER_LOGIN:
+           return { ...state, userStatus: true };
 
         default:
           return state;
