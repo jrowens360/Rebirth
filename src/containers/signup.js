@@ -20,6 +20,7 @@ import DatePicker from 'react-native-datepicker'
 import Background from '../components/common/BackgroundImg';
 var firebase = require("firebase");
 import * as UserActions from '../redux/modules/user';
+import ImagePicker from "react-native-image-crop-picker";
 
 const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
@@ -40,10 +41,83 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
       secureEntry: true,
       passwordEye: false,
-      hasFocus:false
+      hasFocus:false,
+      avatarSource:''
 
     }
   }
+
+  onSelect = (picked) => {
+   // alert("come here"+picked);
+
+    if (picked === 'gallery') {
+        ImagePicker.openPicker({
+        width: 400,
+        height: 400,
+        cropping: true,
+        enableRotationGesture: true
+      }).then(image => {
+        //alert(JSON.stringify(image));
+        let source = { uri: image.path, type: image.mime };
+        // alert(JSON.stringify(image));
+
+        this.setState({
+          visible: false
+        });
+
+        this.setState({
+          avatarSource: source
+        });
+
+        //alert(JSON.stringify(image));
+      }).catch(e => console.log(e));
+
+    } else {
+      ImagePicker.openCamera({
+        width: 400,
+        height: 400,
+        cropping: true,
+        enableRotationGesture: true
+      }).then(image => {
+      //  alert(JSON.stringify(image));
+        let source = { uri: image.path, type: image.mime };
+       //  alert(JSON.stringify(image));
+
+        this.setState({
+          visible: false
+        });
+
+        this.setState({
+          avatarSource: source
+        
+        });
+        //alert(JSON.stringify(image));
+      }).catch(e => console.log(e)
+
+        );
+
+    }
+  }
+
+uploadimage(){
+
+  firebase.storage()
+  .ref('/images').child("image.jpg")
+  
+  .then(uploadedFile => {
+    alert(uploadedFile)
+      //success
+  })
+  .catch(err => {
+      //Error
+  });
+
+
+
+}
+
+
+
 
   onSignIn() {
 
@@ -53,100 +127,97 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
       this.props.navigation.goBack();
     }else{
       this.props.navigation.navigate("SignIn",{
-        signup: true,
-       
+        signup: true,  
       })
-
     }
-   
-  
-
 
   }
 
 
    signUpSubmit() {
-    console.log(firebase);
 
-    let { dispatch } = this.props.navigation;
-     let { name, email, phone, password, height, weight, confirmPassword, dob } = this.state;
-    //let { navigate } = this.props.navigation;
-    if (_.isEmpty(name.trim())) {
+    this.uploadimage();
+    // console.log(firebase);
 
-      dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
-      return;
-    }
-    if (_.isEmpty(phone.trim())) {
-      //alert(enterMobile);
-      dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
-      return;
-    }
-    if (!Regex.validateMobile(phone.trim())) {
-      //alert(enterValidMobile);
-      dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
-      return;
-    }
+    // let { dispatch } = this.props.navigation;
+    //  let { name, email, phone, password, height, weight, confirmPassword, dob } = this.state;
+    // //let { navigate } = this.props.navigation;
+    // if (_.isEmpty(name.trim())) {
 
-
-
-    if (_.isEmpty(email.trim())) {
-      //alert(enterEmail);
-      dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
-      return;
-    }
-    if (!Regex.validateEmail(email.trim())) {
-      //alert(enterValidEmail);
-      dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
-      return;
-    }
-
-    if (_.isEmpty(height.trim())) {
-      //alert(enterEmail);
-      dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
-      return;
-    }
-
-    if (_.isEmpty(weight.trim())) {
-
-      dispatch(ToastActionsCreators.displayInfo('Please enter your width'))
-      return;
-    }
-
-    if (_.isEmpty(dob.trim())) {
-      dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
-      return;
-    }
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
+    //   return;
+    // }
+    // if (_.isEmpty(phone.trim())) {
+    //   //alert(enterMobile);
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
+    //   return;
+    // }
+    // if (!Regex.validateMobile(phone.trim())) {
+    //   //alert(enterValidMobile);
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
+    //   return;
+    // }
 
 
-    if (_.isEmpty(password.trim())) {
-      dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
-      return;
-    }
 
-    if (!Regex.validatePassword(password)) {
-      dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-      return;
-    }
+    // if (_.isEmpty(email.trim())) {
+    //   //alert(enterEmail);
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
+    //   return;
+    // }
+    // if (!Regex.validateEmail(email.trim())) {
+    //   //alert(enterValidEmail);
+    //   dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
+    //   return;
+    // }
 
-    if (_.isEmpty(confirmPassword.trim())) {
-      dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
-      return;
-    }
+    // if (_.isEmpty(height.trim())) {
+    //   //alert(enterEmail);
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
+    //   return;
+    // }
 
-    if (!Regex.validatePassword(confirmPassword)) {
-      dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-      return;
-    }
+    // if (_.isEmpty(weight.trim())) {
 
-    if (password != confirmPassword) {
-      dispatch(ToastActionsCreators.displayInfo('Please match password and confirm password'))
-      return;
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your width'))
+    //   return;
+    // }
 
-    }
+    // if (_.isEmpty(dob.trim())) {
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
+    //   return;
+    // }
+
+
+    // if (_.isEmpty(password.trim())) {
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
+    //   return;
+    // }
+
+    // if (!Regex.validatePassword(password)) {
+    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+    //   return;
+    // }
+
+    // if (_.isEmpty(confirmPassword.trim())) {
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
+    //   return;
+    // }
+
+    // if (!Regex.validatePassword(confirmPassword)) {
+    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+    //   return;
+    // }
+
+    // if (password != confirmPassword) {
+    //   dispatch(ToastActionsCreators.displayInfo('Please match password and confirm password'))
+    //   return;
+
+    // }
  
 
-    this.props.UserActions.signUpFirebase({ ...this.state });
-    this.props.UserActions.writeUserData({ ...this.state });
+    // this.props.UserActions.signUpFirebase({ ...this.state });
+    // this.props.UserActions.writeUserData({ ...this.state });
   
   }
   _onBlur() {
@@ -176,19 +247,20 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
             <View style={styles.container}>
               <View style={styles.profileRow}>
-                <Image source={{
-    uri: 'http://www.free-avatars.com/data/media/37/cat_avatar_0597.jpg'
-   
-  }} style={styles.imageStyle}  />
+                <Image source={this.state.avatarSource} style={styles.imageStyle}  />
 
                 <View>
 
                   <Text style={[styles.textStyle]}>
                     Change Photo</Text>
                   <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
+                    
+                    <TouchableOpacity onPress={() => { this.onSelect('camera') }}>
                     <Icon name="camera" size={20} color='white' />
+                    </TouchableOpacity>
+                    <TouchableOpacity  style={{  marginLeft:18}} onPress={() => { this.onSelect('gallery') }}>
                     <Image source={Constants.Images.user.gallery} style={styles.iconStyle} />
-
+                    </TouchableOpacity>
                   </View>
                   <View>
                   </View>
@@ -402,7 +474,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
     width: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
-    marginLeft:18
+  
   },
 });
 

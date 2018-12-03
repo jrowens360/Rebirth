@@ -14,6 +14,7 @@ import NavigationBar from 'react-native-navbar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Background from '../components/common/BackgroundImg';
+import ImagePicker from "react-native-image-crop-picker";
 export default class FrontView extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +22,107 @@ export default class FrontView extends Component {
       buttonPress: 0,
       sideView: false,
       nextButton: false,
-      buttonTxt: 'Next'
+      buttonTxt: 'Next',
+      avatarFrontView:'',
+      avatarSideView:''
     };
   }
+
+
+  onSelect = (picked,slectedView) => {
+    // alert("come here"+picked);
+ if(slectedView =='frontView'){
+  if (picked === 'gallery') {
+    ImagePicker.openPicker({
+    width: 400,
+    height: 400,
+    cropping: true,
+    enableRotationGesture: true
+  }).then(image => {
+    //alert(JSON.stringify(image));
+    let source = { uri: image.path, type: image.mime };
+    //  alert(JSON.stringify(image));
+
+   
+    this.setState({
+      avatarFrontView: source
+    });
+
+    //alert(JSON.stringify(image));
+  }).catch(e => console.log(e));
+
+} else {
+  ImagePicker.openCamera({
+    width: 400,
+    height: 400,
+    cropping: true,
+    enableRotationGesture: true
+  }).then(image => {
+  //  alert(JSON.stringify(image));
+    let source = { uri: image.path, type: image.mime };
+  //   alert(JSON.stringify(image));
+
+
+
+    this.setState({
+      avatarFrontView: source
+    
+    });
+    //alert(JSON.stringify(image));
+  }).catch(e => console.log(e)
+
+    );
+
+}
+
+}else{
+
+  if (picked === 'gallery') {
+    ImagePicker.openPicker({
+    width: 400,
+    height: 400,
+    cropping: true,
+    enableRotationGesture: true
+  }).then(image => {
+    //alert(JSON.stringify(image));
+    let source = { uri: image.path, type: image.mime };
+    // alert(JSON.stringify(image));
+
+   
+    this.setState({
+      avatarSideView: source
+    });
+
+    //alert(JSON.stringify(image));
+  }).catch(e => console.log(e));
+
+} else {
+  ImagePicker.openCamera({
+    width: 400,
+    height: 400,
+    cropping: true,
+    enableRotationGesture: true
+  }).then(image => {
+  //  alert(JSON.stringify(image));
+    let source = { uri: image.path, type: image.mime };
+   //  alert(JSON.stringify(image));
+
+  
+    this.setState({
+      avatarSideView: source
+    
+    });
+    //alert(JSON.stringify(image));
+  }).catch(e => console.log(e)
+
+    );
+
+}
+ }
+    
+   }
+ 
+ 
 
   save() {
 
@@ -81,18 +180,21 @@ export default class FrontView extends Component {
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.textStyle}>Front View </Text>
-        <Image source={Constants.Images.user.frontView} style={styles.imageStyle} resizeMode='contain' />
+        <Image source={this.state.avatarFrontView==''? Constants.Images.user.frontView:this.state.avatarFrontView} style={this.state.avatarFrontView==''? styles.imageStyle:styles.imageDefaultStyle} resizeMode='contain' />
         <View style={{ flexDirection: "row", backgroundColor: Constants.Colors.darkYellow, padding: 13, borderRadius: 8, justifyContent: 'space-evenly', marginTop: 5 }}>
+        <TouchableOpacity onPress={() => { this.onSelect('camera','frontView') }}>
           <View style={{ flexDirection: "row" }}>
             <Icon name="camera" size={25} color='black' />
             <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Camera </Text>
           </View>
-
+          </TouchableOpacity>
           <View style={{ width: 1, lexDirection: "row", backgroundColor: 'black' }}></View>
+          <TouchableOpacity onPress={() => { this.onSelect('gallery','frontView') }}>
           <View style={{ flexDirection: "row" }}>
             <Icon name="edit" size={25} color='black' />
             <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Gallery </Text>
           </View>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -104,18 +206,22 @@ export default class FrontView extends Component {
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.textStyle}>Side View </Text>
-        <Image source={Constants.Images.user.sideView} style={styles.imageStyle} resizeMode='contain' />
+        <Image source={this.state.avatarSideView==''? Constants.Images.user.sideView:this.state.avatarSideView} style={this.state.avatarSideView==''?styles.imageStyle:styles.imageDefaultStyle} resizeMode='contain' />
         <View style={{ flexDirection: "row", backgroundColor: Constants.Colors.darkYellow, padding: 13, borderRadius: 8, justifyContent: 'space-evenly', marginTop: 5 }}>
+        <TouchableOpacity onPress={() => { this.onSelect('camera','sideView') }}>
           <View style={{ flexDirection: "row" }}>
             <Icon name="camera" size={25} color='black' />
             <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Camera </Text>
           </View>
-
+          </TouchableOpacity>
+         
           <View style={{ width: 1, lexDirection: "row", backgroundColor: 'black' }}></View>
+          <TouchableOpacity onPress={() => { this.onSelect('gallery','sideView') }}>
           <View style={{ flexDirection: "row" }}>
             <Icon name="edit" size={25} color='black' />
             <Text style={{ fontSize: 18, color: 'black', alignSelf: 'center', paddingLeft: 8, fontWeight: '500' }}>Gallery </Text>
           </View>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -168,7 +274,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6,
 
     backgroundColor: Constants.Colors.White,
-    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 4,
+    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1,
     borderRadius: 10
 
   },
@@ -182,6 +288,7 @@ const styles = StyleSheet.create({
     // borderWidth:4
 
   },
+  imageDefaultStyle:{flex: 1,},
   textStyle: { color: 'black', alignSelf: 'center', padding: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2.5, fontSize: 20 },
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
   nextTxt: { padding: 2 }

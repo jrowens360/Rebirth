@@ -18,6 +18,7 @@ var config = {
     authDomain: 'quizdemo-6805d.firebaseio.com',
     databaseURL: "https://quizdemo-6805d.firebaseio.com",
     projectId: "quizdemo-6805d",
+    storageBucket: "quizdemo-6805d.appspot.com",
 };
 
 
