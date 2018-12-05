@@ -6,25 +6,176 @@ import { Text,
    TouchableOpacity,
    TextInput,
    ScrollView,
+   Platform,
    Image,
   } from 'react-native';
    import Constants from '../constants';
+   import { connect } from 'react-redux';
+   import moment from "moment";
+   import { bindActionCreators } from "redux";
    import NavigationBar from 'react-native-navbar';
    import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+   import DatePicker from 'react-native-datepicker'
    import Icon from 'react-native-vector-icons/FontAwesome';
    import Background from '../components/common/BackgroundImg';
-   export default class PersonalDetail extends Component {
+   import * as UserActions from '../redux/modules/user';
+   import ImagePicker from "react-native-image-crop-picker";
+   import RNFetchBlob from 'react-native-fetch-blob'
+   
+   var firebase = require("firebase");
+   const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
+  class PersonalDetail extends Component {
        constructor(props) {
          super(props);
          this.state = {
+          name: '',
+          email:'',
+          phone:'',
         
-          
-         };
-       }
+          height:'',
+          weight:'',
+          dob:'',
+        
+    
+        
+          hasFocus:false,
+          avatarSource:'',
+         
+          imageUrl:'',
+        
+        }
+  
    
+       }
+
+       componentWillMount(){
+      this.props.UserActions.readUserData();
+
+       }
+       componentWillReceiveProps(props){
+        console.log("ne props "+JSON.stringify(props.userDetail));
+        let {name,email,phone,height,weight,dob,profileImg} =     props.userDetail;
+this.setState({name,email,phone,height,weight,dob,imageUrl:profileImg,avatarSource:{uri:profileImg}});
+
+
+}
+
+//console.log("set value here "+this.state.name);
+       
+
+     
       save(){
+
+        this.props.UserActions.updateUserData({ ...this.state });
    
    }
+   onSelect = (picked) => {
+    // alert("come here"+picked);
+ 
+     if (picked === 'gallery') {
+         ImagePicker.openPicker({
+         width: 400,
+         height: 400,
+         cropping: true,
+         enableRotationGesture: true
+       }).then(image => {
+       
+         let source = { uri: image.path, type: image.mime };
+       
+       
+         this.setState({
+           avatarSource: source
+         
+         });
+         
+         this.getSelectedImages();
+        
+       }).catch(e => console.log(e));
+ 
+     } else {
+       ImagePicker.openCamera({
+         width: 400,
+         height: 400,
+         cropping: true,
+         enableRotationGesture: true
+       }).then(image => {
+      
+         let source = { uri: image.path, type: image.mime };
+        
+         this.setState({
+           avatarSource: source
+         
+         });
+         this.getSelectedImages();
+       }).catch(e => console.log(e)
+ 
+         );
+ 
+     }
+   }
+
+   getSelectedImages = () => {
+    
+    const image = this.state.avatarSource.uri
+ 
+    const Blob = RNFetchBlob.polyfill.Blob
+    const fs = RNFetchBlob.fs
+    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+    window.Blob = Blob
+        let user =firebase.auth().currentUser
+   
+    let uploadBlob = null
+    const imageRef = firebase.storage().ref('images').child(Math.floor(Date.now())+'.jpg')
+    console.log("firbase"+imageRef);
+    let mime = 'image/jpg'
+    fs.readFile(image, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `${mime};BASE64` })
+    })
+    .then((blob) => {
+        uploadBlob = blob
+        console.log("image upload "+JSON.stringify(uploadBlob))
+        return imageRef.put(blob, { contentType: mime })
+      })
+      .then(() => {
+        console.log("image download "+imageRef.getDownloadURL())
+        uploadBlob.close()
+      
+        return imageRef.getDownloadURL()
+      })
+      .then((url) => {
+        this.setState({imageUrl:url})
+        // URL of the image uploaded on Firebase storage
+        console.log("url in image"+this.state.imageUrl);
+         //  this.props.UserActions.updateUserPhoto({ ...this.state });
+        
+      })
+      .catch((error) => {
+        console.log("error in image"+JSON.stringify(error));
+ 
+      })  
+ 
+  }
+
+
+  _onBlur() {
+    this.setState({hasFocus: false});
+    }
+
+  _onFocus() {
+    this.setState({hasFocus: true});
+    }
+
+  _getULColor(hasFocus) {
+  
+    return (hasFocus === true) ? 'black' : 'gray';
+  }
+
+
+
+
+
+
 render() {
       
            return (
@@ -32,9 +183,9 @@ render() {
        
        <KeyboardAwareScrollView>
             
-             <ScrollView>
+             <ScrollView keyboardDismissMode={Platform.OS === 'ios' ? 'on-drag' : 'interactive'} keyboardShouldPersistTaps="always"  > 
              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <TouchableOpacity   style={{paddingHorizontal:6}}  onPress={() => this.props.navigation.goBack()}>
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity>
             <Text style={styles.headerTxt}> Personal Details  </Text>
@@ -46,17 +197,21 @@ render() {
                
       <View style={styles.container}>
       <View  style={styles.profileRow}>
-      <Image source={{uri: 'http://lorempixel.com/100/100/'}} style={styles.imageStyle} />
+      <Image source={this.state.avatarSource} style={styles.imageStyle}  />
 
         <View> 
         
         <Text style={[styles.textStyle]}>
-            Change Photo
-          </Text>
-          <View style={{ flexDirection: "row",paddingLeft:Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,paddingTop:5}}>
-          <Icon name="camera" size={18} color='black' />
-          <Icon name="edit" size={18} color='black' style={{ paddingLeft:15}}  />
-
+                    Change Photo</Text>
+                    <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
+                    <TouchableOpacity style={{ padding:2,}} onPress={() => {
+                    
+                    this.onSelect('camera') }}>
+                <Image source={Constants.Images.user.cameraBlue} style={styles.iconStyle} />
+                 </TouchableOpacity>
+                 <TouchableOpacity  style={{ padding:2, marginLeft:18}} onPress={() => { this.onSelect('gallery') }}>
+                 <Image source={Constants.Images.user.galleryBlue} style={styles.iconStyle} />
+                 </TouchableOpacity>
           </View>
           <View>
                           </View> 
@@ -64,55 +219,100 @@ render() {
             </View>                
       </View>
       <TextInput
-        style={styles.textInputStyle}
-        placeholder='Name'
-        placeholderTextColor={Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-      /> 
-       <TextInput
-        style={styles.textInputStyle}
-        placeholder='Phone'
-        placeholderTextColor={Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-      /> 
-       <TextInput
-        style={styles.textInputStyle}
-        placeholder='Email'
-        placeholderTextColor={Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-        
-      /> 
-      <View  style={{flexDirection:'row'}}>
-       <TextInput
-        style={{flex:1,padding:8}}
-        placeholder='Height'
-        placeholderTextColor={Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-      /> 
-       <TextInput
-        style={{flex:1,padding:8,marginLeft:10}}
-        placeholder='Width'
-        placeholderTextColor={Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-      /> 
-      
-      </View>
-      <TextInput
-         style={styles.textInputStyle}
-        placeholder='Password'
-        placeholderTextColor={Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-        
-      /> 
-      <TextInput
-        style={styles.textInputStyle}
-        placeholder='Confirm Passowrd'
-        placeholderTextColor= {Constants.Colors.Blue}
-        underlineColorAndroid={Constants.Colors.Black}
-        
-      /> 
+                value={this.state.name}
+                style={styles.textInputStyle}
+                autoFocus={false}
+                autoCorrect={false}
+                onBlur={ () => this._onBlur() }
+                onFocus={ () => this._onFocus() }
+                placeholder='Name'
+                placeholderTextColor={'gray'}
+                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                onChangeText={(name) => this.setState({ name })}
+              />
+        <TextInput
+                value={this.state.phone}
+                style={styles.textInputStyle}
+                maxLength={10}
+                autoFocus={false}
+                autoCorrect={false}
+                onBlur={ () => this._onBlur() }
+                onFocus={ () => this._onFocus() }
+                placeholder='Phone'
+                placeholderTextColor={'gray'}
+                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                keyboardType='phone-pad'
+                onChangeText={(phone) => this.setState({ phone })}
+              />
+   <TextInput
+                value={this.state.email}
+                autoFocus={false}
+                autoCorrect={false}
+                onBlur={ () => this._onBlur() }
+                onFocus={ () => this._onFocus() }
+                style={styles.textInputStyle}
+                placeholder='Email'
+                keyboardType='email-address'
+                placeholderTextColor={'gray'}
+                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                onChangeText={(email) => this.setState({ email })}
 
-      <TouchableOpacity
+              />
+              <View style={{ flexDirection: 'row' }}>
+                <TextInput
+                  value={this.state.height}
+                 autoFocus={false}
+                 autoCorrect={false}
+                 onBlur={ () => this._onBlur() }
+                 onFocus={ () => this._onFocus() }
+                  style={{ flex: 1, padding: 10 ,color:'black'}}
+                  placeholder='Height(cm)'
+                  placeholderTextColor={'gray'}
+                  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                  keyboardType='number-pad'
+                  onChangeText={(height) => this.setState({ height })}
+                />
+                <TextInput
+                  value={this.state.weight}
+                  maxLength={3}
+                  autoFocus={false}
+                  autoCorrect={false}
+                  onBlur={ () => this._onBlur() }
+                  onFocus={ () => this._onFocus() }
+                  style={{ flex: 1, padding: 10, marginLeft: 10 ,color:'black'}}
+                  placeholder='Weight(kg)'
+                  placeholderTextColor={'gray'}
+                  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                  keyboardType='number-pad'
+                  onChangeText={(weight) => this.setState({ weight })}
+                />
+
+              </View>
+
+              <DatePicker
+                style={{ width: '100%' ,borderBottomColor:'gray'}}
+                date={this.state.dob}
+                mode="date"
+                placeholder="DOB"
+                format="YYYY-MM-DD"
+                minDate="1950-05-01"
+                maxDate={currentDate}
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                iconSource={Constants.Images.user.calendarGray}
+                customStyles={{
+                  dateIcon: [styles.rowIcon,{tintColor:'gray'}],
+                  dateInput: [styles.rowLeft],
+                  placeholderText: { color: 'gray' },
+                  dateText: { color: 'gray' }
+                  // ... You can check the source to find the other keys.
+                }}
+                onDateChange={(dob) => this.setState({ dob })}
+              />
+
+     
+
+      <TouchableOpacity onPress={() => { this.save() }}
                   
                   style={styles.buttonStyle} >
                   <Text style={{ color: "#fff",fontWeight: '500' }}>Save</Text>
@@ -150,7 +350,7 @@ const styles = StyleSheet.create({
              marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*6,
              paddingHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*4,
              backgroundColor:Constants.Colors.White,
-             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*2,
+             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*1,
              borderRadius:10
          
          },
@@ -169,7 +369,7 @@ const styles = StyleSheet.create({
             width: Constants.BaseStyle.DEVICE_WIDTH*25/100,
             height:Constants.BaseStyle.DEVICE_WIDTH*25/100,
             borderRadius: Constants.BaseStyle.DEVICE_WIDTH*12/100,
-            borderColor:'yellow',
+            borderColor:Constants.Colors.darkYellow,
             borderWidth:4
             
           },
@@ -188,7 +388,42 @@ const styles = StyleSheet.create({
             
           },
           headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
+          iconStyle: {
+            height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
+            width: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
+          
+          },
+          rowLeft: {
+            flex: 1,
+            flexDirection: 'row',
+            padding: 0,
+            //marginRight:6,
+            // marginHorizontal:0,
+            //marginLeft: (Constants.BaseStyle.DEVICE_WIDTH / 100) * 5,
+            marginTop: 2,
+            marginVertical: Constants.BaseStyle.DEVICE_WIDTH * 1 / 200,
+            borderBottomWidth: 1,
+            borderLeftWidth: 0,
+            borderRightWidth: 0,
+            borderTopWidth: 0,
+            borderBottomColor: 'gray', justifyContent: 'flex-start', marginLeft: 8
+        
+        
+            //borderBottomColor:Constants.Colors.Blue
+          },
         
        
          
        })
+
+       const mapStateToProps = state => ({
+  userDetail: state.user.userDetail,
+
+  
+});
+
+const mapDispatchToProps = dispatch => ({
+  UserActions: bindActionCreators(UserActions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalDetail);

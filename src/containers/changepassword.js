@@ -10,12 +10,16 @@ import { Text,
   } from 'react-native';
    import Constants from '../constants';
    import { connect } from 'react-redux';
+   import moment from "moment";
+   import { ToastActionsCreators } from 'react-native-redux-toast';
    import NavigationBar from 'react-native-navbar';
    import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
    import Icon from 'react-native-vector-icons/FontAwesome';
    import * as UserActions from '../redux/modules/user';
    import Background from '../components/common/BackgroundImg';
    import { bindActionCreators } from "redux";
+   import _ from "lodash";
+   import Regex from '../utilities/Regex';
 class ChangePassword extends Component {
        constructor(props) {
          super(props);
@@ -23,23 +27,71 @@ class ChangePassword extends Component {
            currentPassword:'',
            newPassword: '',
            confirmNewPassword:'',
+
+           secureEntry: true,
+           passwordEye: false,
+           hasFocus:false
           
          };
        }
-     checkPassword(str){
-           var re = /^(?=.\d)(?=.[!@#$%^&])(?=.[a-z])(?=.*[A-Z]).{8,}$/;
-          return re.test(str);
-      }
-      save(){
     
+      save(){
+    //     let { dispatch } = this.props.navigation;
+    //     let { currentPassword, newPassword, confirmNewPassword } = this.state;
+
+    // if (_.isEmpty(currentPassword.trim())) {
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your old password'))
+    //   return;
+    // }
+
+    // if (!Regex.validatePassword(currentPassword)) {
+    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+    //   return;
+    // }
+    // if (_.isEmpty(newPassword.trim())) {
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your new password'))
+    //   return;
+    // }
+
+    // if (!Regex.validatePassword(newPassword)) {
+    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+    //   return;
+    // }
+    // if (_.isEmpty(confirmNewPassword.trim())) {
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your new confirm password'))
+    //   return;
+    // }
+
+    // if (!Regex.validatePassword(confirmNewPassword)) {
+    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+    //   return;
+    // }
+    // if (newPassword != confirmNewPassword) {
+    //     dispatch(ToastActionsCreators.displayInfo('Please match new password and confirm new  password'))
+    //     return;
+  
+    //  }
     this.props.UserActions.changePasswordFirebase({ ...this.state });
+    
    }
+   _onBlur() {
+    this.setState({hasFocus: false});
+    }
+
+  _onFocus() {
+    this.setState({hasFocus: true});
+    }
+
+  _getULColor(hasFocus) {
+  
+    return (hasFocus === true) ? 'black' : 'gray';
+  }
+
+
+
 render() {
       
-           const titleConfig = {
-             title: 'Change Password',
-             tintColor:'white'
-           };
+        
            return (
             <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
 
@@ -49,7 +101,7 @@ render() {
               <ScrollView keyboardDismissMode='on-drag'>
 
  <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <TouchableOpacity  style={{paddingHorizontal:6}} onPress={() => this.props.navigation.goBack()}>
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity>
             <Text style={styles.headerTxt}> Change Password  </Text>
@@ -62,16 +114,18 @@ render() {
              
             {/* <View> */}
             <TextInput
-                   //style={{flex:1}}
-                   placeholder="Current Password"
-                   keyboardType={'email-address'}
-                   autoCapitalize={false}
-                   autoCorrect={false}
-                   placeholderTextColor='black'
-                   underlineColorAndroid={Constants.Colors.Black}
-                   secureTextEntry={this.state.secureEntry}
-                   onChangeText={(currentPassword) => this.setState({currentPassword})}
-            />
+               style={styles.textInputStyle}
+                autoFocus={false}
+                autoCorrect={false}
+                onBlur={ () => this._onBlur() }
+                onFocus={ () => this._onFocus() }
+                placeholder='Current Password'
+                placeholderTextColor={'gray'}
+                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                showPassword={false}
+                onChangeText={(currentPassword) => this.setState({ currentPassword })}
+                secureTextEntry={true} 
+              />
 
             {/* {this.state.currentPassword != '' && <TouchableOpacity
               style={{ position: 'absolute', right: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, bottom: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1.5 }}
@@ -84,27 +138,34 @@ render() {
              */}
          
          <TextInput
-                   //style={{flex:1}}
-                   placeholder="New Password"
-                   keyboardType={'email-address'}
-                   autoCapitalize={false}
-                   autoCorrect={false}
-                   placeholderTextColor='gray'
-                   underlineColorAndroid='gray'
-                   onChangeText={(newPassword) => this.setState({newPassword})}
-                  
-            />
+               style={styles.textInputStyle}
+                autoFocus={false}
+                autoCorrect={false}
+                onBlur={ () => this._onBlur() }
+                onFocus={ () => this._onFocus() }
+                placeholder='New Password'
+                placeholderTextColor={'gray'}
+                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                showPassword={false}
+                onChangeText={(newPassword) => this.setState({ newPassword })}
+                secureTextEntry={true} 
+              />
+
            
         
              <TextInput
-                   //style={{flex:1}}
+                    autoFocus={false}
+                    autoCorrect={false}
+                    onBlur={ () => this._onBlur() }
+                    onFocus={ () => this._onFocus() }
+                    style={styles.textInputStyle}
                    placeholder="Confirm New Password"
-                   keyboardType={'email-address'}
+                  
                    autoCapitalize={false}
-                   autoCorrect={false}
-                   placeholderTextColor='black'
-                   secureTextEntry={true}
-                   underlineColorAndroid={Constants.Colors.Black}
+                  
+                   placeholderTextColor='gray'
+                   secureTextEntry={true} 
+                   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                    onChangeText={(confirmNewPassword) => this.setState({confirmNewPassword})}
                   
             />
@@ -126,6 +187,12 @@ const styles = StyleSheet.create({
            flex: 1,
           
          },
+         textInputStyle: {
+          padding: 10,
+          marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1,
+          color:'black'
+      
+        },
          navBar:{
            backgroundColor:"black",
          },
@@ -136,7 +203,7 @@ const styles = StyleSheet.create({
              marginHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*6,
              paddingHorizontal:Constants.BaseStyle.DEVICE_WIDTH/100*4,
              backgroundColor:Constants.Colors.White,
-             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*4,
+             marginTop:Constants.BaseStyle.DEVICE_HEIGHT/100*1,
              borderRadius:10
          
          },

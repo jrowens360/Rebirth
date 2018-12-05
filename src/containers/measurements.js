@@ -40,7 +40,7 @@ render() {
               <ScrollView keyboardDismissMode='on-drag'>
 
  <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <TouchableOpacity   style={{paddingHorizontal:6}} onPress={() => this.props.navigation.goBack()}>
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity>
             <Text style={styles.headerTxt}> Measurements  </Text>

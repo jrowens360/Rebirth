@@ -21,6 +21,8 @@ module.exports = {
 		Payment: require("../assets/images/Payment.png"),
 		Logout: require("../assets/images/Logout.png"),
 		gallery: require("../assets/images/gallery.png"),
+		galleryBlue: require("../assets/images/galleryBlue.png"),
+		cameraBlue: require("../assets/images/cameraBlue.png"),
 
 
 	}

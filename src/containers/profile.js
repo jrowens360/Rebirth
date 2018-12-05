@@ -29,6 +29,9 @@ var firebase = require("firebase");
     };
   }
 
+  
+
+
   save() {
 
   }
@@ -45,16 +48,16 @@ var firebase = require("firebase");
 
  <ScrollView>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+          <TouchableOpacity  style={{paddingHorizontal:6}}onPress={() => this.props.navigation.goBack()}>
             <Icon name="angle-left" size={40} color='white' />
-          </TouchableOpacity>
+          </TouchableOpacity >
           <Text style={styles.headerTxt}> Profile </Text>
           <View></View>
         </View>
 
 
         <View style={styles.mainContainer}>
-        <TouchableOpacity >
+        <TouchableOpacity  onPress={() => this.props.navigation.navigate("PersonalDetail")} >
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Personal} style={styles.iconStyle} />
 
@@ -62,13 +65,15 @@ var firebase = require("firebase");
             <Icon name="angle-right" size={25} color='black' />
           </View>
           </TouchableOpacity>
+          <TouchableOpacity  onPress={() => this.props.navigation.navigate("Payment")} >
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Payment} style={styles.iconStyle} />
 
             <Text style={styles.textStyle}>Payment Methods</Text>
             <Icon name="angle-right" size={25} color='black' />
           </View>
-          <TouchableOpacity  >
+          </TouchableOpacity>
+          <TouchableOpacity   onPress={() => this.props.navigation.navigate("ChangePassword")}>
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
 
@@ -122,7 +127,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6,
     paddingHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 4,
     backgroundColor: Constants.Colors.White,
-    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 4,
+    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1,
     borderRadius: 10
 
   },

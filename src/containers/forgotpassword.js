@@ -78,7 +78,7 @@ class ForgotPassword extends Component {
 
           <ScrollView keyboardDismissMode={Platform.OS === 'ios' ? 'on-drag' : 'interactive'} keyboardShouldPersistTaps="always" >
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
-              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <TouchableOpacity   style={{paddingHorizontal:6}}onPress={() => this.props.navigation.goBack()}>
                 <Icon name="angle-left" size={40} color='white' />
               </TouchableOpacity>
               <Text style={styles.forgotTxt}> Forgot Password </Text>

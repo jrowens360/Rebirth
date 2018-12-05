@@ -9,14 +9,40 @@ import {
 
 
 import Constants from '../constants';
+import { connect } from 'react-redux';
 import Background from '../components/common/BackgroundImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
- 
+import { bindActionCreators } from "redux";
+var firebase = require("firebase");
 
-export default class Dashboard extends Component {
+var config = {
+    apiKey: 'AIzaSyBzqxxRZDk9KPLW899OF65iWsI5ZVES5Z0',
+    authDomain: 'quizdemo-6805d.firebaseio.com',
+    databaseURL: "https://quizdemo-6805d.firebaseio.com",
+    projectId: "quizdemo-6805d",
+    storageBucket: "quizdemo-6805d.appspot.com",
+};
+
+
+class Dashboard extends Component {
     constructor(props) {
         super(props);
-       
+       this.state ={
+
+userStatus:props.userStatus
+
+       }
+      }
+      componentDidMount(){
+        if(this.state.userStatus){
+
+          if (!firebase.apps.length) {
+            firebase.initializeApp(config);
+        }
+
+
+        }
+
       }
 
       onMeasurement(){
@@ -131,3 +157,15 @@ const styles = StyleSheet.create({
   
   
 });
+
+const mapStateToProps = state => ({
+  userStatus: state.user.userStatus,
+  
+});
+
+const mapDispatchToProps = dispatch => ({
+  UserActions: bindActionCreators(UserActions, dispatch)
+});
+
+export default connect(mapStateToProps,null)(Dashboard);
+

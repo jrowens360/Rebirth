@@ -21,9 +21,10 @@ import Background from '../components/common/BackgroundImg';
 var firebase = require("firebase");
 import * as UserActions from '../redux/modules/user';
 import ImagePicker from "react-native-image-crop-picker";
+import RNFetchBlob from 'react-native-fetch-blob'
+
 
 const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
-
 
  class SignUp extends Component {
 
@@ -42,8 +43,9 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
       secureEntry: true,
       passwordEye: false,
       hasFocus:false,
-      avatarSource:''
-
+      avatarSource:'',
+     
+      imageUrl:''
     }
   }
 
@@ -57,19 +59,17 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
         cropping: true,
         enableRotationGesture: true
       }).then(image => {
-        //alert(JSON.stringify(image));
+      
         let source = { uri: image.path, type: image.mime };
-        // alert(JSON.stringify(image));
-
-        this.setState({
-          visible: false
-        });
-
+      
+      //  console.log(JSON.stringify(image))
         this.setState({
           avatarSource: source
+        
         });
-
-        //alert(JSON.stringify(image));
+        
+        this.getSelectedImages();
+       
       }).catch(e => console.log(e));
 
     } else {
@@ -79,19 +79,14 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
         cropping: true,
         enableRotationGesture: true
       }).then(image => {
-      //  alert(JSON.stringify(image));
+     
         let source = { uri: image.path, type: image.mime };
-       //  alert(JSON.stringify(image));
-
-        this.setState({
-          visible: false
-        });
-
+       
         this.setState({
           avatarSource: source
         
         });
-        //alert(JSON.stringify(image));
+        this.getSelectedImages();
       }).catch(e => console.log(e)
 
         );
@@ -99,22 +94,48 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
     }
   }
 
-uploadimage(){
-
-  firebase.storage()
-  .ref('/images').child("image.jpg")
-  
-  .then(uploadedFile => {
-    alert(uploadedFile)
-      //success
-  })
-  .catch(err => {
-      //Error
-  });
-
-
-
-}
+  getSelectedImages = () => {
+    
+    const image = this.state.avatarSource.uri
+ 
+    const Blob = RNFetchBlob.polyfill.Blob
+    const fs = RNFetchBlob.fs
+    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+    window.Blob = Blob
+        let user =firebase.auth().currentUser
+   
+    let uploadBlob = null
+    const imageRef = firebase.storage().ref('images').child(Math.floor(Date.now())+'.jpg')
+    console.log("firbase"+imageRef);
+    let mime = 'image/jpg'
+    fs.readFile(image, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `${mime};BASE64` })
+    })
+    .then((blob) => {
+        uploadBlob = blob
+        console.log("image upload "+JSON.stringify(uploadBlob))
+        return imageRef.put(blob, { contentType: mime })
+      })
+      .then(() => {
+        console.log("image download "+imageRef.getDownloadURL())
+        uploadBlob.close()
+      
+        return imageRef.getDownloadURL()
+      })
+      .then((url) => {
+        this.setState({imageUrl:url})
+        // URL of the image uploaded on Firebase storage
+        console.log("url in image"+url);
+     
+        
+      })
+      .catch((error) => {
+        console.log("error in image"+JSON.stringify(error));
+ 
+      })  
+ 
+  }
 
 
 
@@ -136,7 +157,7 @@ uploadimage(){
 
    signUpSubmit() {
 
-    this.uploadimage();
+   
     // console.log(firebase);
 
     // let { dispatch } = this.props.navigation;
@@ -216,9 +237,9 @@ uploadimage(){
     // }
  
 
-    // this.props.UserActions.signUpFirebase({ ...this.state });
+     this.props.UserActions.signUpFirebase({ ...this.state });
     // this.props.UserActions.writeUserData({ ...this.state });
-  
+    
   }
   _onBlur() {
     this.setState({hasFocus: false});
@@ -255,10 +276,12 @@ uploadimage(){
                     Change Photo</Text>
                   <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
                     
-                    <TouchableOpacity onPress={() => { this.onSelect('camera') }}>
+                    <TouchableOpacity style={{ padding:2,}} onPress={() => {
+                    
+                       this.onSelect('camera') }}>
                     <Icon name="camera" size={20} color='white' />
                     </TouchableOpacity>
-                    <TouchableOpacity  style={{  marginLeft:18}} onPress={() => { this.onSelect('gallery') }}>
+                    <TouchableOpacity  style={{ padding:2, marginLeft:18}} onPress={() => { this.onSelect('gallery') }}>
                     <Image source={Constants.Images.user.gallery} style={styles.iconStyle} />
                     </TouchableOpacity>
                   </View>
