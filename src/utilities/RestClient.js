@@ -162,6 +162,53 @@ class RestClient {
         });
     }
 
+
+
+    static uploadImage(url, params, token = '') {
+        let context = this,
+        logintoken;
+
+    return new Promise(function(fulfill, reject) {
+        context.isConnected().then(() => {
+                //console.log("url=> ",Connection.getResturl() + url ," requestObject=> ",params, " x-auth-token => ",token, " x-user-id => ",userId )
+                fetch(Connection.getResturl() + url, {
+                        method: "POST",
+                        timeout : 1000*1*60,
+                        headers: {
+                           
+                            "Authorization": token
+                           
+                        },
+                        body: params
+                    })
+                    .then((response) => {
+                        return response.text()
+                    })
+                    .then(responseText => {
+                        //console.log('response ******** ',responseText)
+                        fulfill(JSON.parse(responseText));
+                    })
+                    .catch(error => {
+                        console.warn(error);
+                        fulfill({message:'Please check your internet connectivity or our server is not responding.'});
+                    });
+            })
+            .catch(error => {
+                fulfill({message:'Please check your internet connectivity or our server is not responding.'});
+            });
+    });
+    }
+
+
+
+
+
+
+
+
+
+
+
     static delete(url, params, token = '',userId='') {
         let context = this,
             logintoken;

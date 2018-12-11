@@ -16,6 +16,9 @@ import Info from "../containers/info.js";
 import Splash from "../containers/splash";
 import dashboard from "../containers/dashboard";
 import measurements from "../containers/measurements";
+import paymentMethod from "../containers/payment_method";
+import AddCard from "../containers/addcard";
+import SelectScreen from "../containers/selectScreen";
 
 // export list of routes.
 export default routes = {
@@ -35,6 +38,12 @@ export default routes = {
 	Info	: { screen: Info },
 	dashboard	: { screen: dashboard },
 	measurements	: { screen: measurements },
+	paymentMethod	: { screen: paymentMethod },
+	AddCard	: { screen: AddCard },
+	SelectScreen	: { screen: SelectScreen },
+
+
+
 
 
 };

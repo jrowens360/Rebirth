@@ -50,7 +50,7 @@ userStatus:props.userStatus
     
       }
       onFront(){
-       // this.props.navigation.navigate("FrontView")
+        this.props.navigation.navigate("FrontView")
     
       }
       onProfile(){

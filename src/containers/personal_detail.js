@@ -12,15 +12,28 @@ import { Text,
    import Constants from '../constants';
    import { connect } from 'react-redux';
    import moment from "moment";
+   import _ from "lodash";
+   import Regex from '../utilities/Regex';
    import { bindActionCreators } from "redux";
+   import { ToastActionsCreators } from 'react-native-redux-toast';
    import NavigationBar from 'react-native-navbar';
    import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
    import DatePicker from 'react-native-datepicker'
    import Icon from 'react-native-vector-icons/FontAwesome';
    import Background from '../components/common/BackgroundImg';
    import * as UserActions from '../redux/modules/user';
-   import ImagePicker from "react-native-image-crop-picker";
+  // import ImagePicker from "react-native-image-crop-picker";
    import RNFetchBlob from 'react-native-fetch-blob'
+   import ImagePicker from 'react-native-image-picker';
+   const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  
    
    var firebase = require("firebase");
    const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
@@ -55,16 +68,80 @@ import { Text,
        componentWillReceiveProps(props){
         console.log("ne props "+JSON.stringify(props.userDetail));
         let {name,email,phone,height,weight,dob,profileImg} =     props.userDetail;
-this.setState({name,email,phone,height,weight,dob,imageUrl:profileImg,avatarSource:{uri:profileImg}});
+this.setState({name,email,phone,height,weight,dob,imageUrl:profileImg,avatarSource:{uri:profileImg}},()=>{
+  console.log("set value here "+JSON.stringify(this.state.avatarSource));
+});
 
 
 }
 
-//console.log("set value here "+this.state.name);
+//
        
 
      
       save(){
+
+
+        let { dispatch } = this.props.navigation;
+        let { name, email, phone,  height, weight,dob } = this.state;
+       //let { navigate } = this.props.navigation;
+      
+       if (_.isEmpty(name.trim())) {
+   
+         dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
+         return;
+       }
+      
+      
+       if (_.isEmpty(phone.trim())) {
+         //alert(enterMobile);
+         dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
+         return;
+       }
+     
+       if (!Regex.validateMobile(phone.trim())) {
+         //alert(enterValidMobile);
+         dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
+         return;
+       }
+   
+   
+   
+       if (_.isEmpty(email.trim())) {
+         //alert(enterEmail);
+         dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
+         return;
+       }
+       if (!Regex.validateEmail(email.trim())) {
+         //alert(enterValidEmail);
+         dispatch(ToastActionsCreators.displayInfo('Please Enter a valid email'))
+         return;
+       }
+     
+   
+       if (_.isEmpty(height.trim())) {
+         //alert(enterEmail);
+         dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
+         return;
+       }
+   
+       if (_.isEmpty(weight.trim())) {
+   
+         dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
+         return;
+       }
+     
+       if (_.isEmpty(dob.trim())) {
+         dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
+         return;
+       }
+
+
+
+    
+
+
+      
 
         this.props.UserActions.updateUserData({ ...this.state });
    
@@ -73,45 +150,59 @@ this.setState({name,email,phone,height,weight,dob,imageUrl:profileImg,avatarSour
     // alert("come here"+picked);
  
      if (picked === 'gallery') {
-         ImagePicker.openPicker({
-         width: 400,
-         height: 400,
-         cropping: true,
-         enableRotationGesture: true
-       }).then(image => {
-       
-         let source = { uri: image.path, type: image.mime };
-       
-       
-         this.setState({
-           avatarSource: source
+     
+
+      ImagePicker.launchImageLibrary(options, (response) => {
+
+        console.log('Response = ', response);
          
-         });
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } else {
+            const source = { uri: response.uri ,type:response.type};
+          
          
-         this.getSelectedImages();
+            this.setState({
+              avatarSource: source,
+            });
+          }
+          this.getSelectedImages();
         
-       }).catch(e => console.log(e));
+                
+              });
  
      } else {
-       ImagePicker.openCamera({
-         width: 400,
-         height: 400,
-         cropping: true,
-         enableRotationGesture: true
-       }).then(image => {
-      
-         let source = { uri: image.path, type: image.mime };
+  
+ 
+    ImagePicker.launchCamera(options, (response) => {
+
+      console.log('Response = ', response);
+       
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          const source = { uri: response.uri ,type:response.type};
+       
         
-         this.setState({
-           avatarSource: source
-         
-         });
-         this.getSelectedImages();
-       }).catch(e => console.log(e)
- 
-         );
- 
-     }
+          this.setState({
+            avatarSource: source,
+          });
+        }
+      
+        this.getSelectedImages();
+              
+            });
+
+
+      }
    }
 
    getSelectedImages = () => {
@@ -177,6 +268,7 @@ this.setState({name,email,phone,height,weight,dob,imageUrl:profileImg,avatarSour
 
 
 render() {
+  console.log(this.state.avatarSource);
       
            return (
             <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
@@ -202,7 +294,7 @@ render() {
         <View> 
         
         <Text style={[styles.textStyle]}>
-                    Change Photo</Text>
+        Select Photo</Text>
                     <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
                     <TouchableOpacity style={{ padding:2,}} onPress={() => {
                     
@@ -219,6 +311,7 @@ render() {
             </View>                
       </View>
       <TextInput
+                maxLength={25}
                 value={this.state.name}
                 style={styles.textInputStyle}
                 autoFocus={false}
@@ -260,6 +353,7 @@ render() {
               />
               <View style={{ flexDirection: 'row' }}>
                 <TextInput
+                 maxLength={3}
                   value={this.state.height}
                  autoFocus={false}
                  autoCorrect={false}
@@ -273,6 +367,7 @@ render() {
                   onChangeText={(height) => this.setState({ height })}
                 />
                 <TextInput
+                  maxLength={3}
                   value={this.state.weight}
                   maxLength={3}
                   autoFocus={false}
@@ -410,6 +505,10 @@ const styles = StyleSheet.create({
         
         
             //borderBottomColor:Constants.Colors.Blue
+          },
+          rowIcon:{
+            width: Constants.BaseStyle.DEVICE_WIDTH * 5 / 100,
+            height: Constants.BaseStyle.DEVICE_WIDTH * 5 / 100,
           },
         
        

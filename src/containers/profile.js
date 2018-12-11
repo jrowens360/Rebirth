@@ -65,7 +65,7 @@ var firebase = require("firebase");
             <Icon name="angle-right" size={25} color='black' />
           </View>
           </TouchableOpacity>
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate("Payment")} >
+          <TouchableOpacity   onPress={() => this.props.navigation.navigate("paymentMethod")}  >
           <View style={styles.itemStyle}>
             <Image source={Constants.Images.user.Payment} style={styles.iconStyle} />
 

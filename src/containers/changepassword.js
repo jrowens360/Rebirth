@@ -36,42 +36,47 @@ class ChangePassword extends Component {
        }
     
       save(){
-    //     let { dispatch } = this.props.navigation;
-    //     let { currentPassword, newPassword, confirmNewPassword } = this.state;
+        let { dispatch } = this.props.navigation;
+        let { currentPassword, newPassword, confirmNewPassword } = this.state;
 
-    // if (_.isEmpty(currentPassword.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your old password'))
-    //   return;
-    // }
+    if (_.isEmpty(currentPassword.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your current password'))
+      return;
+    }
 
-    // if (!Regex.validatePassword(currentPassword)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-    //   return;
-    // }
-    // if (_.isEmpty(newPassword.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your new password'))
-    //   return;
-    // }
-
-    // if (!Regex.validatePassword(newPassword)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-    //   return;
-    // }
-    // if (_.isEmpty(confirmNewPassword.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your new confirm password'))
-    //   return;
-    // }
-
-    // if (!Regex.validatePassword(confirmNewPassword)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-    //   return;
-    // }
-    // if (newPassword != confirmNewPassword) {
-    //     dispatch(ToastActionsCreators.displayInfo('Please match new password and confirm new  password'))
-    //     return;
   
-    //  }
-    this.props.UserActions.changePasswordFirebase({ ...this.state });
+    if (_.isEmpty(newPassword.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your new password'))
+      return;
+    }
+
+    if (newPassword.length<6) {
+      dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters'))
+      return;
+    }
+
+    
+    if (_.isEmpty(confirmNewPassword.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your new confirm password'))
+      return;
+    }
+
+    
+    if (newPassword != confirmNewPassword) {
+        dispatch(ToastActionsCreators.displayInfo('Password and Confirm Password does not match'))
+        return;
+  
+     }
+
+
+    this.props.UserActions.changePasswordFirebase({ ...this.state },() =>{
+     this.setState({
+      currentPassword:'',
+      newPassword: '',
+      confirmNewPassword:'',
+
+     });
+    });
     
    }
    _onBlur() {
@@ -114,7 +119,8 @@ render() {
              
             {/* <View> */}
             <TextInput
-               style={styles.textInputStyle}
+                value={this.state.currentPassword}
+                style={styles.textInputStyle}
                 autoFocus={false}
                 autoCorrect={false}
                 onBlur={ () => this._onBlur() }
@@ -138,6 +144,7 @@ render() {
              */}
          
          <TextInput
+               value={this.state.newPassword}
                style={styles.textInputStyle}
                 autoFocus={false}
                 autoCorrect={false}
@@ -154,6 +161,7 @@ render() {
            
         
              <TextInput
+                    value={this.state.confirmNewPassword}
                     autoFocus={false}
                     autoCorrect={false}
                     onBlur={ () => this._onBlur() }

@@ -23,6 +23,8 @@ module.exports = {
 		gallery: require("../assets/images/gallery.png"),
 		galleryBlue: require("../assets/images/galleryBlue.png"),
 		cameraBlue: require("../assets/images/cameraBlue.png"),
+		male: require("../assets/images/male.png"),
+		female: require("../assets/images/female.png"),
 
 
 	}

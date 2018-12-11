@@ -14,7 +14,7 @@ let colors = {
     Black:'#212123',
     PureBlack : "#000000",
     yellow:'#ffdc00',
-   darkYellow:'#FFCC00',
+    darkYellow:'#FFCC00',
    
    
     Purple: "#6000ba",

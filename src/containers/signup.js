@@ -20,8 +20,17 @@ import DatePicker from 'react-native-datepicker'
 import Background from '../components/common/BackgroundImg';
 var firebase = require("firebase");
 import * as UserActions from '../redux/modules/user';
-import ImagePicker from "react-native-image-crop-picker";
+//import ImagePicker from "react-native-image-crop-picker";
 import RNFetchBlob from 'react-native-fetch-blob'
+import ImagePicker from 'react-native-image-picker';
+const options = {
+  title: 'Select Avatar',
+  customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
 
 
 const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
@@ -50,49 +59,66 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
   }
 
   onSelect = (picked) => {
-   // alert("come here"+picked);
-
-    if (picked === 'gallery') {
-        ImagePicker.openPicker({
-        width: 400,
-        height: 400,
-        cropping: true,
-        enableRotationGesture: true
-      }).then(image => {
-      
-        let source = { uri: image.path, type: image.mime };
-      
-      //  console.log(JSON.stringify(image))
-        this.setState({
-          avatarSource: source
-        
-        });
-        
-        this.getSelectedImages();
-       
-      }).catch(e => console.log(e));
-
-    } else {
-      ImagePicker.openCamera({
-        width: 400,
-        height: 400,
-        cropping: true,
-        enableRotationGesture: true
-      }).then(image => {
+    // alert("come here"+picked);
+ 
+     if (picked === 'gallery') {
      
-        let source = { uri: image.path, type: image.mime };
-       
-        this.setState({
-          avatarSource: source
+
+      ImagePicker.launchImageLibrary(options, (response) => {
+
+        console.log('Response = ', response);
+         
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } else {
+            const source = { uri: response.uri ,type:response.type};
+          
+         
+            this.setState({
+              avatarSource: source,
+            });
+
+
+            
+          }
+          this.getSelectedImages();
         
-        });
+                
+              });
+ 
+     } else {
+  
+ 
+    ImagePicker.launchCamera(options, (response) => {
+
+      console.log('Response = ', response);
+       
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          const source = { uri: response.uri ,type:response.type};
+       
+        
+          this.setState({
+            avatarSource: source,
+          });
+        }
+      
         this.getSelectedImages();
-      }).catch(e => console.log(e)
+              
+            });
 
-        );
 
-    }
-  }
+      }
+   }
 
   getSelectedImages = () => {
     
@@ -158,7 +184,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
    signUpSubmit() {
 
    
-    // console.log(firebase);
+    // // console.log(firebase);
 
     // let { dispatch } = this.props.navigation;
     //  let { name, email, phone, password, height, weight, confirmPassword, dob } = this.state;
@@ -188,7 +214,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
     // }
     // if (!Regex.validateEmail(email.trim())) {
     //   //alert(enterValidEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
+    //   dispatch(ToastActionsCreators.displayInfo('Please Enter a valid email'))
     //   return;
     // }
 
@@ -200,7 +226,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
     // if (_.isEmpty(weight.trim())) {
 
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your width'))
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
     //   return;
     // }
 
@@ -214,24 +240,21 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
     //   dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
     //   return;
     // }
-
-    // if (!Regex.validatePassword(password)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
+    // if (password.length<6) {
+    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters'))
     //   return;
     // }
+   
 
     // if (_.isEmpty(confirmPassword.trim())) {
     //   dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
     //   return;
     // }
 
-    // if (!Regex.validatePassword(confirmPassword)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-    //   return;
-    // }
+    
 
     // if (password != confirmPassword) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please match password and confirm password'))
+    //   dispatch(ToastActionsCreators.displayInfo('Password and Confirm Password does not match'))
     //   return;
 
     // }
@@ -273,7 +296,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
                 <View>
 
                   <Text style={[styles.textStyle]}>
-                    Change Photo</Text>
+                  Select Photo</Text>
                   <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
                     
                     <TouchableOpacity style={{ padding:2,}} onPress={() => {
@@ -292,6 +315,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               </View>
               <TextInput
                 style={styles.textInputStyle}
+                maxLength={25}
                 autoFocus={false}
                 autoCorrect={false}
                 onBlur={ () => this._onBlur() }
@@ -329,7 +353,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               />
               <View style={{ flexDirection: 'row' }}>
                 <TextInput
-                 
+                  maxLength={3}
                  autoFocus={false}
                  autoCorrect={false}
                  onBlur={ () => this._onBlur() }

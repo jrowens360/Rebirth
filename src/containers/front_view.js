@@ -8,114 +8,178 @@ import {
   TextInput,
   ScrollView,
   Image,
+  Platform
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import Constants from '../constants';
+import _ from "lodash";
+import moment from "moment";
 import NavigationBar from 'react-native-navbar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Background from '../components/common/BackgroundImg';
-import ImagePicker from "react-native-image-crop-picker";
-export default class FrontView extends Component {
+//import ImagePicker from "react-native-image-crop-picker";
+import * as UserActions from '../redux/modules/user';
+const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
+import ImagePicker from 'react-native-image-picker';
+const options = {
+  title: 'Select Avatar',
+  customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
+class FrontView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      from:'',
       buttonPress: 0,
       sideView: false,
       nextButton: false,
       buttonTxt: 'Next',
       avatarFrontView:'',
-      avatarSideView:''
+      avatarSideView:'',
+      apiKey:'APIKey 35ce6ef2466f0330482bc753ea456777715011c3',
     };
   }
 
 
   onSelect = (picked,slectedView) => {
-    // alert("come here"+picked);
+   
  if(slectedView =='frontView'){
   if (picked === 'gallery') {
-    ImagePicker.openPicker({
-    width: 400,
-    height: 400,
-    cropping: true,
-    enableRotationGesture: true
-  }).then(image => {
-    //alert(JSON.stringify(image));
-    let source = { uri: image.path, type: image.mime };
-    //  alert(JSON.stringify(image));
+  //   ImagePicker.openPicker({
+  //   width: 400,
+  //   height: 400,
+  //   cropping: true,
+  //   enableRotationGesture: true
+  // }).then(image => {
+  
+  //   let source = { uri: image.path, type: image.mime ,filename:Platform.OS === 'ios' ? image.filename :''+Math.floor(Date.now()) };
+  //   console.log(JSON.stringify(source));
+  //   this.setState({
+  //     avatarFrontView: source
+  //   });
 
-   
-    this.setState({
-      avatarFrontView: source
-    });
+  //   //alert(JSON.stringify(image));
+  // }).catch(e => console.log(e));
 
-    //alert(JSON.stringify(image));
-  }).catch(e => console.log(e));
+  ImagePicker.launchImageLibrary(options, (response) => {
+
+    console.log('Response galler front view = ', response);
+     
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri ,type:response.type,filename:response.fileName};
+      
+     
+        this.setState({
+          avatarFrontView: source,
+          from:'frontView'
+        });
+
+
+        
+      }
+      this.props.UserActions.uploadImage({ ...this.state });
+    
+            
+          });
 
 } else {
-  ImagePicker.openCamera({
-    width: 400,
-    height: 400,
-    cropping: true,
-    enableRotationGesture: true
-  }).then(image => {
-  //  alert(JSON.stringify(image));
-    let source = { uri: image.path, type: image.mime };
-  //   alert(JSON.stringify(image));
+ 
 
+  ImagePicker.launchCamera(options, (response) => {
 
-
-    this.setState({
-      avatarFrontView: source
+    console.log('Response camera front view = ', response);
+     
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri ,type:response.type,filename:response.fileName};
+     
+      
+        this.setState({
+          avatarFrontView: source,
+          from:'frontView'
+        });
+      }
     
-    });
-    //alert(JSON.stringify(image));
-  }).catch(e => console.log(e)
+      this.props.UserActions.uploadImage({ ...this.state });
+            
+          });
 
-    );
+
 
 }
 
 }else{
 
   if (picked === 'gallery') {
-    ImagePicker.openPicker({
-    width: 400,
-    height: 400,
-    cropping: true,
-    enableRotationGesture: true
-  }).then(image => {
-    //alert(JSON.stringify(image));
-    let source = { uri: image.path, type: image.mime };
-    // alert(JSON.stringify(image));
-
-   
-    this.setState({
-      avatarSideView: source
-    });
-
-    //alert(JSON.stringify(image));
-  }).catch(e => console.log(e));
-
-} else {
-  ImagePicker.openCamera({
-    width: 400,
-    height: 400,
-    cropping: true,
-    enableRotationGesture: true
-  }).then(image => {
-  //  alert(JSON.stringify(image));
-    let source = { uri: image.path, type: image.mime };
-   //  alert(JSON.stringify(image));
-
   
-    this.setState({
-      avatarSideView: source
-    
-    });
-    //alert(JSON.stringify(image));
-  }).catch(e => console.log(e)
+    ImagePicker.launchImageLibrary(options, (response) => {
 
-    );
+      console.log('Response  side gallery = ', response);
+       
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          const source = { uri: response.uri ,type:response.type,filename:response.fileName};
+        
+       
+          this.setState({
+            avatarSideView: source,
+            from:'sideView'
+          });
+  
+  
+          
+        }
+        this.props.UserActions.uploadImage({ ...this.state });
+              
+            });
+} else {
+  ImagePicker.launchCamera(options, (response) => {
+
+    console.log('Response  side camera = ', response);
+     
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri ,type:response.type,filename:response.fileName};
+     
+      
+        this.setState({
+          avatarSideView: source,
+          from:'sideView'
+        });
+      }
+      this.props.UserActions.uploadImage({ ...this.state });
+     
+            
+          });
+
+
 
 }
  }
@@ -135,9 +199,12 @@ export default class FrontView extends Component {
           buttonTxt: 'Continue',
           buttonPress: 1
         });
+    
+       
+
         break;
       case 1:
-        this.props.navigation.navigate("Payment")
+        this.props.navigation.navigate("SelectScreen")
         break;
     }
 
@@ -280,18 +347,31 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     flex: 1,
-    alignSelf: 'center'
-    //  width: '100%',
-    //  height:'100%',
+    alignSelf: 'center',
+    
     // borderRadius: Constants.BaseStyle.DEVICE_WIDTH*15/100,
     // borderColor:'yellow',
     // borderWidth:4
 
   },
-  imageDefaultStyle:{flex: 1,},
+  imageDefaultStyle:{flex: 1,  width: '100%',
+  height:'100%',},
   textStyle: { color: 'black', alignSelf: 'center', padding: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2.5, fontSize: 20 },
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
   nextTxt: { padding: 2 }
 
 
 })
+
+
+// const mapStateToProps = state => ({
+//   modalstate: state.ModalHandleReducer,
+//   deviceToken: state.user.deviceToken
+// });
+
+const mapDispatchToProps = dispatch => ({
+  UserActions: bindActionCreators(UserActions, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(FrontView);
+
