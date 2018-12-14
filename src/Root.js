@@ -5,7 +5,8 @@ import {
     InteractionManager,
     Platform,
     Alert,
-    Linking
+    Linking,
+    StatusBar
 } from 'react-native'
 import Progress from './components/common/Progress'
 import Navigator from "./config/navigator"
@@ -26,6 +27,10 @@ export default class Root extends Component{
   render(){
     return (
         <View style={styles.container}>
+          <StatusBar
+            backgroundColor={Constants.Colors.Purple}
+            barStyle="light-content"
+          />
         	<Progress/>
           <Navigator/>
           <Toast messageStyle={styles.toastStyle} />

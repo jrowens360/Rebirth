@@ -52,7 +52,9 @@ class AddCard extends Component {
             console.log("card lISt AT CARD SCREEN"+JSON.stringify(this.state.cards))
         });
 
-     
+     ()=>{
+         console.log ("i")
+     }
 
     }
    
@@ -77,6 +79,8 @@ class AddCard extends Component {
           vaild:form.valid,
 
         });
+
+        console.log("card  data"+JSON.stringify( cardDetail));
   
  }
 
@@ -87,15 +91,13 @@ class AddCard extends Component {
         //    if(this.state.vaild){
             this.state.cards.push(this.state.cardDetail);
             this.props.UserActions.addCardListFirebase({ ...this.state });
-
-           
         //    }else{
         //     dispatch(ToastActionsCreators.displayInfo('Please fill vaild info of card'))
 
 
         //    }
 
-           console.log("list  data"+JSON.stringify( this.state.cards));
+          // console.log("list  data"+JSON.stringify( this.state.cards));
 
        }
 

@@ -25,6 +25,9 @@ module.exports = {
 		cameraBlue: require("../assets/images/cameraBlue.png"),
 		male: require("../assets/images/male.png"),
 		female: require("../assets/images/female.png"),
+		masterCard: require("../assets/images/mastercard.png"),
+		visa: require("../assets/images/visa.png"),
+
 
 
 	}

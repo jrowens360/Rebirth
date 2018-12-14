@@ -151,7 +151,7 @@ class FrontView extends Component {
   
           
         }
-        this.props.UserActions.uploadImage({ ...this.state });
+        this.props.UserActions.uploadSideImage({ ...this.state });
               
             });
 } else {
@@ -174,7 +174,7 @@ class FrontView extends Component {
           from:'sideView'
         });
       }
-      this.props.UserActions.uploadImage({ ...this.state });
+      this.props.UserActions.uploadSideImage({ ...this.state });
      
             
           });

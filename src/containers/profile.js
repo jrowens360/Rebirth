@@ -20,7 +20,7 @@ import * as UserActions from '../redux/modules/user';
 import { bindActionCreators } from "redux";
 var firebase = require("firebase");
 
- class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,15 +29,15 @@ var firebase = require("firebase");
     };
   }
 
-  
+
 
 
   save() {
 
   }
-  logout(){
+  logout() {
     this.props.UserActions.logoutFirebase();
-   
+
 
   }
   render() {
@@ -46,52 +46,61 @@ var firebase = require("firebase");
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}>
 
- <ScrollView>
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
-          <TouchableOpacity  style={{paddingHorizontal:6}}onPress={() => this.props.navigation.goBack()}>
-            <Icon name="angle-left" size={40} color='white' />
-          </TouchableOpacity >
-          <Text style={styles.headerTxt}> Profile </Text>
-          <View></View>
-        </View>
-
-
-        <View style={styles.mainContainer}>
-        <TouchableOpacity  onPress={() => this.props.navigation.navigate("PersonalDetail")} >
-          <View style={styles.itemStyle}>
-            <Image source={Constants.Images.user.Personal} style={styles.iconStyle} />
-
-            <Text style={styles.textStyle}>Personal Details</Text>
-            <Icon name="angle-right" size={25} color='black' />
+        <ScrollView>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
+            <TouchableOpacity style={{ paddingHorizontal: 6 }} onPress={() => this.props.navigation.goBack()}>
+              <Icon name="angle-left" size={40} color='white' />
+            </TouchableOpacity >
+            <Text style={styles.headerTxt}> Profile </Text>
+            <View></View>
           </View>
-          </TouchableOpacity>
-          <TouchableOpacity   onPress={() => this.props.navigation.navigate("paymentMethod")}  >
-          <View style={styles.itemStyle}>
-            <Image source={Constants.Images.user.Payment} style={styles.iconStyle} />
 
-            <Text style={styles.textStyle}>Payment Methods</Text>
-            <Icon name="angle-right" size={25} color='black' />
+
+          <View style={styles.mainContainer}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("PersonalDetail")} >
+              <View style={styles.itemStyle}>
+                <Image source={Constants.Images.user.Personal} style={styles.iconStyle} />
+
+
+                <Text style={styles.textStyle}>Personal Details</Text>
+
+                <Icon name="angle-right" size={25} color='black' />
+
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("paymentMethod")}  >
+              <View style={styles.itemStyle}>
+                <Image source={Constants.Images.user.Payment} style={styles.iconStyle} />
+
+                <Text style={styles.textStyle}>Payment Methods</Text>
+
+                <Icon name="angle-right" size={25} color='black' />
+
+
+              </View>
+            </TouchableOpacity>
+
+            <View style={styles.itemStyle}>
+              <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
+
+              <Text style={styles.textStyle}>Change Password</Text>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("ChangePassword")}>
+                <Icon name="angle-right" size={25} color='black' />
+
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.itemStyle}>
+              <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
+              <TouchableOpacity onPress={() => this.logout()}>
+                <Text style={styles.textStyle}>Logout</Text>
+
+
+              </TouchableOpacity>
+            </View>
+
+
           </View>
-          </TouchableOpacity>
-          <TouchableOpacity   onPress={() => this.props.navigation.navigate("ChangePassword")}>
-          <View style={styles.itemStyle}>
-            <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
-
-            <Text style={styles.textStyle}>Change Password</Text>
-            <Icon name="angle-right" size={25} color='black' />
-          </View>
-          </TouchableOpacity>
-          <TouchableOpacity  onPress={() => this.logout()}>
-          <View style={styles.itemStyle}>
-            <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
-
-            <Text style={styles.textStyle}>Logout</Text>
-
-          </View>
-          </TouchableOpacity>
-
-
-        </View>
         </ScrollView>
       </Background>
     );
@@ -111,10 +120,10 @@ const styles = StyleSheet.create({
     height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
     width: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
   },
-  textStyle: { color: "black", flex: 1, paddingLeft: 10 ,fontWeight: '500'},
+  textStyle: { color: "black", flex: 1, paddingLeft: 10, fontWeight: '500' },
   itemStyle: {
     flexDirection: 'row',
-    borderBottomColor: 'gray',
+    borderBottomColor: 'black',
     borderBottomWidth: 2,
     paddingVertical: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2.5,
     alignItems: 'center'
@@ -138,7 +147,7 @@ const styles = StyleSheet.create({
 })
 
 // const mapStateToProps = state => ({
- 
+
 //   userStatus: state.user.userStatus
 // });
 

@@ -3,6 +3,7 @@ import { StackNavigator, addNavigationHelpers, NavigationActions } from 'react-n
 import { connect } from 'react-redux'
 import routes from "./routes";
 import { BackHandler, Alert } from 'react-native';
+import dashboard from '../containers/dashboard';
 
 /* *
  * React Navigation's Configuration
@@ -34,10 +35,8 @@ class AppWithNavigationState extends Component{
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
-  onBackPress = () => {
-    const { dispatch, nav } = this.props;
-    console.log("nav",nav);
-    if (nav.index === 1) {
+  alertBox(){
+
 
     Alert.alert(
       'Exit App',
@@ -51,9 +50,44 @@ class AppWithNavigationState extends Component{
       ],
       { cancelable: false }
     )
-    return true;
-     // return false;
+
+  }
+  onBackPress = () => {
+    const { dispatch, nav } = this.props;
+    console.log("nav",nav.routes.length);
+
+    if(nav.routes.length == 1){
+      if(nav.routes[0].routeName =="dashboard"){
+    
+        this.alertBox();
+
+        return true;
+   
+  }
+
     }
+    if(nav.routes.length == 2){
+
+      if (nav.routes[1].routeName =="startup") {
+       
+        this.alertBox();
+      return true;
+    
+      }
+
+    }
+    if(nav.routes.length == 2){
+
+      if (nav.routes[1].routeName =="dashboard") {
+       
+        this.alertBox();
+      return true;
+    
+      }
+
+    }
+
+
     dispatch(NavigationActions.back());
     return true;
   };

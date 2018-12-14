@@ -8,7 +8,7 @@ import {
     TextInput,
     ScrollView,
     Image,
-    Modal,Button,
+    Modal, Button,
     FlatList
 } from 'react-native';
 import Constants from '../constants';
@@ -23,54 +23,55 @@ import Background from '../components/common/BackgroundImg';
 import { bindActionCreators } from "redux";
 import _ from "lodash";
 import Regex from '../utilities/Regex';
-import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
+//import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
+
 class PaymentMethod extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          
-        cardList:this.props.cardList!= null||typeof(this.props.cardList.cardList) != "undefined"?this.props.cardList.cardList:[]
-        
+
+            cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? this.props.cardList.cardList : [],
+
+
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        this.setState({
+            cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? this.props.cardList.cardList : []
+
+
+        }, () => {
+           // console.log("card lISt from  did mount redux" + JSON.stringify(this.state.cardList))
+        });
+
+    }
+    componentWillReceiveProps(props) {
+
         this.setState({
 
-            cardList:this.props.cardList!= null||typeof(this.props.cardList.cardList) != "undefined"?this.props.cardList.cardList:[]
-        
-        
-        },()=>{
-            console.log("card lISt from  did mount redux"+JSON.stringify(this.state.cardList))
+            cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? props.cardList.cardList : []
+
+
         });
-       
+        //console.log("card lISt from redux"+JSON.stringify(props.cardList.cardList))
+
     }
-   componentWillReceiveProps(props){
 
-this.setState({
+    DeteleCardItem(index) {
 
-    cardList:this.props.cardList!= null||typeof(this.props.cardList.cardList) != "undefined"?props.cardList.cardList:[]
+        if (index > -1) {
+            this.state.cardList.splice(index, 1);
+         //   console.log("deleted card******", this.state.cardList);
+            this.props.UserActions.deleteCardFromFirebase({ ...this.state });
 
-
-});
-//console.log("card lISt from redux"+JSON.stringify(props.cardList.cardList))
-
-   }
-
-   DeteleCardItem(index){
-      
-    if (index > -1) {
-        this.state.cardList.splice(index, 1);
-        console.log(this.state.cardList);
-        this.props.UserActions.deleteCardFromFirebase({ ...this.state });
-
-      }
-     
-      
+        }
 
 
-   }
-        
+
+
+    }
+
     //    _onBlur() {
     //     this.setState({hasFocus: false});
     //     }
@@ -84,78 +85,125 @@ this.setState({
     //     return (hasFocus === true) ? 'black' : 'gray';
     //   }
 
-  
+
     // _onChange = (form) => {
     //     //console.log("form data"+JSON.stringify(form,null,""));
-   
+
     // }
 
-     
+
     render() {
 
 
         return (
             <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
 
-    <KeyboardAwareScrollView>
+                <KeyboardAwareScrollView>
 
 
-<ScrollView keyboardDismissMode='on-drag'>
+                    <ScrollView keyboardDismissMode='on-drag'>
 
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
                             <TouchableOpacity style={{ paddingHorizontal: 6 }} onPress={() => this.props.navigation.goBack()}>
                                 <Icon name="angle-left" size={40} color='white' />
                             </TouchableOpacity>
-                            <Text style={styles.headerTxt}> Payment  </Text>
+                            <Text style={styles.headerTxt}> Payment</Text>
                             <View></View>
                         </View>
-                         
-           
 
-                      
-                      <View style={styles.mainContainer}>
-                      <FlatList
-                            style={styles.flatlist}
-                                    data={this.state.cardList}
-                                    showsVerticalScrollIndicator={false}
-                                    renderItem={({index,item}) =>
+
+
+
+                         <View style={styles.mainContainer}>
+                             <FlatList
+                                style={styles.flatlist}
+                                data={this.state.cardList}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={({ index, item }) =>
                                     <View style={styles.flatview}>
-                                    <View style={{flexDirection:'row',  alignItems:'center',}}>
-                                            <Image source={{uri:'http://lorempixel.com/100/100/' }} style={{height:30,width:40}}></Image>
-                                            <Text style={{paddingLeft:10}}>{item.number}</Text>
-                                    </View>
-                                      <TouchableOpacity  onPress={() => this.DeteleCardItem(index)}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                                            {this.creditCardImg(item)}
+                                            <Text style={{ paddingLeft: 10 }}>{item.number}</Text>
+                                        </View>
+                                        <TouchableOpacity onPress={() => this.DeteleCardItem(index)}>
 
-                                        <Text style={{color:'blue'}}>Delete</Text>
+                                            <Text style={{ color: 'blue', }}>Delete</Text>
                                         </TouchableOpacity>
                                     </View>
-                    }
-                    keyExtractor={item => item.email}
-        />
-                       
-                  
-                        <TouchableOpacity style={styles.buttonStyle} onPress={() => this.props.navigation.navigate("AddCard",{
-        data: this.state.cardList== null?[]:this.state.cardList,
-       
-      })}>
+                                }
+                                keyExtractor={item => item.email}
+                            />
+
+
+                            <TouchableOpacity style={styles.buttonStyle} onPress={() => this.props.navigation.navigate("AddCard", {
+                                data: this.state.cardList == null ? [] : this.state.cardList,
+
+                            })}>
                                 <Text style={styles.savetxt}>+ Add New</Text>
                             </TouchableOpacity>
 
-                       </View>
-                  
-                       </ScrollView>
-                </KeyboardAwareScrollView>   
-                           
-                      
-                  
+                        </View> 
+
+                    </ScrollView>
+                </KeyboardAwareScrollView>
+
+
+
             </Background>
         );
     }
 
+
+    creditCardImg(item) {
+        console.log("data of item", item)
+        // return (
+
+        //                     <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }}></Image>
+    
+        //                 );
+        // if (typeof (item.type) != "undefined" && item.type != null) {
+
+            switch (item.type) {
+
+                case 'master-card':
+                    return (
+
+                        <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+                    );
+                case 'visa':
+                    return (
+
+                        <Image source={Constants.Images.user.visa} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+                    );
+                default:
+                    return (
+
+                          <Image source={{uri:"http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png"}} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+                       // <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }}></Image>
+                    );
+
+
+            }
+
+       }
+
+
+
+
+
+
+
+   // }
+
+
+
 }
 
-   
-        
+
+
 
 
 
@@ -202,35 +250,35 @@ const styles = StyleSheet.create({
     },
     headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
     savetxt: { color: 'white', alignSelf: 'center', padding: 5 },
-     
-ModalInsideView:{
- 
-  
-    backgroundColor : "#00BCD4", 
-    height: 300 ,
-    width: '90%',
-    borderRadius:10,
-    borderWidth: 1,
-    borderColor: '#fff'
-   
-  },
-  flatlist: {     
-    flexGrow: 0
-     
+
+    ModalInsideView: {
+
+
+        backgroundColor: "#00BCD4",
+        height: 300,
+        width: '90%',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#fff'
+
     },
-    flatview:{
-        flexDirection:'row',
-        padding:5,
-        alignItems:'center',
-        justifyContent:'space-between',
-       
-       },
-   
-  
+    flatlist: {
+        flexGrow: 0
+
+    },
+    flatview: {
+        flexDirection: 'row',
+        padding: 5,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+
+    },
+
+
 })
 const mapStateToProps = state => ({
-    cardList: state.user.cardList ==null ?[]:state.user.cardList,
- 
+    cardList: state.user.cardList == null ? [] : state.user.cardList,
+
 });
 
 

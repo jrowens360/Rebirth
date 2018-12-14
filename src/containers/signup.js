@@ -35,7 +35,7 @@ const options = {
 
 const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
- class SignUp extends Component {
+class SignUp extends Component {
 
   constructor(props) {
     super(props);
@@ -51,52 +51,23 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
       secureEntry: true,
       passwordEye: false,
-      hasFocus:false,
-      avatarSource:'',
-     
-      imageUrl:''
+      hasFocus: false,
+      avatarSource: '',
+
+      imageUrl: ''
     }
   }
 
   onSelect = (picked) => {
     // alert("come here"+picked);
- 
-     if (picked === 'gallery') {
-     
+
+    if (picked === 'gallery') {
+
 
       ImagePicker.launchImageLibrary(options, (response) => {
 
         console.log('Response = ', response);
-         
-          if (response.didCancel) {
-            console.log('User cancelled image picker');
-          } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-          } else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
-          } else {
-            const source = { uri: response.uri ,type:response.type};
-          
-         
-            this.setState({
-              avatarSource: source,
-            });
 
-
-            
-          }
-          this.getSelectedImages();
-        
-                
-              });
- 
-     } else {
-  
- 
-    ImagePicker.launchCamera(options, (response) => {
-
-      console.log('Response = ', response);
-       
         if (response.didCancel) {
           console.log('User cancelled image picker');
         } else if (response.error) {
@@ -104,63 +75,92 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
         } else if (response.customButton) {
           console.log('User tapped custom button: ', response.customButton);
         } else {
-          const source = { uri: response.uri ,type:response.type};
-       
-        
+          const source = { uri: response.uri, type: response.type };
+
+
+          this.setState({
+            avatarSource: source,
+          });
+
+
+
+        }
+        this.getSelectedImages();
+
+
+      });
+
+    } else {
+
+
+      ImagePicker.launchCamera(options, (response) => {
+
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          const source = { uri: response.uri, type: response.type };
+
+
           this.setState({
             avatarSource: source,
           });
         }
-      
+
         this.getSelectedImages();
-              
-            });
+
+      });
 
 
-      }
-   }
+    }
+  }
 
   getSelectedImages = () => {
-    
+
     const image = this.state.avatarSource.uri
- 
+
     const Blob = RNFetchBlob.polyfill.Blob
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
     window.Blob = Blob
-        let user =firebase.auth().currentUser
-   
+    let user = firebase.auth().currentUser
+
     let uploadBlob = null
-    const imageRef = firebase.storage().ref('images').child(Math.floor(Date.now())+'.jpg')
-    console.log("firbase"+imageRef);
+    const imageRef = firebase.storage().ref('images').child(Math.floor(Date.now()) + '.jpg')
+    console.log("firbase" + imageRef);
     let mime = 'image/jpg'
     fs.readFile(image, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` })
-    })
-    .then((blob) => {
+      })
+      .then((blob) => {
         uploadBlob = blob
-        console.log("image upload "+JSON.stringify(uploadBlob))
+        console.log("image upload " + JSON.stringify(uploadBlob))
         return imageRef.put(blob, { contentType: mime })
       })
       .then(() => {
-        console.log("image download "+imageRef.getDownloadURL())
+        console.log("image download " + imageRef.getDownloadURL())
         uploadBlob.close()
-      
+
         return imageRef.getDownloadURL()
       })
       .then((url) => {
-        this.setState({imageUrl:url})
+        this.setState({ imageUrl: url })
         // URL of the image uploaded on Firebase storage
-        console.log("url in image"+url);
-     
-        
+        console.log("url in image" + url);
+
+
       })
       .catch((error) => {
-        console.log("error in image"+JSON.stringify(error));
- 
-      })  
- 
+        console.log("error in image" + JSON.stringify(error));
+
+      })
+
   }
 
 
@@ -170,20 +170,20 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
     const { params } = this.props.navigation.state;
     const item = params ? params.signin : false;
-    if(item){
+    if (item) {
       this.props.navigation.goBack();
-    }else{
-      this.props.navigation.navigate("SignIn",{
-        signup: true,  
+    } else {
+      this.props.navigation.navigate("SignIn", {
+        signup: true,
       })
     }
 
   }
 
 
-   signUpSubmit() {
+  signUpSubmit() {
 
-   
+
     // // console.log(firebase);
 
     // let { dispatch } = this.props.navigation;
@@ -244,36 +244,36 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
     //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters'))
     //   return;
     // }
-   
+
 
     // if (_.isEmpty(confirmPassword.trim())) {
     //   dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
     //   return;
     // }
 
-    
+
 
     // if (password != confirmPassword) {
     //   dispatch(ToastActionsCreators.displayInfo('Password and Confirm Password does not match'))
     //   return;
 
     // }
- 
 
-     this.props.UserActions.signUpFirebase({ ...this.state });
+
+    this.props.UserActions.signUpFirebase({ ...this.state });
     // this.props.UserActions.writeUserData({ ...this.state });
-    
+
   }
   _onBlur() {
-    this.setState({hasFocus: false});
-    }
+    this.setState({ hasFocus: false });
+  }
 
   _onFocus() {
-    this.setState({hasFocus: true});
-    }
+    this.setState({ hasFocus: true });
+  }
 
   _getULColor(hasFocus) {
-  
+
     return (hasFocus === true) ? 'white' : 'gray';
   }
 
@@ -291,21 +291,22 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 
             <View style={styles.container}>
               <View style={styles.profileRow}>
-                <Image source={this.state.avatarSource} style={styles.imageStyle}  />
+                <Image source={this.state.avatarSource} style={styles.imageStyle} />
 
                 <View>
 
                   <Text style={[styles.textStyle]}>
-                  Select Photo</Text>
+                    Select Photo</Text>
                   <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
-                    
-                    <TouchableOpacity style={{ padding:2,}} onPress={() => {
-                    
-                       this.onSelect('camera') }}>
-                    <Icon name="camera" size={20} color='white' />
+
+                    <TouchableOpacity style={{ padding: 2, }} onPress={() => {
+
+                      this.onSelect('camera')
+                    }}>
+                      <Icon name="camera" size={20} color='white' />
                     </TouchableOpacity>
-                    <TouchableOpacity  style={{ padding:2, marginLeft:18}} onPress={() => { this.onSelect('gallery') }}>
-                    <Image source={Constants.Images.user.gallery} style={styles.iconStyle} />
+                    <TouchableOpacity style={{ padding: 2, marginLeft: 18 }} onPress={() => { this.onSelect('gallery') }}>
+                      <Image source={Constants.Images.user.gallery} style={styles.iconStyle} />
                     </TouchableOpacity>
                   </View>
                   <View>
@@ -318,8 +319,8 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
                 maxLength={25}
                 autoFocus={false}
                 autoCorrect={false}
-                onBlur={ () => this._onBlur() }
-                onFocus={ () => this._onFocus() }
+                onBlur={() => this._onBlur()}
+                onFocus={() => this._onFocus()}
                 placeholder='Name'
                 placeholderTextColor={'gray'}
                 underlineColorAndroid={this._getULColor(this.state.hasFocus)}
@@ -330,8 +331,8 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
                 maxLength={10}
                 autoFocus={false}
                 autoCorrect={false}
-                onBlur={ () => this._onBlur() }
-                onFocus={ () => this._onFocus() }
+                onBlur={() => this._onBlur()}
+                onFocus={() => this._onFocus()}
                 placeholder='Phone'
                 placeholderTextColor={'gray'}
                 underlineColorAndroid={this._getULColor(this.state.hasFocus)}
@@ -341,8 +342,8 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               <TextInput
                 autoFocus={false}
                 autoCorrect={false}
-                onBlur={ () => this._onBlur() }
-                onFocus={ () => this._onFocus() }
+                onBlur={() => this._onBlur()}
+                onFocus={() => this._onFocus()}
                 style={styles.textInputStyle}
                 placeholder='Email'
                 keyboardType='email-address'
@@ -354,11 +355,11 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               <View style={{ flexDirection: 'row' }}>
                 <TextInput
                   maxLength={3}
-                 autoFocus={false}
-                 autoCorrect={false}
-                 onBlur={ () => this._onBlur() }
-                 onFocus={ () => this._onFocus() }
-                  style={{ flex: 1, padding: 10 ,color:'white'}}
+                  autoFocus={false}
+                  autoCorrect={false}
+                  onBlur={() => this._onBlur()}
+                  onFocus={() => this._onFocus()}
+                  style={{ flex: 1, padding: 10, color: 'white' }}
                   placeholder='Height(cm)'
                   placeholderTextColor={'gray'}
                   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
@@ -369,9 +370,9 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
                   maxLength={3}
                   autoFocus={false}
                   autoCorrect={false}
-                  onBlur={ () => this._onBlur() }
-                  onFocus={ () => this._onFocus() }
-                  style={{ flex: 1, padding: 10, marginLeft: 10 ,color:'white'}}
+                  onBlur={() => this._onBlur()}
+                  onFocus={() => this._onFocus()}
+                  style={{ flex: 1, padding: 10, marginLeft: 10, color: 'white' }}
                   placeholder='Weight(kg)'
                   placeholderTextColor={'gray'}
                   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
@@ -382,7 +383,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               </View>
 
               <DatePicker
-                style={{ width: '100%' ,borderBottomColor:'red'}}
+                style={{ width: '100%', borderBottomColor: 'red' }}
                 date={this.state.dob}
                 mode="date"
                 placeholder="DOB"
@@ -393,7 +394,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
                 cancelBtnText="Cancel"
                 iconSource={Constants.Images.user.calendarGray}
                 customStyles={{
-                  dateIcon: [styles.rowIcon,{tintColor:'gray'}],
+                  dateIcon: [styles.rowIcon, { tintColor: 'gray' }],
                   dateInput: [styles.rowLeft],
                   placeholderText: { color: 'gray' },
                   dateText: { color: 'white' }
@@ -407,8 +408,8 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               <TextInput
                 autoFocus={false}
                 autoCorrect={false}
-                onBlur={ () => this._onBlur() }
-                onFocus={ () => this._onFocus() }
+                onBlur={() => this._onBlur()}
+                onFocus={() => this._onFocus()}
                 style={styles.textInputStyle}
                 placeholder='Password'
                 placeholderTextColor={'gray'}
@@ -421,8 +422,8 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               <TextInput
                 autoFocus={false}
                 autoCorrect={false}
-                onBlur={ () => this._onBlur() }
-                onFocus={ () => this._onFocus() }
+                onBlur={() => this._onBlur()}
+                onFocus={() => this._onFocus()}
                 style={styles.textInputStyle}
                 placeholder='Confirm Passowrd'
                 placeholderTextColor={'gray'}
@@ -436,7 +437,7 @@ const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
               <TouchableOpacity onPress={() => this.signUpSubmit()}
 
                 style={styles.buttonStyle} >
-                <Text style={{ color:Constants.Colors.Purple ,fontWeight: '500'}}>Sign Up</Text>
+                <Text style={{ color: Constants.Colors.Purple, fontWeight: '500' }}>Sign Up</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.signInbtn} onPress={() => this.onSignIn()}>
                 <Text style={{ color: 'white', alignSelf: 'center', padding: 5 }}>Already a Member?<Text style={{ color: 'yellow' }}> Sign in
@@ -457,23 +458,23 @@ const styles = StyleSheet.create({
 
 
   },
-  rowIcon:{
+  rowIcon: {
     width: Constants.BaseStyle.DEVICE_WIDTH * 5 / 100,
     height: Constants.BaseStyle.DEVICE_WIDTH * 5 / 100,
   },
   textStyle: {
-    color:'white',
+    color: 'white',
     fontSize: 16,
     paddingLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,
   },
-  signUpTxt: { padding: 10, alignSelf: 'center', fontSize: 20,color:'white' },
+  signUpTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
   signInbtn: {
-   padding:5,
+    padding: 5,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
     alignSelf: 'center'
   },
   textInputStyle: {
-    color:'white',
+    color: 'white',
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
 
@@ -521,7 +522,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     height: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
     width: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3,
-  
+
   },
 });
 
