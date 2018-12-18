@@ -223,7 +223,7 @@ class RestClient {
                         return response.text()
                     })
                     .then(responseText => {
-                        console.log('response ******** ',responseText)
+               //         console.log('response ******** ',responseText)
                         fulfill(JSON.parse(responseText));
                     })
                     .catch(error => {

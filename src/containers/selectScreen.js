@@ -9,9 +9,11 @@ import {
 
 import Constants from '../constants';
 import Background from '../components/common/BackgroundImg';
+import _ from "lodash";
 import { bindActionCreators } from "redux";
 import * as UserActions from '../redux/modules/user';
 import { connect } from 'react-redux';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from "moment";
 
@@ -90,6 +92,24 @@ class SelectScreen extends Component {
   }
 
   onContinue() {
+    let { dispatch } = this.props.navigation;
+     let {gender,height} = this.state;
+    // //let { navigate } = this.props.navigation;
+
+
+    if (_.isEmpty(gender.trim())) {
+
+        dispatch(ToastActionsCreators.displayInfo('Please select your gender'))
+        return;
+      }
+      if (_.isEmpty(height.trim())) {
+        //alert(enterMobile);
+        dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
+        return;
+      }
+
+
+
     this.props.UserActions.ImageParameter({ ...this.state }, (key) => {
       this.setState({   frontKey:key  },()=>{
 
@@ -147,12 +167,13 @@ class SelectScreen extends Component {
 
 
         <TextInput
+         maxLength={3}
           autoFocus={false}
           autoCorrect={false}
           // onBlur={ () => this._onBlur() }
           // onFocus={ () => this._onFocus() }
           style={styles.textInputStyle}
-          placeholder='Height'
+          placeholder='Height(cm)'
           placeholderTextColor={'gray'}
           underlineColorAndroid={"white"}
           onChangeText={(height) => this.setState({ height })}
@@ -167,7 +188,7 @@ class SelectScreen extends Component {
           marginTop: 20, alignItems: 'center', color: 'white',
           backgroundColor: "white", paddingVertical: 10, paddingHorizontal: 12, borderRadius: 20
         }}    >
-          <Text style={{ color: Constants.Colors.Purple, padding: 3 }}>continue</Text>
+          <Text style={{ color: Constants.Colors.Purple, padding: 3 }}>Continue</Text>
         </TouchableOpacity>
 
 
@@ -226,11 +247,13 @@ const styles = StyleSheet.create({
 
   },
   textInputStyle: {
-    alignSelf: 'stretch',
+    textAlign:'center',
+    alignSelf:'center',
     color: 'white',
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
-    marginHorizontal: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 20,
+    flexWrap: 'wrap'
+   // marginHorizontal: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 20,
 
 
 

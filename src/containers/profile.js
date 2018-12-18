@@ -79,26 +79,27 @@ class Profile extends Component {
 
               </View>
             </TouchableOpacity>
-
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("ChangePassword")}>
             <View style={styles.itemStyle}>
               <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
 
               <Text style={styles.textStyle}>Change Password</Text>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("ChangePassword")}>
+             
                 <Icon name="angle-right" size={25} color='black' />
 
-              </TouchableOpacity>
+              
             </View>
-
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.logout()}>
             <View style={styles.itemStyle}>
               <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
-              <TouchableOpacity onPress={() => this.logout()}>
+            
                 <Text style={styles.textStyle}>Logout</Text>
 
 
-              </TouchableOpacity>
+              
             </View>
-
+            </TouchableOpacity>
 
           </View>
         </ScrollView>

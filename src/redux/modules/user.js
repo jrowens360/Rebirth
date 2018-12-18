@@ -5,7 +5,7 @@ import {
 import _ from "lodash";
 import { startLoading, stopLoading, showToast, hideToast } from './app';
 import RestClient from '../../utilities/RestClient';
-import { goBack, reset } from './nav';
+import { goBack, reset, goTo } from './nav';
 import { ToastActionsCreators } from 'react-native-redux-toast';
 
 var firebase = require("firebase");
@@ -22,6 +22,7 @@ export const CARD_DETAIL = "CARD_DETAIL";
 export const FRONT_IMAGE = "FRONT_IMAGE";
 export const SIDE_IMAGE = "SIDE_IMAGE";
 export const FRONT_KEY = "FRONT_KEY";
+export const BODY_PARAMS = "BODY_PARAMS";
 
 
 //----------------- Action Creators-----------------------//
@@ -36,17 +37,65 @@ export const CARDDETAIL = (data) => ({ type: CARD_DETAIL, data });
 export const FRONTIMAGE = (data) => ({ type: FRONT_IMAGE, data });
 export const SIDEIMAGE = (data) => ({ type: SIDE_IMAGE, data });
 export const FRONTKEY = (data) => ({ type: FRONT_KEY, data });
+export const BODYPARAMS = (data) => (
+
+  { type: BODY_PARAMS, data });
 //perform API's
 
 
 //-------------SignUp---------------------------------------------//
-export const signUpFirebase = (data) => {
+export const signUpFirebase =  (data,callback) => {
+
+
+
   console.log("user input" + data.toString())
   return dispatch => {
     dispatch(startLoading());
-    firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then((userData) => {
-      console.log("user output" + JSON.stringify(userData))
-      firebase.database().ref('UsersList/' + userData.user.uid).set({
+   firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then((userData) => {
+      console.log("user output" + JSON.stringify(userData.user.uid)),
+     console.log("user firbse" , firebase.database().ref()),
+    callback(userData);
+
+    //  firebase.database().ref('UsersList/'+userData.user.uid).set({
+    //     name: data.name,
+    //     email: data.email,
+    //     phone: data.phone,
+    //     height: data.height,
+    //     weight: data.weight,
+    //     dob: data.dob,
+    //     profileImg: data.imageUrl
+    //   }).then((saveData) => {
+    //     console.log('result signup ******* ', saveData)
+    //     dispatch(stopLoading());
+    //     dispatch(ToastActionsCreators.displayInfo("user register successfully"));
+    //     dispatch(USERLOGIN());
+    //     dispatch(USERINFO());
+    //   }).catch(error => {
+    //     console.log("error=> ", error)
+    //     dispatch(ToastActionsCreators.displayInfo(error.message));
+    //     dispatch(stopLoading());
+    //   });
+    }).catch(error => {
+      console.log("error=> signup", error)
+      dispatch(ToastActionsCreators.displayInfo(error.message));
+      dispatch(stopLoading());
+    });
+
+   // console.log("user json" )
+   }
+
+};
+
+export const signUpData =  (data,userData) => {
+
+
+
+  console.log("user data for sign up" , data)
+  return dispatch => {
+    dispatch(startLoading());
+ 
+
+     firebase.database().ref('UsersList/'+userData.user.uid).set({
         name: data.name,
         email: data.email,
         phone: data.phone,
@@ -65,12 +114,11 @@ export const signUpFirebase = (data) => {
         dispatch(ToastActionsCreators.displayInfo(error.message));
         dispatch(stopLoading());
       });
-    }).catch(error => {
-      console.log("error=> signup", error)
-      dispatch(ToastActionsCreators.displayInfo(error.message));
-      dispatch(stopLoading());
-    });
-  }
+   
+
+   // console.log("user json" )
+   }
+
 };
 
 //-------------SignIn---------------------------------------------//
@@ -307,13 +355,13 @@ export const deleteCardFromFirebase = (data) => {
       dispatch(ToastActionsCreators.displayInfo(error.message))
       dispatch(stopLoading());
     });
-    
+
   }
 };
 
 //-------------uploadImage----------------------------------------//
 
-export const uploadImage = (data, ) => {
+export const uploadImage = (data) => {
   console.log('data ********* ', data)
   let body = new FormData();
 
@@ -336,32 +384,20 @@ export const uploadImage = (data, ) => {
       // console.log('result front image upload ******* ',result)
       //  if(result.status == 1){
       dispatch(stopLoading());
-   
-      if (data.from == 'frontView') {
-        if (result.status) {
-          dispatch(FRONTIMAGE(result.name));
-          console.log('result front image upload ******* ', result)
-        }else{
 
-          dispatch(ToastActionsCreators.displayInfo('Please try again'))
-          console.log('status false ******* ', result)
-        }
+
+      if (result.status) {
+        dispatch(FRONTIMAGE(result.name));
+        console.log('result front image upload ******* ', result)
+
       } else {
-        if (result.status) {
-          dispatch(SIDEIMAGE(result.name));
-          console.log('result side image upload ******* ', result)
-        }else{
-          dispatch(ToastActionsCreators.displayInfo('Please try again'))
-          console.log('status false ******* ', result)
 
+        dispatch(ToastActionsCreators.displayInfo('Please try again'))
+        console.log('status false ******* ', result)
 
-        }
       }
-      // dispatch(ToastActionsCreators.displayInfo(result.message));
-      // }else{
-      //   dispatch(stopLoading());
-      //   // dispatch(ToastActionsCreators.displayInfo(result.message));
-      // }
+
+     
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -371,7 +407,7 @@ export const uploadImage = (data, ) => {
 
 };
 
-export const uploadSideImage = (data, ) => {
+export const uploadSideImage = (data) => {
   console.log('data ********* ', data)
   let body = new FormData();
 
@@ -386,26 +422,17 @@ export const uploadSideImage = (data, ) => {
       // console.log('result front image upload ******* ',result)
       //  if(result.status == 1){
       dispatch(stopLoading());
-   
-      // if (data.from == 'frontView') {
-      //   if (result.status) {
-      //     dispatch(FRONTIMAGE(result.name));
-      //     console.log('result front image upload ******* ', result)
-      //   }else{
-
-      //     dispatch(ToastActionsCreators.displayInfo('Please try again'))
-      //     console.log('status false ******* ', result)
-      //   }
-      // } else {
-        if (result.status) {
-          dispatch(SIDEIMAGE(result.name));
-          console.log('result side image upload ******* ', result)
-        }else{
-          dispatch(ToastActionsCreators.displayInfo('Please try again'))
-          console.log('status false ******* ', result)
 
 
-        }
+      if (result.status) {
+        dispatch(SIDEIMAGE(result.name));
+        console.log('result side image upload ******* ', result)
+      } else {
+        dispatch(ToastActionsCreators.displayInfo('Please try again'))
+        console.log('status false ******* ', result)
+
+
+      }
       // }
       // dispatch(ToastActionsCreators.displayInfo(result.message));
       // }else{
@@ -441,33 +468,28 @@ export const ImageParameter = (data, callback) => {
 
   return dispatch => {
     dispatch(startLoading());
-    //  console.log(requestObject);
+   
     RestClient.uploadCompeleImage("step/", body, data.apiKey).then((result) => {
       console.log('result front image prameter ******* ', result)
       //  if(result.status == 1){
       dispatch(stopLoading());
-     
 
 
-   
-      if(result.status){
+
+
+      if (result.status) {
         dispatch(FRONTKEY(result.key));
 
         callback(result.key);
-      }else if(result.status_code == 500){
+      } else if (result.status_code == 500) {
 
-        dispatch(ToastActionsCreators.displayInfo('Please try again response not fined'))
-      }else{
+        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+      } else {
 
-
+        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
       }
+
     
-      //console.log('data front body params   ********* ',result)
-      // dispatch(ToastActionsCreators.displayInfo(result.message));
-      // }else{
-      //   dispatch(stopLoading());
-      //   // dispatch(ToastActionsCreators.displayInfo(result.message));
-      // }
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -478,12 +500,12 @@ export const ImageParameter = (data, callback) => {
 };
 
 
-// image parameters for side image
+// -------------------------image parameters for side image--------------------//
 
 
 
-export const ImageSideParameter = (data,callback) => {
-  console.log('data  for step one ********* ', data)
+export const ImageSideParameter = (data, callback) => {
+  console.log('data  for step two ********* ', data)
   let body = new FormData();
 
 
@@ -496,7 +518,7 @@ export const ImageSideParameter = (data,callback) => {
 
 
 
-  
+
 
 
 
@@ -507,8 +529,18 @@ export const ImageSideParameter = (data,callback) => {
       console.log('side  image prameter ******* ', result)
       //  if(result.status == 1){
       dispatch(stopLoading());
-      dispatch(ToastActionsCreators.displayInfo('Data saved successfully'))
+     // dispatch(ToastActionsCreators.displayInfo('Data saved successfully'))
+     if(result.status){
       callback();
+     }
+     else if (result.status_code == 500) {
+
+      dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+    }else{
+      dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+    }
+
+     
 
       //console.log('data front body params   ********* ',result)
       // dispatch(ToastActionsCreators.displayInfo(result.message));
@@ -559,18 +591,21 @@ export const CompleteParameter = (data) => {
     //console.log(body);
     RestClient.uploadCompeleImage("complete/", body, data.apiKey).then((result) => {
       console.log('result complete image prameter ******* ', result)
-      
-      dispatch(stopLoading());
-      if(result.status){
-        dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
 
-      }else{
-        dispatch(ToastActionsCreators.displayInfo('There is something wrong in images'))
+      dispatch(stopLoading());
+      if (result.status) {
+        dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
+        dispatch(BODYPARAMS(result));
+        dispatch(goTo({ route: 'Payment', params: {} }));
+
+
+      } else {
+        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
 
 
       }
-     
-     
+
+
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -595,7 +630,8 @@ const initialState = {
   cardList: '',
   frontImage: '',
   sideImage: '',
-  frontKey: ''
+  frontKey: '',
+  bodyParameters: '',
 
 
 
@@ -605,6 +641,7 @@ const initialState = {
 * Reducer
 */
 export default function reducer(state = initialState, action) {
+  
   switch (action.type) {
     // case LOG_IN_SUCCESS:
     //   return { ...state, userDetails: action.data };
@@ -622,6 +659,9 @@ export default function reducer(state = initialState, action) {
       return { ...state, sideImage: action.data };
     case FRONT_KEY:
       return { ...state, frontKey: action.data };
+    case BODY_PARAMS:
+      return { ...state, bodyParameters: action.data };
+
 
 
     default:

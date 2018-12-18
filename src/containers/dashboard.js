@@ -16,11 +16,12 @@ import { bindActionCreators } from "redux";
 var firebase = require("firebase");
 
 var config = {
-    apiKey: 'AIzaSyBzqxxRZDk9KPLW899OF65iWsI5ZVES5Z0',
-    authDomain: 'quizdemo-6805d.firebaseio.com',
-    databaseURL: "https://quizdemo-6805d.firebaseio.com",
-    projectId: "quizdemo-6805d",
-    storageBucket: "quizdemo-6805d.appspot.com",
+  apiKey: "AIzaSyBqFB5E6_RHNxHFjLlI_EWY4lUzZuYp5kY",
+    authDomain: "reduxdemo-6cd19.firebaseapp.com",
+    databaseURL: "https://reduxdemo-6cd19.firebaseio.com",
+    projectId: "reduxdemo-6cd19",
+    storageBucket: "reduxdemo-6cd19.appspot.com",
+    messagingSenderId: "873401063978"
 };
 
 
@@ -50,6 +51,7 @@ userStatus:props.userStatus
     
       }
       onFront(){
+       // this.props.navigation.navigate("MeasurementDetail")
         this.props.navigation.navigate("FrontView")
     
       }

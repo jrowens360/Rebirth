@@ -38,7 +38,7 @@ class FrontView extends Component {
       from:'',
       buttonPress: 0,
       sideView: false,
-      nextButton: false,
+      nextButton: true,
       buttonTxt: 'Next',
       avatarFrontView:'',
       avatarSideView:'',
@@ -80,16 +80,21 @@ class FrontView extends Component {
       } else {
         const source = { uri: response.uri ,type:response.type,filename:response.fileName};
       
-     
         this.setState({
           avatarFrontView: source,
-          from:'frontView'
+          nextButton:false
+         
+        },()=>{
+          this.props.UserActions.uploadImage({ ...this.state });
+            
+       
+
         });
 
 
         
       }
-      this.props.UserActions.uploadImage({ ...this.state });
+    
     
             
           });
@@ -113,13 +118,17 @@ class FrontView extends Component {
       
         this.setState({
           avatarFrontView: source,
-          from:'frontView'
+          nextButton:false
+         
+        },()=>{
+          this.props.UserActions.uploadImage({ ...this.state });
+            
+       
+
         });
       }
     
-      this.props.UserActions.uploadImage({ ...this.state });
-            
-          });
+    });
 
 
 
@@ -145,13 +154,17 @@ class FrontView extends Component {
        
           this.setState({
             avatarSideView: source,
-            from:'sideView'
+            nextButton:false
+          
+          },()=>{
+            this.props.UserActions.uploadSideImage({ ...this.state });
+
           });
   
   
           
         }
-        this.props.UserActions.uploadSideImage({ ...this.state });
+      
               
             });
 } else {
@@ -171,13 +184,19 @@ class FrontView extends Component {
       
         this.setState({
           avatarSideView: source,
-          from:'sideView'
+          nextButton:false
+        
+        },()=>{
+          this.props.UserActions.uploadSideImage({ ...this.state });
+
+
         });
       }
-      this.props.UserActions.uploadSideImage({ ...this.state });
+    
+     
      
             
-          });
+           });
 
 
 
@@ -197,7 +216,8 @@ class FrontView extends Component {
         this.setState({
           sideView: !this.state.sideView,
           buttonTxt: 'Continue',
-          buttonPress: 1
+          buttonPress: 1,
+          nextButton:true
         });
     
        

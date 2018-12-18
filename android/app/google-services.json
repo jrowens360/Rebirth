@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "222826797199",
-    "firebase_url": "https://quizdemo-6805d.firebaseio.com",
-    "project_id": "quizdemo-6805d",
-    "storage_bucket": "quizdemo-6805d.appspot.com"
+    "project_number": "873401063978",
+    "firebase_url": "https://reduxdemo-6cd19.firebaseio.com",
+    "project_id": "reduxdemo-6cd19",
+    "storage_bucket": "reduxdemo-6cd19.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:222826797199:android:acc4c1645c83d0f9",
+        "mobilesdk_app_id": "1:873401063978:android:acc4c1645c83d0f9",
         "android_client_info": {
           "package_name": "com.reduxdemo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "222826797199-pkaaj9fl9bqmdn9uatnk1lal28ar4kt9.apps.googleusercontent.com",
+          "client_id": "873401063978-96fqq7lva2luskgigf9l0jgbe193ncng.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA7l6ANMO5ZrIC_0gSlYDKSPTFiYE3fu64"
+          "current_key": "AIzaSyBDjoPytLCV22RVJIhDOZy80p9ZqZDM72Q"
         }
       ],
       "services": {

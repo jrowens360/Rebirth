@@ -20,6 +20,7 @@ import DatePicker from 'react-native-datepicker'
 import Background from '../components/common/BackgroundImg';
 var firebase = require("firebase");
 import * as UserActions from '../redux/modules/user';
+import{ startLoading, stopLoading, showToast, hideToast } from '../redux/modules/app';
 //import ImagePicker from "react-native-image-crop-picker";
 import RNFetchBlob from 'react-native-fetch-blob'
 import ImagePicker from 'react-native-image-picker';
@@ -39,6 +40,9 @@ class SignUp extends Component {
 
   constructor(props) {
     super(props);
+    console.ignoredYellowBox = [
+      'Setting a timer'
+      ];
     this.state = {
       name: '',
       email: '',
@@ -85,7 +89,7 @@ class SignUp extends Component {
 
 
         }
-        this.getSelectedImages();
+        
 
 
       });
@@ -112,7 +116,7 @@ class SignUp extends Component {
           });
         }
 
-        this.getSelectedImages();
+     
 
       });
 
@@ -120,8 +124,9 @@ class SignUp extends Component {
     }
   }
 
-  getSelectedImages = () => {
-
+  getSelectedImages = (userData) => {
+    let { dispatch } = this.props.navigation;
+dispatch(startLoading());
     const image = this.state.avatarSource.uri
 
     const Blob = RNFetchBlob.polyfill.Blob
@@ -144,16 +149,20 @@ class SignUp extends Component {
         return imageRef.put(blob, { contentType: mime })
       })
       .then(() => {
+        dispatch(stopLoading());
         console.log("image download " + imageRef.getDownloadURL())
         uploadBlob.close()
 
         return imageRef.getDownloadURL()
       })
       .then((url) => {
-        this.setState({ imageUrl: url })
+        this.setState({ imageUrl: url },()=>{
+          this.props.UserActions.signUpData({...this.state},userData);
+
+        })
         // URL of the image uploaded on Firebase storage
         console.log("url in image" + url);
-
+       
 
       })
       .catch((error) => {
@@ -184,83 +193,95 @@ class SignUp extends Component {
   signUpSubmit() {
 
 
-    // // console.log(firebase);
+    
 
-    // let { dispatch } = this.props.navigation;
-    //  let { name, email, phone, password, height, weight, confirmPassword, dob } = this.state;
-    // //let { navigate } = this.props.navigation;
-    // if (_.isEmpty(name.trim())) {
+    let { dispatch } = this.props.navigation;
+      let { name, email, phone, password, height, weight, confirmPassword, dob ,avatarSource} = this.state;
+    //let { navigate } = this.props.navigation;
+    if (_.isEmpty(name.trim())) {
 
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
-    //   return;
-    // }
-    // if (_.isEmpty(phone.trim())) {
-    //   //alert(enterMobile);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
-    //   return;
-    // }
-    // if (!Regex.validateMobile(phone.trim())) {
-    //   //alert(enterValidMobile);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
-    //   return;
-    // }
-
-
-
-    // if (_.isEmpty(email.trim())) {
-    //   //alert(enterEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
-    //   return;
-    // }
-    // if (!Regex.validateEmail(email.trim())) {
-    //   //alert(enterValidEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please Enter a valid email'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(height.trim())) {
-    //   //alert(enterEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(weight.trim())) {
-
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(dob.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
-    //   return;
-    // }
-
-
-    // if (_.isEmpty(password.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
-    //   return;
-    // }
-    // if (password.length<6) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters'))
-    //   return;
-    // }
-
-
-    // if (_.isEmpty(confirmPassword.trim())) {
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
-    //   return;
-    // }
+      dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
+      return;
+    }
+    if (_.isEmpty(phone.trim())) {
+      //alert(enterMobile);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
+      return;
+    }
+    if (!Regex.validateMobile(phone.trim())) {
+      //alert(enterValidMobile);
+      dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
+      return;
+    }
 
 
 
-    // if (password != confirmPassword) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password and Confirm Password does not match'))
-    //   return;
+    if (_.isEmpty(email.trim())) {
+      //alert(enterEmail);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
+      return;
+    }
+    if (!Regex.validateEmail(email.trim())) {
+      //alert(enterValidEmail);
+      dispatch(ToastActionsCreators.displayInfo('Please Enter a valid email'))
+      return;
+    }
 
-    // }
+    if (_.isEmpty(height.trim())) {
+      //alert(enterEmail);
+      dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
+      return;
+    }
+
+    if (_.isEmpty(weight.trim())) {
+
+      dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
+      return;
+    }
+
+    if (_.isEmpty(dob.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
+      return;
+    }
 
 
-    this.props.UserActions.signUpFirebase({ ...this.state });
+    if (_.isEmpty(password.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
+      return;
+    }
+    if (password.length<6) {
+      dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters'))
+      return;
+    }
+
+
+    if (_.isEmpty(confirmPassword.trim())) {
+      dispatch(ToastActionsCreators.displayInfo('Please enter your  confirm password'))
+      return;
+    }
+
+
+
+    if (password != confirmPassword) {
+      dispatch(ToastActionsCreators.displayInfo('Password and Confirm Password does not match'))
+      return;
+
+    }
+
+   // this.getSelectedImages();
+   if(avatarSource){
+    this.props.UserActions.signUpFirebase({ ...this.state },(data)=>{
+
+      this.getSelectedImages(data);
+    });
+   }else{
+    this.props.UserActions.signUpFirebase({ ...this.state },(data)=>{
+
+      this.props.UserActions.signUpData({...this.state},data);
+
+    });
+   }
+    
     // this.props.UserActions.writeUserData({ ...this.state });
 
   }

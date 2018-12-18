@@ -11,7 +11,7 @@ import PersonalDetail from "../containers/personal_detail";
 import FrontView from "../containers/front_view.js";
 import SignIn from "../containers/signin.js";
 import Payment from "../containers/payment.js";
-import Measurement from "../containers/measurement_detail";
+import MeasurementDetail from "../containers/measurement_detail";
 import Info from "../containers/info.js";
 import Splash from "../containers/splash";
 import dashboard from "../containers/dashboard";
@@ -22,25 +22,25 @@ import SelectScreen from "../containers/selectScreen";
 
 // export list of routes.
 export default routes = {
-	Loader : { screen: Loader },
-	Splash	: { screen: Splash },
-	signup	: { screen: SignUp },
-	startup	: { screen: Startup },
-	forgotPassword	: { screen: ForgotPassword },
-	ResetPassword	: { screen: ResetPassword },
-	ChangePassword	: { screen: ChangePassword },
-	Profile	: { screen: Profile },
-	PersonalDetail	: { screen: PersonalDetail },
-	FrontView	: { screen: FrontView },
-	SignIn	: { screen: SignIn },
-	Payment	: { screen: Payment },
-	Measurement	: { screen: Measurement },
-	Info	: { screen: Info },
-	dashboard	: { screen: dashboard },
-	measurements	: { screen: measurements },
-	paymentMethod	: { screen: paymentMethod },
-	AddCard	: { screen: AddCard },
-	SelectScreen	: { screen: SelectScreen },
+	Loader: { screen: Loader },
+	Splash: { screen: Splash },
+	signup: { screen: SignUp },
+	startup: { screen: Startup },
+	forgotPassword: { screen: ForgotPassword },
+	ResetPassword: { screen: ResetPassword },
+	ChangePassword: { screen: ChangePassword },
+	Profile: { screen: Profile },
+	PersonalDetail: { screen: PersonalDetail },
+	FrontView: { screen: FrontView },
+	SignIn: { screen: SignIn },
+	Payment: { screen: Payment },
+	MeasurementDetail: { screen: MeasurementDetail },
+	Info: { screen: Info },
+	dashboard: { screen: dashboard },
+	measurements: { screen: measurements },
+	paymentMethod: { screen: paymentMethod },
+	AddCard: { screen: AddCard },
+	SelectScreen: { screen: SelectScreen },
 
 
 

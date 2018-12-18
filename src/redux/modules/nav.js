@@ -41,7 +41,7 @@ export default function reducer(state = initialState, action) {
             return AppNavigator.router.getStateForAction(
                 NavigationActions.reset({
                   index: 0,
-                  actions: [NavigationActions.navigate({ routeName: "welcome" })],
+                  actions: [NavigationActions.navigate({ routeName: "dashboard" })],
                 }),
                 state
             );
