@@ -47,7 +47,11 @@ userStatus:props.userStatus
       }
 
       onMeasurement(){
-       // this.props.navigation.navigate("measurements")
+        // var value = Math.floor(Date.now())
+       
+        // console.log("my time",value,"mmm", new Date(value));
+        this.props.navigation.navigate("measurements")
+      // this.props.navigation.navigate("StripePayment")
     
       }
       onFront(){

@@ -255,7 +255,7 @@ class FrontView extends Component {
 
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity style={styles.nextTxt} disabled={this.state.nextButton} onPress={() => this.onNext()}>
-              <Text style={styles.bottomText} >{this.state.buttonTxt}</Text>
+              <Text style={this.state.nextButton?styles.bottomDefaultText :styles.bottomText} >{this.state.buttonTxt}</Text>
             </TouchableOpacity>
           </View>
 
@@ -345,7 +345,10 @@ const styles = StyleSheet.create({
     width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
   },
   textStyle: { color: "black", flex: 1, paddingLeft: 10, fontWeight: '500' },
-  bottomText: { color: 'white', alignSelf: 'center', fontSize: 18, },
+  bottomDefaultText: { color: 'gray', alignSelf: 'center', fontSize: 20,padding:10 },
+  bottomText: { color: 'white', alignSelf: 'center', fontSize: 20,padding:10 },
+
+
   itemStyle: {
     flexDirection: 'row',
     borderBottomColor: 'black',

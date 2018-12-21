@@ -25,39 +25,35 @@ class MeasurementDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bodyParameters:'',
-      // bodyparms: [
-      //   {
-      //     "parameter": "Chest",
-      //     "size": '30'
-      //   },
-      //   {
-      //     "parameter": "Waist",
-      //     "size": '20'
-      //   },
-
-
-      // ]
+      bodyParameters: '',
+     
 
 
     };
-   
+
   }
 
   componentWillMount() {
-this.setState({
-  bodyParameters:this.props.bodyParameters
+    const { params } = this.props.navigation.state;
+    const item = params ? params.measurementList : false;
+    if(item){
+      this.setState({
+        bodyParameters: item.measureList});
+  
+      
+    }else{
+      this.setState({
+        bodyParameters: this.props.bodyParameters
+  
+      });
+  
 
-},()=>{
-
-// console.log("front parameters",this.state.bodyParameters),
-// console.log("front from props parameters",this.props)
-
-});
-
+    }
+    //alert("ITEM DATA"+JSON.stringify(item));
+   
   }
 
-  dashBoard(){
+  dashBoard() {
 
     let { dispatch } = this.props.navigation;
     dispatch({ type: "ResetNavigator" });
@@ -71,63 +67,55 @@ this.setState({
     //   tintColor: 'white'
     // };
     return (
-      <Background style={styles.container}  src={Constants.Images.user.dashboardbg}>
+      <Background style={styles.container} src={Constants.Images.user.dashboardbg}>
 
-  <ScrollView>
-          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
+        <ScrollView>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
             <TouchableOpacity style={{ paddingHorizontal: 6 }} onPress={() => this.props.navigation.goBack()}>
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity >
             <Text style={styles.headerTxt}> Measurement Detail </Text>
             <View>
-            <TouchableOpacity  onPress={() => this.dashBoard()}>
-              <Text style={styles.headerTxt} > Done</Text>
-            </TouchableOpacity >
+              <TouchableOpacity onPress={() => this.dashBoard()}>
+                <Text style={styles.headerTxt} > Done</Text>
+              </TouchableOpacity >
 
             </View>
           </View>
-        
-        <View style={styles.mainContainer}>
-        <ScrollView  showsVerticalScrollIndicator={false}> 
-        { Object.keys(this.state.bodyParameters.front_parameters).map((key, index) => {
-          const myItem = this.state.bodyParameters.front_parameters[key]
-          if(key =="h"){
-            
-            return ( <View></View>)
 
-          }
-          if(key =="height_p"){
-           
-            return ( <View></View>)
+          <View style={styles.mainContainer}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {Object.keys(this.state.bodyParameters.front_parameters).map((key, index) => {
+                 var value='';
+                 const myItem = this.state.bodyParameters.front_parameters[key]
+                if (typeof (myItem) != 'object') {
+                   value = myItem/2.54
+                } 
+              
+                if (key == "h") {
+                  return (<View></View>)
+                }
+                if (key == "height_p") {
+                  return (<View></View>)
+                }
+                if (typeof (myItem) === 'object') {
+                  return (<View></View>)
+                } else {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{key}</Text>
+                      <Text >{Math.round(value * 100) / 100} <Text >{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+              })
 
-          }
-          if(typeof(myItem) === 'object'){
-            return ( <View></View>)
-         
-          }else{
-            return ( <View>
-              <View style={styles.flatview}>
-                <Text >{key}</Text>
-                <Text >{Math.round(myItem * 100) / 100}cm</Text>
-  
-  
-              </View>
-              <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
-            </View>);
+
+              }
 
 
-          }
-          
-          
-          
-         // <MyComponent myItem={myItem} key={index} />
-        })
-        
-        
-        }
-       
-
-          {/* <FlatList
+              {/* <FlatList
             keyExtractor={item => item.parameter}
             data={this.state.bodyparms}
             showsVerticalScrollIndicator={false}
@@ -143,13 +131,13 @@ this.setState({
               </View>
             } */}
 
-          {/* /> */}
+              {/* /> */}
 
 
 
-</ScrollView>
+            </ScrollView>
 
-        </View>
+          </View>
         </ScrollView>
       </Background>
     );
@@ -205,11 +193,11 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => (
-  console.log("state inn components",state.user.bodyParameters.front_parameters),
+  console.log("state inn components", state.user.bodyParameters.front_parameters),
   {
-  bodyParameters: state.user.bodyParameters,
- 
-});
+    bodyParameters: state.user.bodyParameters,
+
+  });
 
 const mapDispatchToProps = dispatch => ({
   UserActions: bindActionCreators(UserActions, dispatch)

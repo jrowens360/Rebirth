@@ -27,6 +27,8 @@ module.exports = {
 		female: require("../assets/images/female.png"),
 		masterCard: require("../assets/images/mastercard.png"),
 		visa: require("../assets/images/visa.png"),
+		sort: require("../assets/images/sort.png"),
+		filter:require("../assets/images/filter.png"),
 
 
 

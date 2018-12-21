@@ -92,14 +92,14 @@ class Payment extends Component {
                 <Text style={{ color: 'black', textAlign: 'right', fontSize: 50 }}>
 
                   <Text style={{ fontSize: 25 }} > {'\u0024'} </Text>
-                  9.99
+                  .99
                 </Text>
 
               </View>
 
               <Text style={{ color: 'black', fontSize: 18, marginTop: Constants.BaseStyle.DEVICE_WIDTH / 100 * 3, fontWeight: '500' }}> Saved Cards </Text>
 
-              <FlatList
+              {/* <FlatList
                 style={styles.flatlist}
                 data={this.state.cards}
                 showsVerticalScrollIndicator={false}
@@ -110,7 +110,7 @@ class Payment extends Component {
                   </View>
                 }
                 keyExtractor={item => item.email}
-              />
+              /> */}
 
               {this.state.cardForm ? this.cardFormView() : null}
 
@@ -217,11 +217,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignSelf: 'center',
     borderRadius: 20,
-    textAlign:'center',
+    textAlign: 'center',
     backgroundColor: Constants.Colors.Purple,
     paddingVertical: 12,
-    paddingHorizontal:18,
-   // width: "45%",
+    paddingHorizontal: 18,
+    // width: "45%",
     justifyContent: "center", alignItems: 'center'
   },
   navIcons: {

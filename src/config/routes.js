@@ -19,6 +19,7 @@ import measurements from "../containers/measurements";
 import paymentMethod from "../containers/payment_method";
 import AddCard from "../containers/addcard";
 import SelectScreen from "../containers/selectScreen";
+import StripePayment from "../containers/stripe_payment";
 
 // export list of routes.
 export default routes = {
@@ -41,6 +42,7 @@ export default routes = {
 	paymentMethod: { screen: paymentMethod },
 	AddCard: { screen: AddCard },
 	SelectScreen: { screen: SelectScreen },
+	StripePayment: { screen: StripePayment },
 
 
 

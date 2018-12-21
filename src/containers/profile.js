@@ -80,25 +80,25 @@ class Profile extends Component {
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("ChangePassword")}>
-            <View style={styles.itemStyle}>
-              <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
+              <View style={styles.itemStyle}>
+                <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
 
-              <Text style={styles.textStyle}>Change Password</Text>
-             
+                <Text style={styles.textStyle}>Change Password</Text>
+
                 <Icon name="angle-right" size={25} color='black' />
 
-              
-            </View>
+
+              </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.logout()}>
-            <View style={styles.itemStyle}>
-              <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
-            
+              <View style={styles.itemStyle}>
+                <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
+
                 <Text style={styles.textStyle}>Logout</Text>
 
 
-              
-            </View>
+
+              </View>
             </TouchableOpacity>
 
           </View>

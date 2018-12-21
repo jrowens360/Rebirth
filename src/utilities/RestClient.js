@@ -247,6 +247,38 @@ class RestClient {
 
 
 
+    // static stripePost(params) {
+    //     let context = this;
+            
+    //     return new Promise(function(fulfill, reject) {
+    //         context.isConnected().then(() => {
+    //                 //console.log("url=> ",Connection.getResturl() + url ," requestObject=> ",params, " x-auth-token => ",token, " x-user-id => ",userId )
+    //                 fetch(Connection.getStripeurl(), {
+    //                         method : "POST",
+    //                         timeout : 1000*1*60,
+    //                         headers: {
+    //                             Accept: "application/json",
+    //                             "Content-Type": "application/json"
+                             
+    //                         },
+    //                         body: JSON.stringify(params)
+    //                     })
+    //                     .then((response) => {
+    //                         return response.text()
+    //                     })
+    //                     .then(responseText => {
+    //                         //console.log('responseText*****',responseText);
+    //                         fulfill(JSON.parse(responseText));
+    //                     }).catch(error => {
+    //                         fulfill({message:'Please check your internet connectivity or our server is not responding.'});
+    //                         console.warn(error);
+    //                     });
+    //             }).catch(error => {
+    //                 fulfill({message:'Please check your internet connectivity or our server is not responding.'});
+    //             });
+    //     });
+    // }
+
     static delete(url, params, token = '',userId='') {
         let context = this,
             logintoken;
@@ -279,6 +311,11 @@ class RestClient {
                 });
         });
     }
+
+
+
+   
+
 
 }
 

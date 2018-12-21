@@ -23,6 +23,7 @@ export const FRONT_IMAGE = "FRONT_IMAGE";
 export const SIDE_IMAGE = "SIDE_IMAGE";
 export const FRONT_KEY = "FRONT_KEY";
 export const BODY_PARAMS = "BODY_PARAMS";
+export const MEASURE_DETAIL = "MEASURE_DETAIL";
 
 
 //----------------- Action Creators-----------------------//
@@ -37,87 +38,84 @@ export const CARDDETAIL = (data) => ({ type: CARD_DETAIL, data });
 export const FRONTIMAGE = (data) => ({ type: FRONT_IMAGE, data });
 export const SIDEIMAGE = (data) => ({ type: SIDE_IMAGE, data });
 export const FRONTKEY = (data) => ({ type: FRONT_KEY, data });
-export const BODYPARAMS = (data) => (
-
-  { type: BODY_PARAMS, data });
+export const BODYPARAMS = (data) => ({ type: BODY_PARAMS, data });
+export const MEASUREDETAIL = (data) => ({ type: MEASURE_DETAIL, data });
 //perform API's
 
 
 //-------------SignUp---------------------------------------------//
-export const signUpFirebase =  (data,callback) => {
+export const signUpFirebase = (data, callback) => {
 
 
 
   console.log("user input" + data.toString())
   return dispatch => {
     dispatch(startLoading());
-   firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then((userData) => {
+    firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then((userData) => {
       console.log("user output" + JSON.stringify(userData.user.uid)),
-     console.log("user firbse" , firebase.database().ref()),
-    callback(userData);
+        console.log("user firbse", firebase.database().ref()),
+        callback(userData);
 
-    //  firebase.database().ref('UsersList/'+userData.user.uid).set({
-    //     name: data.name,
-    //     email: data.email,
-    //     phone: data.phone,
-    //     height: data.height,
-    //     weight: data.weight,
-    //     dob: data.dob,
-    //     profileImg: data.imageUrl
-    //   }).then((saveData) => {
-    //     console.log('result signup ******* ', saveData)
-    //     dispatch(stopLoading());
-    //     dispatch(ToastActionsCreators.displayInfo("user register successfully"));
-    //     dispatch(USERLOGIN());
-    //     dispatch(USERINFO());
-    //   }).catch(error => {
-    //     console.log("error=> ", error)
-    //     dispatch(ToastActionsCreators.displayInfo(error.message));
-    //     dispatch(stopLoading());
-    //   });
+      //  firebase.database().ref('UsersList/'+userData.user.uid).set({
+      //     name: data.name,
+      //     email: data.email,
+      //     phone: data.phone,
+      //     height: data.height,
+      //     weight: data.weight,
+      //     dob: data.dob,
+      //     profileImg: data.imageUrl
+      //   }).then((saveData) => {
+      //     console.log('result signup ******* ', saveData)
+      //     dispatch(stopLoading());
+      //     dispatch(ToastActionsCreators.displayInfo("user register successfully"));
+      //     dispatch(USERLOGIN());
+      //     dispatch(USERINFO());
+      //   }).catch(error => {
+      //     console.log("error=> ", error)
+      //     dispatch(ToastActionsCreators.displayInfo(error.message));
+      //     dispatch(stopLoading());
+      //   });
     }).catch(error => {
       console.log("error=> signup", error)
       dispatch(ToastActionsCreators.displayInfo(error.message));
       dispatch(stopLoading());
     });
 
-   // console.log("user json" )
-   }
+    // console.log("user json" )
+  }
 
 };
 
-export const signUpData =  (data,userData) => {
+export const signUpData = (data, userData) => {
 
 
 
-  console.log("user data for sign up" , data)
+  console.log("user data for sign up", data)
   return dispatch => {
     dispatch(startLoading());
- 
 
-     firebase.database().ref('UsersList/'+userData.user.uid).set({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        height: data.height,
-        weight: data.weight,
-        dob: data.dob,
-        profileImg: data.imageUrl
-      }).then((saveData) => {
-        console.log('result signup ******* ', saveData)
-        dispatch(stopLoading());
-        dispatch(ToastActionsCreators.displayInfo("user register successfully"));
-        dispatch(USERLOGIN());
-        dispatch(USERINFO());
-      }).catch(error => {
-        console.log("error=> ", error)
-        dispatch(ToastActionsCreators.displayInfo(error.message));
-        dispatch(stopLoading());
-      });
-   
 
-   // console.log("user json" )
-   }
+    firebase.database().ref('UsersList/' + userData.user.uid).set({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      dob: data.dob,
+      profileImg: data.imageUrl
+    }).then((saveData) => {
+      console.log('result signup ******* ', saveData)
+      dispatch(stopLoading());
+      dispatch(ToastActionsCreators.displayInfo("user register successfully"));
+      dispatch(USERLOGIN());
+      dispatch(USERINFO());
+    }).catch(error => {
+      console.log("error=> ", error)
+      dispatch(ToastActionsCreators.displayInfo(error.message));
+      dispatch(stopLoading());
+    });
+
+
+    // console.log("user json" )
+  }
 
 };
 
@@ -267,8 +265,7 @@ export const updateUserData = (data) => {
       name: data.name,
       email: data.email,
       phone: data.phone,
-      height: data.height,
-      weight: data.weight,
+
       dob: data.dob,
       profileImg: data.imageUrl
 
@@ -318,10 +315,17 @@ export const addCardListFirebase = (data) => {
       console.log('result card save ******* ', saveData)
       dispatch(ToastActionsCreators.displayInfo("user card save successfully"));
       firebase.database().ref('UsersList/' + currentUser.uid).once('value', function (snapshot) {
-        console.log("read UPDATE data" + JSON.stringify(snapshot.val()))
-        dispatch(CARDDETAIL(snapshot.val()));
-        dispatch(goBack());
         dispatch(stopLoading());
+        let listData = snapshot.val() == null ? [] : snapshot.val()
+        if (snapshot.val() != null) {
+          dispatch(CARDDETAIL(listData));
+          dispatch(goBack());
+          dispatch(ToastActionsCreators.displayInfo("user cards "));
+        } else {
+          dispatch(ToastActionsCreators.displayInfo("Please try again"))
+
+        }
+
       });
     }).catch(error => {
       console.log("error=> ", error)
@@ -330,6 +334,7 @@ export const addCardListFirebase = (data) => {
     });
   }
 };
+
 
 //-------------deleteCardFromFirebase----------------------------------------//
 
@@ -342,12 +347,19 @@ export const deleteCardFromFirebase = (data) => {
       'cardList': data.cardList
     }).then((saveData) => {
       console.log('result card save ******* ', saveData)
-      dispatch(ToastActionsCreators.displayInfo("user card save successfully"));
+
       firebase.database().ref('UsersList/' + currentUser.uid).once('value', function (snapshot) {
         console.log("read DELETE data" + JSON.stringify(snapshot.val()))
         let listData = snapshot.val() == null ? [] : snapshot.val()
-        dispatch(CARDDETAIL(listData));
         dispatch(stopLoading());
+        if (snapshot.val() != null) {
+          dispatch(CARDDETAIL(listData));
+          dispatch(ToastActionsCreators.displayInfo("user card delete successfully"));
+        } else {
+          dispatch(ToastActionsCreators.displayInfo("Please try again"));
+        }
+
+
 
       });
     }).catch(error => {
@@ -367,14 +379,7 @@ export const uploadImage = (data) => {
 
   body.append('image', { uri: data.avatarFrontView.uri, name: data.avatarFrontView.filename, filename: data.avatarFrontView.filename, type: data.avatarFrontView.type });
 
-  // if (data.avatarSource && data.avatarSource.fileName) {
-  //   //console.log('inside profile if statemetn ********')
-  //   body.append('profilePic', { uri: data.avatarSource.uri, name: data.avatarSource.fileName, filename: data.avatarSource.fileName, type: data.avatarSource.type });
-  // }
-  // else {
-  // //	console.log('inside else profilePic *********')
-  //   body.append('profilePic', "")
-  // }
+
 
   console.log('data body  ********* ', body)
   return dispatch => {
@@ -397,7 +402,7 @@ export const uploadImage = (data) => {
 
       }
 
-     
+
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -468,7 +473,7 @@ export const ImageParameter = (data, callback) => {
 
   return dispatch => {
     dispatch(startLoading());
-   
+
     RestClient.uploadCompeleImage("step/", body, data.apiKey).then((result) => {
       console.log('result front image prameter ******* ', result)
       //  if(result.status == 1){
@@ -489,7 +494,7 @@ export const ImageParameter = (data, callback) => {
         dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
       }
 
-    
+
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -529,18 +534,18 @@ export const ImageSideParameter = (data, callback) => {
       console.log('side  image prameter ******* ', result)
       //  if(result.status == 1){
       dispatch(stopLoading());
-     // dispatch(ToastActionsCreators.displayInfo('Data saved successfully'))
-     if(result.status){
-      callback();
-     }
-     else if (result.status_code == 500) {
+      // dispatch(ToastActionsCreators.displayInfo('Data saved successfully'))
+      if (result.status) {
+        callback();
+      }
+      else if (result.status_code == 500) {
 
-      dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
-    }else{
-      dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
-    }
+        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+      } else {
+        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+      }
 
-     
+
 
       //console.log('data front body params   ********* ',result)
       // dispatch(ToastActionsCreators.displayInfo(result.message));
@@ -560,11 +565,83 @@ export const ImageSideParameter = (data, callback) => {
 
 
 
+//-------------AddMeasurementInFirebase----------------------------------------//
+export const addMeasurementFirebase = (data) => {
 
 
 
+  console.log("measurement input", data)
+  const { currentUser } = firebase.auth();
+  console.log(currentUser)
+  return dispatch => {
+    dispatch(startLoading());
+    firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").child(Math.floor(Date.now()).toString()).set(
+      { "measureList": data }
+    ).then((saveData) => {
+      console.log('result measurement save ******* ', saveData),
+        dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
+      dispatch(goTo({ route: 'Payment', params: {} }));
+      dispatch(stopLoading());
+      // });
+    }).catch(error => {
+      console.log("error=> ", error)
+      dispatch(ToastActionsCreators.displayInfo(error.message))
+      dispatch(stopLoading());
+    });
+  }
+};
+
+//-------------fetechMeasurementFromFirebase----------------------------------------//
+
+export const measurementFromFirebase = () => {
+
+  const { currentUser } = firebase.auth();
+  return dispatch => {
+    dispatch(startLoading());
+    firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").once('value', function (snapshot) {
+      dispatch(stopLoading());
+
+      console.log("read measurement data" + JSON.stringify(snapshot.val()))
+      let listData = snapshot.val() == null ? {} : snapshot.val()
+      if (snapshot.val() != null) {
+        dispatch(MEASUREDETAIL(listData));
+        dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
+        // alert(JSON.stringify(snapshot.val()));
+      } else {
+        dispatch(ToastActionsCreators.displayInfo("There is no measurement list"));
+      }
+    });
+
+  }
+};
 
 
+// export const doPayment = (amount, tokenId) => {
+
+// 	let	requestObject = {
+//     amount: amount,
+//        tokenId: tokenId,
+//     }
+
+// 	return dispatch => {
+// 		dispatch(startLoading());
+// 		RestClient.stripepost(requestObject).then((result) => {
+//       console.log('payment ',result)
+//      // alert(result);
+//  		// if(result.status==1){
+//     // 		dispatch(stopLoading());
+
+// 	  //   	//dispatch(ToastActionsCreators.displayInfo(result.message));
+// 	  // 	}else{
+// 	  //   	dispatch(stopLoading());
+// 	  //   	alert(result.message);
+// 	  // 	}
+// 		}).catch(error => {
+// 	  		console.log("error=> ", error)
+// 	  		dispatch(stopLoading());
+// 		});
+// 	}
+// };
 
 
 
@@ -574,7 +651,7 @@ export const ImageSideParameter = (data, callback) => {
 
 //-----------------CompleteParameter--------------------------//
 
-export const CompleteParameter = (data) => {
+export const CompleteParameter = (data, callback) => {
   console.log('data  for front and side Image ********* ', data)
 
   let body = new FormData();
@@ -594,10 +671,10 @@ export const CompleteParameter = (data) => {
 
       dispatch(stopLoading());
       if (result.status) {
-        dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
-        dispatch(BODYPARAMS(result));
-        dispatch(goTo({ route: 'Payment', params: {} }));
 
+        dispatch(BODYPARAMS(result));
+
+        callback(result)
 
       } else {
         dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
@@ -632,6 +709,7 @@ const initialState = {
   sideImage: '',
   frontKey: '',
   bodyParameters: '',
+  measureHistory: ''
 
 
 
@@ -641,12 +719,23 @@ const initialState = {
 * Reducer
 */
 export default function reducer(state = initialState, action) {
-  
+
   switch (action.type) {
     // case LOG_IN_SUCCESS:
     //   return { ...state, userDetails: action.data };
     case USER_LOGOUT:
-      return { ...state, userStatus: false };
+      return {
+        ...state, userStatus: false,
+        userDetail: '',
+        cardList: '',
+        frontImage: '',
+        sideImage: '',
+        frontKey: '',
+        bodyParameters: '',
+        measureHistory: ''
+
+
+      };
     case USER_LOGIN:
       return { ...state, userStatus: true };
     case USER_DETAIL:
@@ -661,7 +750,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, frontKey: action.data };
     case BODY_PARAMS:
       return { ...state, bodyParameters: action.data };
-
+    case MEASURE_DETAIL:
+      return { ...state, measureHistory: action.data };
 
 
     default:

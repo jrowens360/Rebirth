@@ -48,8 +48,8 @@ class SignUp extends Component {
       email: '',
       phone: '',
       password: '',
-      height: '',
-      weight: '',
+      // height: '',
+      // weight: '',
       dob: '',
       confirmPassword: '',
 
@@ -196,7 +196,7 @@ dispatch(startLoading());
     
 
     let { dispatch } = this.props.navigation;
-      let { name, email, phone, password, height, weight, confirmPassword, dob ,avatarSource} = this.state;
+      let { name, email, phone, password, confirmPassword, dob ,avatarSource} = this.state;
     //let { navigate } = this.props.navigation;
     if (_.isEmpty(name.trim())) {
 
@@ -227,17 +227,17 @@ dispatch(startLoading());
       return;
     }
 
-    if (_.isEmpty(height.trim())) {
-      //alert(enterEmail);
-      dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
-      return;
-    }
+    // if (_.isEmpty(height.trim())) {
+    //   //alert(enterEmail);
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
+    //   return;
+    // }
 
-    if (_.isEmpty(weight.trim())) {
+    // if (_.isEmpty(weight.trim())) {
 
-      dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
-      return;
-    }
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
+    //   return;
+    // }
 
     if (_.isEmpty(dob.trim())) {
       dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
@@ -373,7 +373,7 @@ dispatch(startLoading());
                 onChangeText={(email) => this.setState({ email })}
 
               />
-              <View style={{ flexDirection: 'row' }}>
+              {/* <View style={{ flexDirection: 'row' }}>
                 <TextInput
                   maxLength={3}
                   autoFocus={false}
@@ -401,14 +401,14 @@ dispatch(startLoading());
                   onChangeText={(weight) => this.setState({ weight })}
                 />
 
-              </View>
+              </View> */}
 
               <DatePicker
                 style={{ width: '100%', borderBottomColor: 'red' }}
                 date={this.state.dob}
                 mode="date"
                 placeholder="DOB"
-                format="YYYY-MM-DD"
+                format="MM/DD/YYYY"
                 minDate="1950-05-01"
                 maxDate={currentDate}
                 confirmBtnText="Confirm"

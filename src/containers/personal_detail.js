@@ -46,8 +46,7 @@ class PersonalDetail extends Component {
       email: '',
       phone: '',
 
-      height: '',
-      weight: '',
+
       dob: '',
 
 
@@ -68,8 +67,8 @@ class PersonalDetail extends Component {
   }
   componentWillReceiveProps(props) {
     console.log("ne props " + JSON.stringify(props.userDetail));
-    let { name, email, phone, height, weight, dob, profileImg } = props.userDetail;
-    this.setState({ name, email, phone, height, weight, dob, imageUrl: profileImg, avatarSource: { uri: profileImg } }, () => {
+    let { name, email, phone, dob, profileImg } = props.userDetail;
+    this.setState({ name, email, phone, dob, imageUrl: profileImg, avatarSource: { uri: profileImg } }, () => {
       console.log("set value here " + JSON.stringify(this.state.avatarSource));
     });
 
@@ -84,7 +83,7 @@ class PersonalDetail extends Component {
 
 
     let { dispatch } = this.props.navigation;
-    let { name, email, phone, height, weight, dob } = this.state;
+    let { name, email, phone, dob } = this.state;
     //let { navigate } = this.props.navigation;
 
     if (_.isEmpty(name.trim())) {
@@ -120,17 +119,17 @@ class PersonalDetail extends Component {
     }
 
 
-    if (_.isEmpty(height.trim())) {
-      //alert(enterEmail);
-      dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
-      return;
-    }
+    // if (_.isEmpty(height.trim())) {
+    //   //alert(enterEmail);
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
+    //   return;
+    // }
 
-    if (_.isEmpty(weight.trim())) {
+    // if (_.isEmpty(weight.trim())) {
 
-      dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
-      return;
-    }
+    //   dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
+    //   return;
+    // }
 
     if (_.isEmpty(dob.trim())) {
       dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
@@ -138,9 +137,16 @@ class PersonalDetail extends Component {
     }
 
 
+    // if (this.state.imageUrl) {
+      this.props.UserActions.updateUserData({ ...this.state });
+
+    // } else {
+    //   this.getSelectedImages();
 
 
-    this.getSelectedImages();
+    // }
+
+
 
 
 
@@ -169,6 +175,9 @@ class PersonalDetail extends Component {
 
           this.setState({
             avatarSource: source,
+          },()=>{
+
+            this.getSelectedImages()
           });
         }
 
@@ -195,6 +204,8 @@ class PersonalDetail extends Component {
 
           this.setState({
             avatarSource: source,
+          },()=>{
+            this.getSelectedImages()
           });
         }
 
@@ -354,7 +365,7 @@ class PersonalDetail extends Component {
                   onChangeText={(email) => this.setState({ email })}
 
                 />
-                <View style={{ flexDirection: 'row' }}>
+                {/* <View style={{ flexDirection: 'row' }}>
                   <TextInput
                     maxLength={3}
                     value={this.state.height}
@@ -385,14 +396,14 @@ class PersonalDetail extends Component {
                     onChangeText={(weight) => this.setState({ weight })}
                   />
 
-                </View>
+                </View> */}
 
                 <DatePicker
                   style={{ width: '100%', borderBottomColor: 'gray' }}
                   date={this.state.dob}
                   mode="date"
                   placeholder="DOB"
-                  format="YYYY-MM-DD"
+                  format="MM/DD/YYYY"
                   minDate="1950-05-01"
                   maxDate={currentDate}
                   confirmBtnText="Confirm"
