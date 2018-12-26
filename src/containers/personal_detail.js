@@ -28,6 +28,10 @@ import RNFetchBlob from 'react-native-fetch-blob'
 import ImagePicker from 'react-native-image-picker';
 const options = {
   title: 'Select Avatar',
+  mediaType:'photo',
+  maxWidth: 1080,
+  maxHeight: 720,
+  
   customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
   storageOptions: {
     skipBackup: true,
@@ -68,8 +72,11 @@ class PersonalDetail extends Component {
   componentWillReceiveProps(props) {
     console.log("ne props " + JSON.stringify(props.userDetail));
     let { name, email, phone, dob, profileImg } = props.userDetail;
+    var encoded = encodeURI(profileImg);
+    
     this.setState({ name, email, phone, dob, imageUrl: profileImg, avatarSource: { uri: profileImg } }, () => {
       console.log("set value here " + JSON.stringify(this.state.avatarSource));
+    
     });
 
 
@@ -201,10 +208,10 @@ class PersonalDetail extends Component {
         } else {
           const source = { uri: response.uri, type: response.type };
 
-
           this.setState({
             avatarSource: source,
           },()=>{
+
             this.getSelectedImages()
           });
         }
@@ -219,6 +226,9 @@ class PersonalDetail extends Component {
 
   getSelectedImages = () => {
 
+    let { dispatch } = this.props.navigation;
+    dispatch({ type: "LOADING_START" });
+   
     const image = this.state.avatarSource.uri
 
     const Blob = RNFetchBlob.polyfill.Blob
@@ -243,7 +253,7 @@ class PersonalDetail extends Component {
       .then(() => {
         console.log("image download " + imageRef.getDownloadURL())
         uploadBlob.close()
-
+        dispatch({ type: "LOADING_STOP" });
         return imageRef.getDownloadURL()
       })
       .then((url) => {
@@ -281,7 +291,7 @@ class PersonalDetail extends Component {
 
 
   render() {
-    console.log(this.state.avatarSource);
+   
 
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
@@ -337,9 +347,25 @@ class PersonalDetail extends Component {
                   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                   onChangeText={(name) => this.setState({ name })}
                 />
+                <View style={{flexDirection:'row'}}>
+                <TextInput
+                  // value={+1}
+                  style={styles.textInputStyle}
+                  maxLength={1}
+                  autoFocus={false}
+                  editable={false}
+                  autoCorrect={false}
+                  onBlur={() => this._onBlur()}
+                  onFocus={() => this._onFocus()}
+                  placeholder='+1'
+                  placeholderTextColor={'black'}
+                  underlineColorAndroid={'black'}
+                  keyboardType='phone-pad'
+                  // onChangeText={(phone) => this.setState({ phone })}
+                />
                 <TextInput
                   value={this.state.phone}
-                  style={styles.textInputStyle}
+                  style={[styles.textInputStyle,{flex:1}]}
                   maxLength={10}
                   autoFocus={false}
                   autoCorrect={false}
@@ -351,6 +377,7 @@ class PersonalDetail extends Component {
                   keyboardType='phone-pad'
                   onChangeText={(phone) => this.setState({ phone })}
                 />
+                </View>
                 <TextInput
                   value={this.state.email}
                   autoFocus={false}
@@ -365,38 +392,7 @@ class PersonalDetail extends Component {
                   onChangeText={(email) => this.setState({ email })}
 
                 />
-                {/* <View style={{ flexDirection: 'row' }}>
-                  <TextInput
-                    maxLength={3}
-                    value={this.state.height}
-                    autoFocus={false}
-                    autoCorrect={false}
-                    onBlur={() => this._onBlur()}
-                    onFocus={() => this._onFocus()}
-                    style={{ flex: 1, padding: 10, color: 'black' }}
-                    placeholder='Height(cm)'
-                    placeholderTextColor={'gray'}
-                    underlineColorAndroid={this._getULColor(this.state.hasFocus)}
-                    keyboardType='number-pad'
-                    onChangeText={(height) => this.setState({ height })}
-                  />
-                  <TextInput
-                    maxLength={3}
-                    value={this.state.weight}
-                    maxLength={3}
-                    autoFocus={false}
-                    autoCorrect={false}
-                    onBlur={() => this._onBlur()}
-                    onFocus={() => this._onFocus()}
-                    style={{ flex: 1, padding: 10, marginLeft: 10, color: 'black' }}
-                    placeholder='Weight(kg)'
-                    placeholderTextColor={'gray'}
-                    underlineColorAndroid={this._getULColor(this.state.hasFocus)}
-                    keyboardType='number-pad'
-                    onChangeText={(weight) => this.setState({ weight })}
-                  />
-
-                </View> */}
+                
 
                 <DatePicker
                   style={{ width: '100%', borderBottomColor: 'gray' }}

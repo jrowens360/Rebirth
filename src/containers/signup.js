@@ -26,6 +26,9 @@ import RNFetchBlob from 'react-native-fetch-blob'
 import ImagePicker from 'react-native-image-picker';
 const options = {
   title: 'Select Avatar',
+  mediaType:'photo',
+  maxWidth: 1080,
+  maxHeight: 720,
   customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
   storageOptions: {
     skipBackup: true,
@@ -347,8 +350,25 @@ dispatch(startLoading());
                 underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(name) => this.setState({ name })}
               />
+
+            <View style={{flexDirection:'row'}}>
+                <TextInput
+                  // value={+1}
+                  style={styles.textInputStyle}
+                  maxLength={1}
+                  autoFocus={false}
+                  editable={false}
+                  autoCorrect={false}
+                  onBlur={() => this._onBlur()}
+                  onFocus={() => this._onFocus()}
+                  placeholder='+1'
+                  placeholderTextColor={'white'}
+                  underlineColorAndroid={'white'}
+                  keyboardType='phone-pad'
+                 // onChangeText={(phone) => this.setState({ phone })}
+                />
               <TextInput
-                style={styles.textInputStyle}
+                 style={[styles.textInputStyle,{flex:1}]}
                 maxLength={10}
                 autoFocus={false}
                 autoCorrect={false}
@@ -360,6 +380,7 @@ dispatch(startLoading());
                 keyboardType='phone-pad'
                 onChangeText={(phone) => this.setState({ phone })}
               />
+              </View>
               <TextInput
                 autoFocus={false}
                 autoCorrect={false}

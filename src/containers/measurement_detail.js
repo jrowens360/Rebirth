@@ -26,7 +26,7 @@ class MeasurementDetail extends Component {
     super(props);
     this.state = {
       bodyParameters: '',
-     
+
 
 
     };
@@ -36,21 +36,22 @@ class MeasurementDetail extends Component {
   componentWillMount() {
     const { params } = this.props.navigation.state;
     const item = params ? params.measurementList : false;
-    if(item){
+    if (item) {
       this.setState({
-        bodyParameters: item.measureList});
-  
-      
-    }else{
+        bodyParameters: item.measureList
+      });
+
+
+    } else {
       this.setState({
         bodyParameters: this.props.bodyParameters
-  
+
       });
-  
+
 
     }
     //alert("ITEM DATA"+JSON.stringify(item));
-   
+
   }
 
   dashBoard() {
@@ -86,12 +87,148 @@ class MeasurementDetail extends Component {
           <View style={styles.mainContainer}>
             <ScrollView showsVerticalScrollIndicator={false}>
               {Object.keys(this.state.bodyParameters.front_parameters).map((key, index) => {
-                 var value='';
-                 const myItem = this.state.bodyParameters.front_parameters[key]
+                var value = '';
+                const myItem = this.state.bodyParameters.front_parameters[key]
                 if (typeof (myItem) != 'object') {
-                   value = myItem/2.54
-                } 
-              
+                  value = myItem / 2.54
+                }
+                if (key == "chest") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Front chest width'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt} >{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "waist") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Front waist width'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "hips") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Front hips width'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+               
+                if (key == "sleeve_length") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'sleeve length'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "hem") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'hem width'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "jacket_lenght") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'jacket lenght'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "scye_depth") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Scye Depth'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "body_height") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Body length'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "legs_height") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Leg length'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "shoulder_length") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Shoulder length'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "nape_to_waist_centre_back") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Nape to waist centre back'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "shoulder_to_waist") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Shoulder to waist length'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "chest_top") {
+                  return (<View></View>)
+                }
+                if (key == "neck_height") {
+                  return (<View></View>)
+                }
+                if (key == "crotch_length") {
+                  return (<View></View>)
+                }
+                if (key == "front_length") {
+                  return (<View></View>)
+                }
+                if (key == "frontal_length_collar_crotch") {
+                  return (<View></View>)
+                }
+                if (key == "waist_height") {
+                  return (<View></View>)
+                }
+                if (key == "shoulder_to_bust") {
+                  return (<View></View>)
+                }
+                if (key == "shoulder_to_knee") {
+                  return (<View></View>)
+                }
+
+
+
+
                 if (key == "h") {
                   return (<View></View>)
                 }
@@ -104,7 +241,85 @@ class MeasurementDetail extends Component {
                   return (<View>
                     <View style={styles.flatview}>
                       <Text >{key}</Text>
-                      <Text >{Math.round(value * 100) / 100} <Text >{' inch'}</Text></Text>
+                      <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt} >{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+              })
+
+
+              }
+
+
+              {Object.keys(this.state.bodyParameters.side_parameters).map((key, index) => {
+                var sidevalue = '';
+                const mySideItem = this.state.bodyParameters.side_parameters[key]
+                if (typeof (mySideItem) != 'object') {
+                  sidevalue = mySideItem / 2.54
+                }
+                if (key == "chest") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Side chest width'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(sidevalue * 100) / 100} <Text style={styles.paramTxt} >{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "waist") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Side waist width'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(sidevalue * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "hips") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Side hips width'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(sidevalue * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "nape_to_bust") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Nape to Bust'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(sidevalue * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+                if (key == "nape_to_waist_over_bust") {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Nape to waist over bust'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(sidevalue * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
+               
+                if (key == "h") {
+                  return (<View></View>)
+                }
+                if (key == "height") {
+                  return (<View></View>)
+                }
+                if (key == "height_p") {
+                  return (<View></View>)
+                }
+                if (typeof (myItem) === 'object') {
+                  return (<View></View>)
+                } else {
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{key}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(sidevalue * 100) / 100} <Text style={styles.paramTxt} >{' inch'}</Text></Text>
                     </View>
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
                   </View>);
@@ -186,6 +401,7 @@ const styles = StyleSheet.create({
     width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
   },
   headerTxt: { padding: 5, alignSelf: 'center', fontSize: 20, color: 'white' },
+  paramTxt: { color: 'black', fontWeight: '500' },
 
 })
 
