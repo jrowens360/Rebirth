@@ -3,6 +3,8 @@ package com.reduxdemo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.gettipsi.stripe.StripeReactPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -31,13 +33,14 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new FIRMessagingPackage(),
             new StripeReactPackage(),
             new ImagePickerPackage(),
             new RNFetchBlobPackage(),
-            new PickerPackage(),
+            new PickerPackage()
           
-            new VectorIconsPackage(),
-            new FIRMessagingPackage()
+           
 
       );
     }

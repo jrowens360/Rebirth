@@ -131,7 +131,7 @@ import Constants from '../constants';
                 placeholder='Email'
                 keyboardType='email-address'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+              //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(email) => this.setState({ email })}
               />
               <View >
@@ -143,7 +143,7 @@ import Constants from '../constants';
                 onFocus={ () => this._onFocus() }
                 placeholder='Password'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+              //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 showPassword={false}
                 onChangeText={(password) => this.setState({ password })}
                 secureTextEntry={this.state.secureEntry}
@@ -195,7 +195,9 @@ const styles = StyleSheet.create({
   textInputStyle: {
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 6,
-    color:'white'
+    color:'white',
+    borderBottomColor:'gray',
+    borderBottomWidth:1
 
   },
   passswordStyle:{

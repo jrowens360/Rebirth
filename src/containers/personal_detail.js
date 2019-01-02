@@ -344,7 +344,7 @@ class PersonalDetail extends Component {
                   onFocus={() => this._onFocus()}
                   placeholder='Name'
                   placeholderTextColor={'gray'}
-                  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                   onChangeText={(name) => this.setState({ name })}
                 />
                 <View style={{flexDirection:'row'}}>
@@ -359,7 +359,7 @@ class PersonalDetail extends Component {
                   onFocus={() => this._onFocus()}
                   placeholder='+1'
                   placeholderTextColor={'black'}
-                  underlineColorAndroid={'black'}
+                //  underlineColorAndroid={'black'}
                   keyboardType='phone-pad'
                   // onChangeText={(phone) => this.setState({ phone })}
                 />
@@ -373,7 +373,7 @@ class PersonalDetail extends Component {
                   onFocus={() => this._onFocus()}
                   placeholder='Phone'
                   placeholderTextColor={'gray'}
-                  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                   keyboardType='phone-pad'
                   onChangeText={(phone) => this.setState({ phone })}
                 />
@@ -388,7 +388,7 @@ class PersonalDetail extends Component {
                   placeholder='Email'
                   keyboardType='email-address'
                   placeholderTextColor={'gray'}
-                  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                 // underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                   onChangeText={(email) => this.setState({ email })}
 
                 />
@@ -468,6 +468,8 @@ const styles = StyleSheet.create({
   textInputStyle: {
     padding: 8,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1,
+    borderBottomColor:'gray',
+    borderBottomWidth:1
 
   },
   imageStyle: {

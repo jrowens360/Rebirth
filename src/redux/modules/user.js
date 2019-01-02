@@ -605,7 +605,7 @@ export const measurementFromFirebase = () => {
       let listData = snapshot.val() == null ? {} : snapshot.val()
       if (snapshot.val() != null) {
         dispatch(MEASUREDETAIL(listData));
-        dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
+      //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
         // alert(JSON.stringify(snapshot.val()));
       } else {
         dispatch(ToastActionsCreators.displayInfo("There is no measurement list"));

@@ -127,7 +127,7 @@ render() {
                 onFocus={ () => this._onFocus() }
                 placeholder='Current Password'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+              //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 showPassword={false}
                 onChangeText={(currentPassword) => this.setState({ currentPassword })}
                 secureTextEntry={true} 
@@ -152,7 +152,7 @@ render() {
                 onFocus={ () => this._onFocus() }
                 placeholder='New Password'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+               // underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 showPassword={false}
                 onChangeText={(newPassword) => this.setState({ newPassword })}
                 secureTextEntry={true} 
@@ -173,7 +173,7 @@ render() {
                   
                    placeholderTextColor='gray'
                    secureTextEntry={true} 
-                   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                 //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                    onChangeText={(confirmNewPassword) => this.setState({confirmNewPassword})}
                   
             />
@@ -198,7 +198,9 @@ const styles = StyleSheet.create({
          textInputStyle: {
           padding: 10,
           marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1,
-          color:'black'
+          color:'black',
+          borderBottomColor:'gray',
+          borderBottomWidth:1
       
         },
          navBar:{

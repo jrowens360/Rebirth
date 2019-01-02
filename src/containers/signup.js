@@ -347,7 +347,7 @@ dispatch(startLoading());
                 onFocus={() => this._onFocus()}
                 placeholder='Name'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+              //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(name) => this.setState({ name })}
               />
 
@@ -363,7 +363,7 @@ dispatch(startLoading());
                   onFocus={() => this._onFocus()}
                   placeholder='+1'
                   placeholderTextColor={'white'}
-                  underlineColorAndroid={'white'}
+                //  underlineColorAndroid={'white'}
                   keyboardType='phone-pad'
                  // onChangeText={(phone) => this.setState({ phone })}
                 />
@@ -376,12 +376,13 @@ dispatch(startLoading());
                 onFocus={() => this._onFocus()}
                 placeholder='Phone'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+             //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 keyboardType='phone-pad'
                 onChangeText={(phone) => this.setState({ phone })}
               />
               </View>
               <TextInput
+               
                 autoFocus={false}
                 autoCorrect={false}
                 onBlur={() => this._onBlur()}
@@ -390,7 +391,7 @@ dispatch(startLoading());
                 placeholder='Email'
                 keyboardType='email-address'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+             //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(email) => this.setState({ email })}
 
               />
@@ -455,7 +456,7 @@ dispatch(startLoading());
                 style={styles.textInputStyle}
                 placeholder='Password'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+             //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 showPassword={false}
                 onChangeText={(password) => this.setState({ password })}
                 secureTextEntry={true}
@@ -469,7 +470,7 @@ dispatch(startLoading());
                 style={styles.textInputStyle}
                 placeholder='Confirm Passowrd'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+               // underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 showPassword={false}
                 onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
                 secureTextEntry={true}
@@ -519,6 +520,8 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
+    borderBottomColor:'gray',
+    borderBottomWidth:1
 
   },
   imageStyle: {
