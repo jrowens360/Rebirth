@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     justifyContent: "center", alignItems: 'center'
   },
   signInbtn: {
-    width: '50%',
+   // width: '50%',
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 12,
     alignSelf: 'center'
   },

@@ -49,15 +49,9 @@ class PersonalDetail extends Component {
       name: '',
       email: '',
       phone: '',
-
-
       dob: '',
-
-
-
       hasFocus: false,
       avatarSource: '',
-
       imageUrl: '',
 
     }
@@ -72,7 +66,7 @@ class PersonalDetail extends Component {
   componentWillReceiveProps(props) {
     console.log("ne props " + JSON.stringify(props.userDetail));
     let { name, email, phone, dob, profileImg } = props.userDetail;
-    var encoded = encodeURI(profileImg);
+    //var encoded = encodeURI(profileImg);
     
     this.setState({ name, email, phone, dob, imageUrl: profileImg, avatarSource: { uri: profileImg } }, () => {
       console.log("set value here " + JSON.stringify(this.state.avatarSource));
@@ -82,7 +76,7 @@ class PersonalDetail extends Component {
 
   }
 
-  //
+  
 
 
 
@@ -126,17 +120,7 @@ class PersonalDetail extends Component {
     }
 
 
-    // if (_.isEmpty(height.trim())) {
-    //   //alert(enterEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(weight.trim())) {
-
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
-    //   return;
-    // }
+   
 
     if (_.isEmpty(dob.trim())) {
       dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
@@ -225,11 +209,12 @@ class PersonalDetail extends Component {
   }
 
   getSelectedImages = () => {
-
+    console.log("my state",this.state);
     let { dispatch } = this.props.navigation;
     dispatch({ type: "LOADING_START" });
    
-    const image = this.state.avatarSource.uri
+   // const image = this.state.avatarSource.uri
+    const image = Platform.OS === 'ios' ? this.state.avatarSource.uri.replace('file://', '') : this.state.avatarSource.uri
 
     const Blob = RNFetchBlob.polyfill.Blob
     const fs = RNFetchBlob.fs
@@ -241,8 +226,11 @@ class PersonalDetail extends Component {
     const imageRef = firebase.storage().ref('images').child(Math.floor(Date.now()) + '.jpg')
     console.log("firbase" + imageRef);
     let mime = 'image/jpg'
+
+
     fs.readFile(image, 'base64')
       .then((data) => {
+        console.log("my data",data);
         return Blob.build(data, { type: `${mime};BASE64` })
       })
       .then((blob) => {
@@ -268,7 +256,7 @@ class PersonalDetail extends Component {
         console.log("error in image" + JSON.stringify(error));
 
       })
-
+    
   }
 
 

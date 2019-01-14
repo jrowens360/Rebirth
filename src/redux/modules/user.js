@@ -9,7 +9,7 @@ import { goBack, reset, goTo } from './nav';
 import { ToastActionsCreators } from 'react-native-redux-toast';
 
 var firebase = require("firebase");
-
+var RNFS = require('react-native-fs');
 
 //---------------- Actions-------------------------------//
 export const USER_STARTUP = "USER_STARTUP";
@@ -376,8 +376,9 @@ export const deleteCardFromFirebase = (data) => {
 export const uploadImage = (data) => {
   console.log('data ********* ', data)
   let body = new FormData();
-
-  body.append('image', { uri: data.avatarFrontView.uri, name: data.avatarFrontView.filename, filename: data.avatarFrontView.filename, type: data.avatarFrontView.type });
+  
+  const uploadUri = Platform.OS === 'ios' ? data.avatarFrontView.uri.replace('file://', '') : data.avatarFrontView.uri
+  body.append('image', { uri: uploadUri, name: data.avatarFrontView.filename, filename: data.avatarFrontView.filename, type: data.avatarFrontView.type });
 
 
 
@@ -579,7 +580,7 @@ export const addMeasurementFirebase = (data) => {
       { "measureList": data }
     ).then((saveData) => {
       console.log('result measurement save ******* ', saveData),
-        dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
+    //    dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
       dispatch(goTo({ route: 'Payment', params: {} }));
       dispatch(stopLoading());
       // });

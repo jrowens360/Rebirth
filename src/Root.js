@@ -6,7 +6,8 @@ import {
     Platform,
     Alert,
     Linking,
-    StatusBar
+    StatusBar,
+    SafeAreaView
 } from 'react-native'
 import Progress from './components/common/Progress'
 import Navigator from "./config/navigator"
@@ -26,15 +27,18 @@ export default class Root extends Component{
    * */
   render(){
     return (
-        <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
+       
           <StatusBar
+          translucent={true}
             backgroundColor={Constants.Colors.Purple}
-            barStyle="light-content"
+            barStyle="dark-content"
           />
         	<Progress/>
           <Navigator/>
           <Toast messageStyle={styles.toastStyle} />
-        </View>
+       
+        </SafeAreaView>
       )
   }
 }

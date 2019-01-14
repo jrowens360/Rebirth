@@ -183,6 +183,7 @@ class RestClient {
                         body: params
                     })
                     .then((response) => {
+                        console.log('response @@@@@@@ ******** ',response)
                         return response.text()
                     })
                     .then(responseText => {

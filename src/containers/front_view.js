@@ -10,6 +10,7 @@ import {
   Image,
   Platform
 } from 'react-native';
+var RNFS = require('react-native-fs');
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Constants from '../constants';
@@ -23,13 +24,19 @@ import Background from '../components/common/BackgroundImg';
 import * as UserActions from '../redux/modules/user';
 const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
 import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'react-native-fetch-blob'
 const options = {
   title: 'Select Avatar',
+  mediaType:'photo',
+  maxWidth: 1080,
+  maxHeight: 720,
   customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
   storageOptions: {
     skipBackup: true,
     path: 'images',
+    
   },
+  //storageOptions: { skipBackup: true, path: 'images', cameraRoll: true, waitUntilSaved: true }
 };
 class FrontView extends Component {
   constructor(props) {
@@ -50,24 +57,16 @@ class FrontView extends Component {
   onSelect = (picked,slectedView) => {
    
  if(slectedView =='frontView'){
+
+  this.setState({
+    avatarFrontView:'',
+
+  });
   if (picked === 'gallery') {
-  //   ImagePicker.openPicker({
-  //   width: 400,
-  //   height: 400,
-  //   cropping: true,
-  //   enableRotationGesture: true
-  // }).then(image => {
-  
-  //   let source = { uri: image.path, type: image.mime ,filename:Platform.OS === 'ios' ? image.filename :''+Math.floor(Date.now()) };
-  //   console.log(JSON.stringify(source));
-  //   this.setState({
-  //     avatarFrontView: source
-  //   });
 
-  //   //alert(JSON.stringify(image));
-  // }).catch(e => console.log(e));
-
-  ImagePicker.launchImageLibrary(options, (response) => {
+  ImagePicker.launchImageLibrary({
+    noData: true,
+  }, (response) => {
 
     console.log('Response galler front view = ', response);
      
@@ -78,19 +77,78 @@ class FrontView extends Component {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = { uri: response.uri ,type:response.type,filename:response.fileName};
-      
-        this.setState({
-          avatarFrontView: source,
-          nextButton:false
-         
-        },()=>{
-          this.props.UserActions.uploadImage({ ...this.state });
-            
        
+          var extArray = response.uri.split(".");
+           var ext = extArray[extArray.length - 1]; 
+        
+          const source = { uri:response.uri  ,type: Platform.OS === 'ios'? "image/"+ext:response.type ,filename:response.fileName};
 
-        });
+          
 
+
+
+          console.log(response);
+         // console.log('image@@@@@@ type: ', 'file://' + RNFS.DocumentDirectoryPath );
+          //  var file_path ='file://' + RNFS.DocumentDirectoryPath+'/'+response.fileName
+          // RNFS.writeFile(file_path, response.data, 'base64')
+          // .then((success) => {
+          //   console.log('FILE WRITTEN!');
+          // const source = { uri: Platform.OS === 'ios'? file_path:response.uri,type: Platform.OS === 'ios'? "image/jpeg":response.type,filename:response.fileName};
+          this.setState({
+            avatarFrontView: source,
+            nextButton:false
+           
+          },()=>{
+            // RNFS.readFile(file_path,'base64')
+            // .then((success) => {
+            //   console.log(success);
+          
+            //     this.props.UserActions.uploadImage({ ...this.state });
+            // })
+            // .catch((err) => {
+            //   console.log(err.message);
+            // });
+           //
+            this.props.UserActions.uploadImage({ ...this.state });
+              
+         
+  
+          // });
+        
+        
+        
+        })
+          // .catch((err) => {
+          //   console.log(err.message);
+          // });
+    
+          // var extArray = response.fileName.split(".");
+          // var ext = extArray[extArray.length - 1];  "image/jpeg"
+          // console.log('image type: ', ext);
+          // this.setState({
+          //   avatarFrontView: source,
+          //   nextButton:false
+           
+          // },()=>{
+          //   // RNFS.readFile(file_path,'base64')
+          //   // .then((success) => {
+          //   //   console.log(success);
+          //   //    //  this.props.UserActions.uploadImage({ ...this.state });
+          //   // })
+          //   // .catch((err) => {
+          //   //   console.log(err.message);
+          //   // });
+          //   this.props.UserActions.uploadImage({ ...this.state });
+              
+         
+  
+          // });
+  
+
+
+
+      
+       
 
         
       }
@@ -135,6 +193,10 @@ class FrontView extends Component {
 }
 
 }else{
+  this.setState({
+    avatarSideView:'',
+
+  });
 
   if (picked === 'gallery') {
   
@@ -237,8 +299,7 @@ class FrontView extends Component {
 
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
-
-
+  
 
         <ScrollView>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>

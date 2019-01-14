@@ -130,8 +130,8 @@ class SignUp extends Component {
   getSelectedImages = (userData) => {
     let { dispatch } = this.props.navigation;
 dispatch(startLoading());
-    const image = this.state.avatarSource.uri
-
+   // const image = this.state.avatarSource.uri
+   const image = Platform.OS === 'ios' ? this.state.avatarSource.uri.replace('file://', '') : this.state.avatarSource.uri
     const Blob = RNFetchBlob.polyfill.Blob
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
