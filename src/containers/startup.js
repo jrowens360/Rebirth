@@ -43,13 +43,13 @@ export default class Startup extends Component {
      <View style={styles.bottomConatiner}>
 
           <Text style={[styles.textStyle]}>
-           Body Scanning in the palm of{"\n"} your hand
+           {/* Body Scanning in the palm of{"\n"} your hand */}
           </Text>
           <View  style={styles.subConatiner}>
           <TouchableOpacity
                   onPress = {()=>this.onSignIn()}
                   style={styles.buttonStyle} >
-                  <Text style={{ color: Constants.Colors.Purple}}>Sign In</Text>
+                  <Text style={{ color: Constants.Colors.Purple,fontWeight: '500'}}>Sign In</Text>
                 </TouchableOpacity>
                 
 

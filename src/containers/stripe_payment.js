@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
-import stripe from 'tipsi-stripe';
+import stripe,{ PaymentCardTextField } from 'tipsi-stripe';
 import * as UserActions from '../redux/modules/user';
 
 stripe.setOptions({
@@ -68,10 +68,31 @@ console.log(JSON.stringify(params));
         this.setState({ isPaymentPending: false });
       });
   };
+  
+  handleFieldParamsChange = (valid, params) => {
+    console.log(`
+      Valid: ${valid}
+      Number: ${params.number || '-'}
+      Month: ${params.expMonth || '-'}
+      Year: ${params.expYear || '-'}
+      CVC: ${params.cvc || '-'}
+    `)
+  }
 
   render() {
     return (
       <View style={styles.container}>
+        <PaymentCardTextField
+        style={styles.field}
+        cursorColor={"black"}
+        textErrorColor={"red"}
+        placeholderColor={"green"}
+        numberPlaceholder={"546768768"}
+        expirationPlaceholder={"33/44"}
+        cvcPlaceholder={"112"}
+        disabled={false}
+        onParamsChange={this.handleFieldParamsChange}
+      />
         <Button
           title="Make a payment"
           onPress={this.requestPayment}
@@ -88,4 +109,11 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  field: {
+    width: 300,
+    color: '#449aeb',
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 5,
+  }
 };

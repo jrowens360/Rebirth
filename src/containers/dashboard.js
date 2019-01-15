@@ -50,8 +50,8 @@ userStatus:props.userStatus
         // var value = Math.floor(Date.now())
        
         // console.log("my time",value,"mmm", new Date(value));
-        this.props.navigation.navigate("measurements")
-      // this.props.navigation.navigate("StripePayment")
+       // this.props.navigation.navigate("measurements")
+       this.props.navigation.navigate("StripePayment")
     
       }
       onFront(){
@@ -72,7 +72,7 @@ userStatus:props.userStatus
   
      <Image source={Constants.Images.user.splashLogo} style={styles.imageStyle}  resizeMode='contain'/>
      <View style={{flex:1,justifyContent:'flex-end', alignItems:'center',}}>       
-     <Text style = {styles.text}>Add Your first Measurement from here</Text>
+     <Text style = {styles.text}>Add Your first Measurement </Text>
      <TouchableOpacity
      onPress = {()=>this.onFront()}
    style={styles.floatStyle}
@@ -84,7 +84,7 @@ userStatus:props.userStatus
           <TouchableOpacity
                   onPress = {()=>this.onMeasurement()}
                   style={styles.buttonStyle} >
-                  <Text style={{ color: Constants.Colors.Purple }}>Measurement</Text>
+                  <Text style={{ color: Constants.Colors.Purple }}>Measurements</Text>
                 </TouchableOpacity>
                 
 

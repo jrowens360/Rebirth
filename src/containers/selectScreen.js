@@ -293,7 +293,7 @@ class SelectScreen extends Component {
                 autoFocus={false}
                 autoCorrect={false}
                 editable={false}
-                value={this.state.height ? this.state.feet + "  feet  " + this.state.inch + " inch" : "Enter height"}
+                value={this.state.height ? this.state.feet + "  feet  " + this.state.inch + " inchs" : "Enter height"}
                 // onBlur={ () => this._onBlur() }
                 // onFocus={ () => this._onFocus() }
                 style={[styles.textInputStyle, { color: 'white' }]}

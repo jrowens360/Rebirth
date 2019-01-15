@@ -30,7 +30,7 @@ export default class Root extends Component{
       <SafeAreaView style={styles.container}>
        
           <StatusBar
-          translucent={true}
+        
             backgroundColor={Constants.Colors.Purple}
             barStyle="dark-content"
           />

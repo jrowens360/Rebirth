@@ -64,9 +64,7 @@ class FrontView extends Component {
   });
   if (picked === 'gallery') {
 
-  ImagePicker.launchImageLibrary({
-    noData: true,
-  }, (response) => {
+  ImagePicker.launchImageLibrary(options, (response) => {
 
     console.log('Response galler front view = ', response);
      

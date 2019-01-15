@@ -88,13 +88,13 @@ class MeasurementDetail extends Component {
             <ScrollView showsVerticalScrollIndicator={false}>
           
            
-                 <View>
+                 {/* <View>
                     <View style={styles.flatview}>
                       <Text >{'Body type'}</Text>
                       <Text style={styles.paramTxt}>{this.state.bodyParameters.body_type} </Text>
                     </View>
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
-                  </View>
+                  </View> */}
                   {Object.keys(this.state.bodyParameters.volume_parameters).map((key, index) => {
                 var volumevalue = '';
                 const myVolumeItem = this.state.bodyParameters.volume_parameters[key]
