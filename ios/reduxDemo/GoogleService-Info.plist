@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>688065818609-ve2adobevnra1tlgi8auh1hpqrvch3dg.apps.googleusercontent.com</string>
+	<string>708324252016-ugo13vr37qerdqous4r6ctpkrk1eeccd.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.688065818609-ve2adobevnra1tlgi8auh1hpqrvch3dg</string>
+	<string>com.googleusercontent.apps.708324252016-ugo13vr37qerdqous4r6ctpkrk1eeccd</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAo2ZuCJMg1Cpb83WK_hP1RPFNcOajrE3c</string>
+	<string>AIzaSyBd4ct1JDf8JzR4uoBAQ8Y2Wakc46SwKj8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>688065818609</string>
+	<string>708324252016</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.reduxDemo</string>
+	<string>com.rebirth</string>
 	<key>PROJECT_ID</key>
-	<string>reduxdemo-3d338</string>
+	<string>rebirth-89283</string>
 	<key>STORAGE_BUCKET</key>
-	<string>reduxdemo-3d338.appspot.com</string>
+	<string>rebirth-89283.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:688065818609:ios:549a787edb81b4d9</string>
+	<string>1:708324252016:ios:e5bc52cfe8b9eaa7</string>
 	<key>DATABASE_URL</key>
-	<string>https://reduxdemo-3d338.firebaseio.com</string>
+	<string>https://rebirth-89283.firebaseio.com</string>
 </dict>
 </plist>

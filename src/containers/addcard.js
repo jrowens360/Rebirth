@@ -35,6 +35,7 @@ class AddCard extends Component {
             type:'',
             vaild:false
         };
+      //  this.FirstInput.setValues({ number: "4242" });
     }
 
 
@@ -64,6 +65,16 @@ class AddCard extends Component {
         
     //        }
 
+    componentDidMount() {
+       // this._input.focus("expiry");
+    //     this._input.setValues({ 
+            
+    //     'number':"778956667777",
+    //     'expiry':"11/23",
+    //    // 'cvc':'123',
+    //     // "postalCode": '1234', 
+    // });
+      }
     _onChange = (form) => { 
         let cardDetail= {
             'type':typeof(form.values.type) != "undefined"?form.values.type:'',
@@ -71,7 +82,8 @@ class AddCard extends Component {
             'number':form.values.number,
            'expiry':form.values.expiry,
             'cvc':form.values.cvc,
-          
+            "postalCode": form.values.postalCode,
+            "isSlected":false
         
         }
         this.setState({
@@ -84,18 +96,19 @@ class AddCard extends Component {
   
  }
 
-       ShowCard(){
-             console.log("CARD DATA BEFORE CARD ADD"+JSON.stringify( this.state.cards));
+      ShowCard(){
+           //alert(JSON.stringify(this.state.cardDetail))
+             console.log("CARD DATA BEFORE CARD ADD",this.state.cards);
 
         let { dispatch } = this.props.navigation;
-        //    if(this.state.vaild){
+           if(this.state.vaild){
             this.state.cards.push(this.state.cardDetail);
             this.props.UserActions.addCardListFirebase({ ...this.state });
-        //    }else{
-        //     dispatch(ToastActionsCreators.displayInfo('Please fill vaild info of card'))
+           }else{
+            dispatch(ToastActionsCreators.displayInfo('Please fill vaild info of card'))
 
 
-        //    }
+           }
 
           // console.log("list  data"+JSON.stringify( this.state.cards));
 
@@ -127,15 +140,17 @@ class AddCard extends Component {
                 <View  style={styles.mainContainer}>
                    
               <CreditCardInput
+                              ref={(c) => this._input = c}
                               autoFocus
                               requiresName
                                requiresCVC
-                             //  requiresPostalCode
+                               requiresPostalCode
                               validColor={"black"}
                               invalidColor={"red"}
                              placeholderColor={"darkgray"}
                               onChange={this._onChange}
 //                              onFocus={this._onFocus}
+                             
                        />
                          <TouchableOpacity style={styles.buttonStyle} onPress={() => this.ShowCard() }>
                                  <Text style={styles.savetxt}>Save</Text>                        

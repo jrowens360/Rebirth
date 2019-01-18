@@ -13,13 +13,13 @@ import Background from '../components/common/BackgroundImg';
 
 var firebase = require("firebase");
 
-var config = {
-  apiKey: "AIzaSyBqFB5E6_RHNxHFjLlI_EWY4lUzZuYp5kY",
-  authDomain: "reduxdemo-6cd19.firebaseapp.com",
-  databaseURL: "https://reduxdemo-6cd19.firebaseio.com",
-  projectId: "reduxdemo-6cd19",
-  storageBucket: "reduxdemo-6cd19.appspot.com",
-  messagingSenderId: "873401063978"
+ var config = {
+  apiKey: "AIzaSyDRAvtiKzJKzM6-5UDreh_lCRcccf8ifVM",
+  authDomain: "rebirth-89283.firebaseapp.com",
+  databaseURL: "https://rebirth-89283.firebaseio.com",
+  projectId: "rebirth-89283",
+  storageBucket: "rebirth-89283.appspot.com",
+  messagingSenderId: "708324252016"
 };
 
 
@@ -37,6 +37,7 @@ export default class Splash extends Component {
       componentDidMount(){
         if (!firebase.apps.length) {
             firebase.initializeApp(config);
+          
         }
         console.disableYellowBox = true;
 

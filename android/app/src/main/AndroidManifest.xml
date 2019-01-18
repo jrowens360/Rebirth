@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.reduxdemo">
+    package="com.rebirth">
    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -7,7 +7,7 @@
 +   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
 
     <application
-      android:name=".MainApplication"
+      android:name="com.rebirth.MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/appicon"
       android:roundIcon="@mipmap/app_roundicon"
@@ -28,7 +28,7 @@
          </intent-filter>
        </service>
       <activity
-        android:name=".MainActivity"
+        android:name="com.rebirth.MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:windowSoftInputMode="adjustResize"

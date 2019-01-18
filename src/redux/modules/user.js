@@ -10,6 +10,7 @@ import { ToastActionsCreators } from 'react-native-redux-toast';
 
 var firebase = require("firebase");
 var RNFS = require('react-native-fs');
+import moment from 'moment';
 
 //---------------- Actions-------------------------------//
 export const USER_STARTUP = "USER_STARTUP";
@@ -24,7 +25,7 @@ export const SIDE_IMAGE = "SIDE_IMAGE";
 export const FRONT_KEY = "FRONT_KEY";
 export const BODY_PARAMS = "BODY_PARAMS";
 export const MEASURE_DETAIL = "MEASURE_DETAIL";
-
+export const SELECT_INDEX = "SELECT_INDEX";
 
 //----------------- Action Creators-----------------------//
 
@@ -40,6 +41,7 @@ export const SIDEIMAGE = (data) => ({ type: SIDE_IMAGE, data });
 export const FRONTKEY = (data) => ({ type: FRONT_KEY, data });
 export const BODYPARAMS = (data) => ({ type: BODY_PARAMS, data });
 export const MEASUREDETAIL = (data) => ({ type: MEASURE_DETAIL, data });
+export const SELECTINDEX = (data) => ({ type: SELECT_INDEX, data });
 //perform API's
 
 
@@ -376,7 +378,7 @@ export const deleteCardFromFirebase = (data) => {
 export const uploadImage = (data) => {
   console.log('data ********* ', data)
   let body = new FormData();
-  
+
   const uploadUri = Platform.OS === 'ios' ? data.avatarFrontView.uri.replace('file://', '') : data.avatarFrontView.uri
   body.append('image', { uri: uploadUri, name: data.avatarFrontView.filename, filename: data.avatarFrontView.filename, type: data.avatarFrontView.type });
 
@@ -569,19 +571,21 @@ export const ImageSideParameter = (data, callback) => {
 //-------------AddMeasurementInFirebase----------------------------------------//
 export const addMeasurementFirebase = (data) => {
 
-
+  // var dateTo = moment().subtract(20,'d');
+  // Math.floor(Date.now()).toString()
 
   console.log("measurement input", data)
   const { currentUser } = firebase.auth();
   console.log(currentUser)
+
   return dispatch => {
     dispatch(startLoading());
     firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").child(Math.floor(Date.now()).toString()).set(
       { "measureList": data }
     ).then((saveData) => {
       console.log('result measurement save ******* ', saveData),
-    //    dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
-      dispatch(goTo({ route: 'Payment', params: {} }));
+        //    dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
+        dispatch(goTo({ route: 'Payment', params: {} }));
       dispatch(stopLoading());
       // });
     }).catch(error => {
@@ -590,6 +594,7 @@ export const addMeasurementFirebase = (data) => {
       dispatch(stopLoading());
     });
   }
+
 };
 
 //-------------fetechMeasurementFromFirebase----------------------------------------//
@@ -606,7 +611,7 @@ export const measurementFromFirebase = () => {
       let listData = snapshot.val() == null ? {} : snapshot.val()
       if (snapshot.val() != null) {
         dispatch(MEASUREDETAIL(listData));
-      //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
+        //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
         // alert(JSON.stringify(snapshot.val()));
       } else {
         dispatch(ToastActionsCreators.displayInfo("There is no measurement list"));
@@ -616,33 +621,29 @@ export const measurementFromFirebase = () => {
   }
 };
 
+// export const measurementSortFirebase = () => {
 
-// export const doPayment = (amount, tokenId) => {
+//   const { currentUser } = firebase.auth();
+//   return dispatch => {
+//     dispatch(startLoading());
+//     firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").once('value', function (snapshot) {
+//       dispatch(stopLoading());
 
-// 	let	requestObject = {
-//     amount: amount,
-//        tokenId: tokenId,
-//     }
+//       console.log("read measurement data" + JSON.stringify(snapshot.val()))
+//       let listData = snapshot.val() == null ? {} : snapshot.val()
+//       if (snapshot.val() != null) {
+//         dispatch(MEASUREDETAIL(listData));
+//       //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
+//         // alert(JSON.stringify(snapshot.val()));
+//       } else {
+//         dispatch(ToastActionsCreators.displayInfo("There is no measurement list"));
+//       }
+//     });
 
-// 	return dispatch => {
-// 		dispatch(startLoading());
-// 		RestClient.stripepost(requestObject).then((result) => {
-//       console.log('payment ',result)
-//      // alert(result);
-//  		// if(result.status==1){
-//     // 		dispatch(stopLoading());
-
-// 	  //   	//dispatch(ToastActionsCreators.displayInfo(result.message));
-// 	  // 	}else{
-// 	  //   	dispatch(stopLoading());
-// 	  //   	alert(result.message);
-// 	  // 	}
-// 		}).catch(error => {
-// 	  		console.log("error=> ", error)
-// 	  		dispatch(stopLoading());
-// 		});
-// 	}
+//   }
 // };
+
+
 
 
 
@@ -710,7 +711,8 @@ const initialState = {
   sideImage: '',
   frontKey: '',
   bodyParameters: '',
-  measureHistory: ''
+  measureHistory: '',
+  selectIndex: 0
 
 
 
@@ -733,7 +735,8 @@ export default function reducer(state = initialState, action) {
         sideImage: '',
         frontKey: '',
         bodyParameters: '',
-        measureHistory: ''
+        measureHistory: '',
+        selectIndex: 0
 
 
       };
@@ -753,6 +756,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, bodyParameters: action.data };
     case MEASURE_DETAIL:
       return { ...state, measureHistory: action.data };
+    case "SELECT_INDEX":
+      return { ...state, selectIndex: action.index };
 
 
     default:

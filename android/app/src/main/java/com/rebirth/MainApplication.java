@@ -1,4 +1,4 @@
-package com.reduxdemo;
+package com.rebirth;
 
 import android.app.Application;
 
@@ -11,13 +11,10 @@ import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.evollu.react.fcm.FIRMessagingPackage;
 
 import java.util.Arrays;
 import java.util.List;

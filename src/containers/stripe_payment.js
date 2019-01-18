@@ -1,12 +1,39 @@
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
-import stripe,{ PaymentCardTextField } from 'tipsi-stripe';
+import stripe,{ PaymentCardTextField} from 'tipsi-stripe';
 import * as UserActions from '../redux/modules/user';
 
 stripe.setOptions({
   publishableKey: 'pk_test_EM9PMIvqS63oMeyj18XyZXJL',
 });
-const  FIREBASE_FUNCTION='https://us-central1-reduxdemo-6cd19.cloudfunctions.net/charge';
+const  FIREBASE_FUNCTION='https://us-central1-rebirth-89283.cloudfunctions.net/charge/';
+// const options = {
+//   requiredBillingAddressFields: 'zip',
+//   prefilledInformation: {
+//     billingAddress: {
+//       name: 'Gunilla Haugeh',
+   
+//       country: 'US',
+//       postalCode: '31217',
+//     },
+//   },
+// }
+const params = {
+  // mandatory
+  number: '4242424242424242',
+  expMonth: 11,
+  expYear: 24,
+  cvc: '224',
+  // optional
+  name: 'Test User',
+  currency: 'usd',
+  addressLine1: '123 Test Street',
+  addressLine2: 'Apt. 5',
+  addressCity: 'Test City',
+  addressState: 'Test State',
+  addressCountry: 'Test Country',
+  addressZip: '55555',
+}
 export default class PaymentStripe extends Component {
 
     constructor(props) {
@@ -25,7 +52,7 @@ export default class PaymentStripe extends Component {
       token: toke,
       charge:{ amount,currency }
     };
-console.log(JSON.stringify(params));
+console.log("params",JSON.stringify(params));
              const res = await fetch(FIREBASE_FUNCTION, {
                
                  method: 'POST',
@@ -48,10 +75,15 @@ console.log(JSON.stringify(params));
 
 
 
-  requestPayment = () => {
+  requestPayment = async()=> {
+    //   this.setState({ isPaymentPending: true });
+    // const token = await stripe.createTokenWithCard(params)
+   
+    // alert(token)
+    // console.log('Token created', JSON.stringify(token));
     this.setState({ isPaymentPending: true });
     return stripe
-      .paymentRequestWithCardForm()
+      .createTokenWithCard(params)
       .then(stripeTokenInfo => {
          
         console.log('Token created', { stripeTokenInfo });
@@ -69,20 +101,20 @@ console.log(JSON.stringify(params));
       });
   };
   
-  handleFieldParamsChange = (valid, params) => {
-    console.log(`
-      Valid: ${valid}
-      Number: ${params.number || '-'}
-      Month: ${params.expMonth || '-'}
-      Year: ${params.expYear || '-'}
-      CVC: ${params.cvc || '-'}
-    `)
-  }
+  // handleFieldParamsChange = (valid, params) => {
+  //   console.log(`
+  //     Valid: ${valid}
+  //     Number: ${params.number || '-'}
+  //     Month: ${params.expMonth || '-'}
+  //     Year: ${params.expYear || '-'}
+  //     CVC: ${params.cvc || '-'}
+  //   `)
+  // }
 
   render() {
     return (
       <View style={styles.container}>
-        <PaymentCardTextField
+        {/* <PaymentCardTextField
         style={styles.field}
         cursorColor={"black"}
         textErrorColor={"red"}
@@ -92,7 +124,7 @@ console.log(JSON.stringify(params));
         cvcPlaceholder={"112"}
         disabled={false}
         onParamsChange={this.handleFieldParamsChange}
-      />
+      /> */}
         <Button
           title="Make a payment"
           onPress={this.requestPayment}

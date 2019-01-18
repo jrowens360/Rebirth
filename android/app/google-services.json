@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "873401063978",
-    "firebase_url": "https://reduxdemo-6cd19.firebaseio.com",
-    "project_id": "reduxdemo-6cd19",
-    "storage_bucket": "reduxdemo-6cd19.appspot.com"
+    "project_number": "708324252016",
+    "firebase_url": "https://rebirth-89283.firebaseio.com",
+    "project_id": "rebirth-89283",
+    "storage_bucket": "rebirth-89283.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:873401063978:android:acc4c1645c83d0f9",
+        "mobilesdk_app_id": "1:708324252016:android:e5bc52cfe8b9eaa7",
         "android_client_info": {
-          "package_name": "com.reduxdemo"
+          "package_name": "com.rebirth"
         }
       },
       "oauth_client": [
         {
-          "client_id": "873401063978-96fqq7lva2luskgigf9l0jgbe193ncng.apps.googleusercontent.com",
+          "client_id": "708324252016-26t2uhr5e7vm2v6ce9b1da7qjot4vcta.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBDjoPytLCV22RVJIhDOZy80p9ZqZDM72Q"
+          "current_key": "AIzaSyA3J6ti5G5CJW4OFQey3JpJeD6pLk9rnvc"
         }
       ],
       "services": {
