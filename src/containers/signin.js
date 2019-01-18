@@ -41,15 +41,15 @@ import Constants from '../constants';
 
     let { dispatch } = this.props.navigation;
     let { email, password } = this.state;
-    //let { navigate } = this.props.navigation;
+   
 
     if (_.isEmpty(email.trim())) {
-      //alert(enterEmail);
+  
       dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
       return;
     }
     if (!Regex.validateEmail(email.trim())) {
-      //alert(enterValidEmail);
+     
       dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
       return;
     }
@@ -58,11 +58,6 @@ import Constants from '../constants';
       dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
       return;
     }
-
-    // if (!Regex.validatePassword(password)) {
-    //   dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters and must contain at least  one special character, one numeric '))
-    //   return;
-    // }
 
 
     
@@ -78,7 +73,7 @@ import Constants from '../constants';
   onSignUp() {
     const { params } = this.props.navigation.state;
     const item = params ? params.signup : false;
-   // const item = this.props.navigation.getParam('signup', false);
+  
     if(item){
        this.props.navigation.goBack();
     }else{
@@ -131,7 +126,7 @@ import Constants from '../constants';
                 placeholder='Email'
                 keyboardType='email-address'
                 placeholderTextColor={'gray'}
-              //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+            
                 onChangeText={(email) => this.setState({ email })}
               />
               <View >
@@ -143,8 +138,7 @@ import Constants from '../constants';
                 onFocus={ () => this._onFocus() }
                 placeholder='Password'
                 placeholderTextColor={'gray'}
-              //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
-                showPassword={false}
+           
                 onChangeText={(password) => this.setState({ password })}
                 secureTextEntry={this.state.secureEntry}
               />
@@ -200,15 +194,7 @@ const styles = StyleSheet.create({
     borderBottomWidth:1
 
   },
-  passswordStyle:{
-   //flex:1,
-    //flexDirection: 'row',
-    //alignSelf:'stretch'
-    // justifyContent: 'center',
-    // alignItems: 'center',
-
-
-  },
+ 
   bottomText: {
     color: 'white',
     alignSelf: 'center',

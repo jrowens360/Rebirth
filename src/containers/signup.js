@@ -20,13 +20,13 @@ import DatePicker from 'react-native-datepicker'
 import Background from '../components/common/BackgroundImg';
 var firebase = require("firebase");
 import * as UserActions from '../redux/modules/user';
-import{ startLoading, stopLoading, showToast, hideToast } from '../redux/modules/app';
+import { startLoading, stopLoading, showToast, hideToast } from '../redux/modules/app';
 //import ImagePicker from "react-native-image-crop-picker";
 import RNFetchBlob from 'react-native-fetch-blob'
 import ImagePicker from 'react-native-image-picker';
 const options = {
   title: 'Select Avatar',
-  mediaType:'photo',
+  mediaType: 'photo',
   maxWidth: 1080,
   maxHeight: 720,
   customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
@@ -45,7 +45,7 @@ class SignUp extends Component {
     super(props);
     console.ignoredYellowBox = [
       'Setting a timer'
-      ];
+    ];
     this.state = {
       name: '',
       email: '',
@@ -92,7 +92,7 @@ class SignUp extends Component {
 
 
         }
-        
+
 
 
       });
@@ -119,7 +119,7 @@ class SignUp extends Component {
           });
         }
 
-     
+
 
       });
 
@@ -129,9 +129,9 @@ class SignUp extends Component {
 
   getSelectedImages = (userData) => {
     let { dispatch } = this.props.navigation;
-dispatch(startLoading());
-   // const image = this.state.avatarSource.uri
-   const image = Platform.OS === 'ios' ? this.state.avatarSource.uri.replace('file://', '') : this.state.avatarSource.uri
+    dispatch(startLoading());
+    // const image = this.state.avatarSource.uri
+    const image = Platform.OS === 'ios' ? this.state.avatarSource.uri.replace('file://', '') : this.state.avatarSource.uri
     const Blob = RNFetchBlob.polyfill.Blob
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
@@ -159,13 +159,13 @@ dispatch(startLoading());
         return imageRef.getDownloadURL()
       })
       .then((url) => {
-        this.setState({ imageUrl: url },()=>{
-          this.props.UserActions.signUpData({...this.state},userData);
+        this.setState({ imageUrl: url }, () => {
+          this.props.UserActions.signUpData({ ...this.state }, userData);
 
         })
         // URL of the image uploaded on Firebase storage
         console.log("url in image" + url);
-       
+
 
       })
       .catch((error) => {
@@ -194,65 +194,46 @@ dispatch(startLoading());
 
 
   signUpSubmit() {
-
-
-    
-
     let { dispatch } = this.props.navigation;
-      let { name, email, phone, password, confirmPassword, dob ,avatarSource} = this.state;
-    //let { navigate } = this.props.navigation;
+    let { name, email, phone, password, confirmPassword, dob, avatarSource } = this.state;
+
     if (_.isEmpty(name.trim())) {
 
       dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
       return;
     }
     if (_.isEmpty(phone.trim())) {
-      //alert(enterMobile);
+
       dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
       return;
     }
     if (!Regex.validateMobile(phone.trim())) {
-      //alert(enterValidMobile);
+
       dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
       return;
     }
 
-
-
     if (_.isEmpty(email.trim())) {
-      //alert(enterEmail);
+
       dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
       return;
     }
     if (!Regex.validateEmail(email.trim())) {
-      //alert(enterValidEmail);
+
       dispatch(ToastActionsCreators.displayInfo('Please Enter a valid email'))
       return;
     }
-
-    // if (_.isEmpty(height.trim())) {
-    //   //alert(enterEmail);
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
-    //   return;
-    // }
-
-    // if (_.isEmpty(weight.trim())) {
-
-    //   dispatch(ToastActionsCreators.displayInfo('Please enter your weight'))
-    //   return;
-    // }
 
     if (_.isEmpty(dob.trim())) {
       dispatch(ToastActionsCreators.displayInfo('Please enter your Date of Birth'))
       return;
     }
 
-
     if (_.isEmpty(password.trim())) {
       dispatch(ToastActionsCreators.displayInfo('Please enter your password'))
       return;
     }
-    if (password.length<6) {
+    if (password.length < 6) {
       dispatch(ToastActionsCreators.displayInfo('Password should be minimum 6 characters'))
       return;
     }
@@ -270,22 +251,19 @@ dispatch(startLoading());
       return;
 
     }
+    if (avatarSource) {
+      this.props.UserActions.signUpFirebase({ ...this.state }, (data) => {
 
-   // this.getSelectedImages();
-   if(avatarSource){
-    this.props.UserActions.signUpFirebase({ ...this.state },(data)=>{
+        this.getSelectedImages(data);
+      });
+    } else {
+      this.props.UserActions.signUpFirebase({ ...this.state }, (data) => {
 
-      this.getSelectedImages(data);
-    });
-   }else{
-    this.props.UserActions.signUpFirebase({ ...this.state },(data)=>{
+        this.props.UserActions.signUpData({ ...this.state }, data);
 
-      this.props.UserActions.signUpData({...this.state},data);
+      });
+    }
 
-    });
-   }
-    
-    // this.props.UserActions.writeUserData({ ...this.state });
 
   }
   _onBlur() {
@@ -308,9 +286,7 @@ dispatch(startLoading());
     return (
       <Background style={{ flex: 1 }} src={Constants.Images.user.loginbg}  >
         <KeyboardAwareScrollView>
-
           <ScrollView keyboardDismissMode={Platform.OS === 'ios' ? 'on-drag' : 'interactive'} keyboardShouldPersistTaps="always" >
-
             <Text style={styles.signUpTxt}> Sign Up </Text>
 
             <View style={styles.container}>
@@ -318,13 +294,10 @@ dispatch(startLoading());
                 <Image source={this.state.avatarSource} style={styles.imageStyle} />
 
                 <View>
-
-                  <Text style={[styles.textStyle]}>
-                    Select Photo</Text>
+                  <Text style={[styles.textStyle]}> Select Photo</Text>
                   <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
 
                     <TouchableOpacity style={{ padding: 2, }} onPress={() => {
-
                       this.onSelect('camera')
                     }}>
                       <Icon name="camera" size={20} color='white' />
@@ -347,11 +320,10 @@ dispatch(startLoading());
                 onFocus={() => this._onFocus()}
                 placeholder='Name'
                 placeholderTextColor={'gray'}
-              //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(name) => this.setState({ name })}
               />
 
-            <View style={{flexDirection:'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <TextInput
                   // value={+1}
                   style={styles.textInputStyle}
@@ -363,26 +335,26 @@ dispatch(startLoading());
                   onFocus={() => this._onFocus()}
                   placeholder='+1'
                   placeholderTextColor={'white'}
-                //  underlineColorAndroid={'white'}
+
                   keyboardType='phone-pad'
-                 // onChangeText={(phone) => this.setState({ phone })}
+
                 />
-              <TextInput
-                 style={[styles.textInputStyle,{flex:1}]}
-                maxLength={10}
-                autoFocus={false}
-                autoCorrect={false}
-                onBlur={() => this._onBlur()}
-                onFocus={() => this._onFocus()}
-                placeholder='Phone'
-                placeholderTextColor={'gray'}
-             //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
-                keyboardType='phone-pad'
-                onChangeText={(phone) => this.setState({ phone })}
-              />
+                <TextInput
+                  style={[styles.textInputStyle, { flex: 1 }]}
+                  maxLength={10}
+                  autoFocus={false}
+                  autoCorrect={false}
+                  onBlur={() => this._onBlur()}
+                  onFocus={() => this._onFocus()}
+                  placeholder='Phone'
+                  placeholderTextColor={'gray'}
+                  //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                  keyboardType='phone-pad'
+                  onChangeText={(phone) => this.setState({ phone })}
+                />
               </View>
               <TextInput
-               
+
                 autoFocus={false}
                 autoCorrect={false}
                 onBlur={() => this._onBlur()}
@@ -391,39 +363,11 @@ dispatch(startLoading());
                 placeholder='Email'
                 keyboardType='email-address'
                 placeholderTextColor={'gray'}
-             //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(email) => this.setState({ email })}
 
               />
-              {/* <View style={{ flexDirection: 'row' }}>
-                <TextInput
-                  maxLength={3}
-                  autoFocus={false}
-                  autoCorrect={false}
-                  onBlur={() => this._onBlur()}
-                  onFocus={() => this._onFocus()}
-                  style={{ flex: 1, padding: 10, color: 'white' }}
-                  placeholder='Height(cm)'
-                  placeholderTextColor={'gray'}
-                  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
-                  keyboardType='number-pad'
-                  onChangeText={(height) => this.setState({ height })}
-                />
-                <TextInput
-                  maxLength={3}
-                  autoFocus={false}
-                  autoCorrect={false}
-                  onBlur={() => this._onBlur()}
-                  onFocus={() => this._onFocus()}
-                  style={{ flex: 1, padding: 10, marginLeft: 10, color: 'white' }}
-                  placeholder='Weight(kg)'
-                  placeholderTextColor={'gray'}
-                  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
-                  keyboardType='number-pad'
-                  onChangeText={(weight) => this.setState({ weight })}
-                />
 
-              </View> */}
 
               <DatePicker
                 style={{ width: '100%', borderBottomColor: 'red' }}
@@ -456,7 +400,7 @@ dispatch(startLoading());
                 style={styles.textInputStyle}
                 placeholder='Password'
                 placeholderTextColor={'gray'}
-             //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+                //   underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 showPassword={false}
                 onChangeText={(password) => this.setState({ password })}
                 secureTextEntry={true}
@@ -470,15 +414,13 @@ dispatch(startLoading());
                 style={styles.textInputStyle}
                 placeholder='Confirm Passowrd'
                 placeholderTextColor={'gray'}
-               // underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+             
                 showPassword={false}
                 onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
                 secureTextEntry={true}
-
               />
 
               <TouchableOpacity onPress={() => this.signUpSubmit()}
-
                 style={styles.buttonStyle} >
                 <Text style={{ color: Constants.Colors.Purple, fontWeight: '500' }}>Sign Up</Text>
               </TouchableOpacity>
@@ -520,8 +462,8 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
-    borderBottomColor:'gray',
-    borderBottomWidth:1
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1
 
   },
   imageStyle: {

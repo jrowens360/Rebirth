@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
-  View, Image, TextInput, TouchableOpacity, ScrollView
-
+  View, Image, TouchableOpacity
 } from 'react-native';
 
 
@@ -12,8 +10,7 @@ import Constants from '../constants';
 import { connect } from 'react-redux';
 import Background from '../components/common/BackgroundImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { bindActionCreators } from "redux";
-import moment from 'moment';
+
 var firebase = require("firebase");
 
 var config = {
@@ -29,39 +26,26 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
       userStatus: props.userStatus
 
     }
   }
   componentDidMount() {
     if (this.state.userStatus) {
-
       if (!firebase.apps.length) {
         firebase.initializeApp(config);
-
       }
-
-
     }
 
   }
 
   onMeasurement() {
-    // var value = Math.floor(Date.now())
-    //   Date.now()
-    //   var dateTo = moment();
-    // //  var dateFrom = moment().subtract(7,'d');
-    // //   console.log("my time",dateFrom,dateFromunix,);
-    //    console.log("my time stemp time",dateTo, Math.floor(dateTo).toString());
 
     this.props.navigation.navigate("measurements")
-    // this.props.navigation.navigate("StripePayment")
-    //  this.props.navigation.navigate("Payment")
 
   }
   onFront() {
-    // this.props.navigation.navigate("MeasurementDetail")
+
     this.props.navigation.navigate("FrontView")
 
   }
@@ -74,15 +58,12 @@ class Dashboard extends Component {
     return (
 
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
-
-
         <Image source={Constants.Images.user.splashLogo} style={styles.imageStyle} resizeMode='contain' />
         <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', }}>
           <Text style={styles.text}>Add Your first Measurement </Text>
           <TouchableOpacity
             onPress={() => this.onFront()}
-            style={styles.floatStyle}
-          >
+            style={styles.floatStyle}          >
             <Icon name="plus" size={30} color="black" />
           </TouchableOpacity>
 
@@ -92,11 +73,8 @@ class Dashboard extends Component {
               style={styles.buttonStyle} >
               <Text style={{ color: Constants.Colors.Purple }}>Measurements</Text>
             </TouchableOpacity>
-
-
             <TouchableOpacity
               onPress={() => this.onProfile()}
-
               style={[styles.buttonStyle, { backgroundColor: Constants.Colors.Purple }]} >
               <Text style={{ color: 'white' }}>Profile</Text>
             </TouchableOpacity>
@@ -104,9 +82,6 @@ class Dashboard extends Component {
           </View>
         </View>
       </Background>
-
-
-
     );
   }
 }
@@ -114,11 +89,8 @@ class Dashboard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: '#F5FCFF',
     alignItems: 'center',
-    // justifyContent: 'center'
-
 
   },
 
@@ -136,9 +108,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: Constants.BaseStyle.DEVICE_WIDTH * 18 / 100,
-    // position: 'absolute',                                          
-    // bottom: 10,                                                    
-    // right: 10,
     height: Constants.BaseStyle.DEVICE_WIDTH * 18 / 100,
     backgroundColor: Constants.Colors.yellow,
     borderRadius: Constants.BaseStyle.DEVICE_WIDTH * 9 / 100,
@@ -158,11 +127,8 @@ const styles = StyleSheet.create({
 
   buttonStyle: {
     flex: 1,
-    // marginTop:Constants.BaseStyle.DEVICE_HEIGHT / 100 *4,
-    //    borderRadius: 20,
     backgroundColor: 'white',
     padding: 12,
-    // width: "40%",
     justifyContent: "center", alignItems: 'center'
   },
 
@@ -175,9 +141,9 @@ const mapStateToProps = state => ({
 
 });
 
-const mapDispatchToProps = dispatch => ({
-  UserActions: bindActionCreators(UserActions, dispatch)
-});
+// const mapDispatchToProps = dispatch => ({
+//   UserActions: bindActionCreators(UserActions, dispatch)
+// });
 
 export default connect(mapStateToProps, null)(Dashboard);
 

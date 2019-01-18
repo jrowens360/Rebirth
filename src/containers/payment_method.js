@@ -31,18 +31,19 @@ class PaymentMethod extends Component {
         this.state = {
 
             cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? this.props.cardList.cardList : [],
-
-
         };
+    }
+
+    componentWillMount() {
+        this.props.UserActions.cardsFromFirebase();
+
     }
 
     componentDidMount() {
         this.setState({
             cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? this.props.cardList.cardList : []
-
-
         }, () => {
-           // console.log("card lISt from  did mount redux" + JSON.stringify(this.state.cardList))
+            // console.log("card lISt from  did mount redux" + JSON.stringify(this.state.cardList))
         });
 
     }
@@ -51,8 +52,6 @@ class PaymentMethod extends Component {
         this.setState({
 
             cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? props.cardList.cardList : []
-
-
         });
         //console.log("card lISt from redux"+JSON.stringify(props.cardList.cardList))
 
@@ -62,7 +61,7 @@ class PaymentMethod extends Component {
 
         if (index > -1) {
             this.state.cardList.splice(index, 1);
-         //   console.log("deleted card******", this.state.cardList);
+            //   console.log("deleted card******", this.state.cardList);
             this.props.UserActions.deleteCardFromFirebase({ ...this.state });
 
         }
@@ -72,35 +71,13 @@ class PaymentMethod extends Component {
 
     }
 
-    //    _onBlur() {
-    //     this.setState({hasFocus: false});
-    //     }
-
-    //   _onFocus() {
-    //     this.setState({hasFocus: true});
-    //     }
-
-    //   _getULColor(hasFocus) {
-
-    //     return (hasFocus === true) ? 'black' : 'gray';
-    //   }
-
-
-    // _onChange = (form) => {
-    //     //console.log("form data"+JSON.stringify(form,null,""));
-
-    // }
 
 
     render() {
-
-
         return (
             <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
 
                 <KeyboardAwareScrollView>
-
-
                     <ScrollView keyboardDismissMode='on-drag'>
 
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
@@ -110,12 +87,8 @@ class PaymentMethod extends Component {
                             <Text style={styles.headerTxt}> Payment</Text>
                             <View></View>
                         </View>
-
-
-
-
-                         <View style={styles.mainContainer}>
-                             <FlatList
+                        <View style={styles.mainContainer}>
+                            <FlatList
                                 style={styles.flatlist}
                                 data={this.state.cardList}
                                 showsVerticalScrollIndicator={false}
@@ -133,72 +106,40 @@ class PaymentMethod extends Component {
                                 }
                                 keyExtractor={item => item.email}
                             />
-
-
                             <TouchableOpacity style={styles.buttonStyle} onPress={() => this.props.navigation.navigate("AddCard", {
                                 data: this.state.cardList == null ? [] : this.state.cardList,
 
                             })}>
                                 <Text style={styles.savetxt}>+ Add New</Text>
                             </TouchableOpacity>
-
-                        </View> 
-
+                        </View>
                     </ScrollView>
                 </KeyboardAwareScrollView>
-
-
-
             </Background>
         );
     }
 
 
     creditCardImg(item) {
-        console.log("data of item", item)
-        // return (
+        // console.log("data of item", item)
+        switch (item.type) {
+            case 'master-card':
+                return (
+                    <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
-        //                     <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }}></Image>
-    
-        //                 );
-        // if (typeof (item.type) != "undefined" && item.type != null) {
+                );
+            case 'visa':
+                return (
+                    <Image source={Constants.Images.user.visa} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
-            switch (item.type) {
+                );
+            default:
+                return (
+                    <Image source={{ uri: "http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png" }} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
-                case 'master-card':
-                    return (
-
-                        <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
-
-                    );
-                case 'visa':
-                    return (
-
-                        <Image source={Constants.Images.user.visa} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
-
-                    );
-                default:
-                    return (
-
-                          <Image source={{uri:"http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png"}} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
-
-                       // <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }}></Image>
-                    );
-
-
-            }
-
-       }
-
-
-
-
-
-
-
-   // }
-
-
+                );
+        }
+    }
 
 }
 

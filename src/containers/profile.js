@@ -29,19 +29,10 @@ class Profile extends Component {
     };
   }
 
-
-
-
-  save() {
-
-  }
   logout() {
     this.props.UserActions.logoutFirebase();
-
-
   }
   render() {
-
 
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}>
@@ -55,52 +46,34 @@ class Profile extends Component {
             <View></View>
           </View>
 
-
           <View style={styles.mainContainer}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("PersonalDetail")} >
               <View style={styles.itemStyle}>
                 <Image source={Constants.Images.user.Personal} style={styles.iconStyle} />
-
-
                 <Text style={styles.textStyle}>Personal Details</Text>
-
                 <Icon name="angle-right" size={25} color='black' />
-
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("paymentMethod")}  >
               <View style={styles.itemStyle}>
                 <Image source={Constants.Images.user.Payment} style={styles.iconStyle} />
-
                 <Text style={styles.textStyle}>Payment Methods</Text>
-
                 <Icon name="angle-right" size={25} color='black' />
-
-
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("ChangePassword")}>
               <View style={styles.itemStyle}>
                 <Image source={Constants.Images.user.lock} style={styles.iconStyle} />
-
                 <Text style={styles.textStyle}>Change Password</Text>
-
                 <Icon name="angle-right" size={25} color='black' />
-
-
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.logout()}>
               <View style={styles.itemStyle}>
                 <Image source={Constants.Images.user.Logout} style={styles.iconStyle} />
-
                 <Text style={styles.textStyle}>Logout</Text>
-
-
-
               </View>
             </TouchableOpacity>
-
           </View>
         </ScrollView>
       </Background>

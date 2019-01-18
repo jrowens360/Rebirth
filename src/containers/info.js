@@ -18,16 +18,12 @@ class Info extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             index: 1
-
         };
     }
     onPress() {
-        console.log('move user dashboard');
-        this.props.navigation.navigate("dashboard")
-        //this.props.navigation.dispatch({ type: 'REPLACE'  });
 
+        this.props.navigation.navigate("dashboard")
 
     }
 
@@ -36,42 +32,28 @@ class Info extends Component {
     render() {
 
         return (
-
             <Background style={styles.container} src={Constants.Images.user.infobg}>
-
                 <Text style={styles.maintext}>How to take Photos?</Text>
                 <Text style={styles.text}>Please select how you prefer to take photos</Text>
                 <View style={styles.mainContainer}>
                     <ScrollableTabView
-
                         onChangeTab={(value) => {
-
                             this.setState(
                                 {
                                     index: value.i
                                 }
                             );
-
-                        }}
-
-                    >
+                        }}                  >
                         <Info_Profile tabLabel="Take a Selfie" img={Constants.Images.user.infoFront} />
                         <Info_Profile tabLabel="Ask for help" img={Constants.Images.user.infoSide} />
                     </ScrollableTabView>
                 </View>
 
-
-
-
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 3, }}>
-
                     <View style={this.state.index == 0 ? styles.activeDot : styles.inactiveDot}></View>
                     <View style={[this.state.index == 1 ? styles.activeDot : styles.inactiveDot, { marginLeft: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1.5, }]}></View>
 
                 </View>
-
-
-
                 <TouchableOpacity
                     onPress={() => this.onPress()}
                     style={styles.buttonStyle} >

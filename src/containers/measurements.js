@@ -156,7 +156,9 @@ class Measurements extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          alert('Modal has been closed.');
+          this.setState({
+            modalVisible:false
+           })
         }}>
         <View style={{
           flex: 1,
@@ -229,7 +231,9 @@ class Measurements extends Component {
         transparent={true}
         visible={this.state.modalfilterVisible}
         onRequestClose={() => {
-          alert('Modal has been closed.');
+         this.setState({
+          modalfilterVisible:false
+         })
         }}>
         <View style={{
           flex: 1,
@@ -302,7 +306,7 @@ class Measurements extends Component {
 
   }
   componentWillMount() {
-    // this.props.UserActions.measurementFromFirebase();
+     this.props.UserActions.measurementFromFirebase();
     console.log(this.state.measureHistory);
   }
   componentWillReceiveProps(props) {
@@ -328,6 +332,7 @@ class Measurements extends Component {
 
 
   render() {
+   // alert(JSON.stringify(this.state))
 
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
@@ -415,7 +420,7 @@ class Measurements extends Component {
                       {
                         Object.keys(this.state.measureHistory).length != 0
                           ? 
-                          <View>{this.state.sortValue ?  <View>{Object.keys(this.state.measureHistory).map((key, index) => {
+                          <View>{this.state.sortValue ?  <View>{Object.keys(this.state.measureHistory).reverse().map((key, index) => {
 
                             const myItem = this.state.measureHistory[key]
 
@@ -433,7 +438,7 @@ class Measurements extends Component {
                               </TouchableOpacity>
                             );
 
-                          })}</View> :  <View>{Object.keys(this.state.measureHistory).reverse().map((key, index) => {
+                          })}</View> :  <View>{Object.keys(this.state.measureHistory).map((key, index) => {
 
                             const myItem = this.state.measureHistory[key]
 

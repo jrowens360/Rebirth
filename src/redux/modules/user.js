@@ -209,39 +209,6 @@ export const changePasswordFirebase = (data, callback) => {
 
 
 
-
-
-
-// export const writeUserData = (data) => {
-
-
-//   const { currentUser } = firebase.auth();
-// 	return dispatch => {
-//     dispatch(startLoading());
-//   firebase.database().ref('UsersList/').push({
-//     name:data.name,
-//     email:data.email,
-//     phone:data.phone,
-//     height:data.height,
-//     weight:data.weight,
-//     dob:data.dob,
-//     profileImg:data.imageUrl
-// }).then((user)=>{
-//       dispatch(stopLoading());
-//       console.log('result save data ******* ',user)
-//       dispatch(ToastActionsCreators.displayInfo(user));
-
-
-
-//     }).catch(error => {
-//       console.log("error=> ", error)
-//       dispatch(stopLoading());
-//   });
-// }
-
-// };
-
-
 //-------------ReadUserData----------------------------------------------//
 export const readUserData = () => {
   const { currentUser } = firebase.auth();
@@ -584,8 +551,9 @@ export const addMeasurementFirebase = (data) => {
       { "measureList": data }
     ).then((saveData) => {
       console.log('result measurement save ******* ', saveData),
+        // alert(JSON.stringify(saveData));
         //    dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
-        dispatch(goTo({ route: 'Payment', params: {} }));
+        dispatch(goTo({ route: 'MeasurementDetail', params: {} }));
       dispatch(stopLoading());
       // });
     }).catch(error => {
@@ -621,27 +589,30 @@ export const measurementFromFirebase = () => {
   }
 };
 
-// export const measurementSortFirebase = () => {
 
-//   const { currentUser } = firebase.auth();
-//   return dispatch => {
-//     dispatch(startLoading());
-//     firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").once('value', function (snapshot) {
-//       dispatch(stopLoading());
+export const cardsFromFirebase = () => {
 
-//       console.log("read measurement data" + JSON.stringify(snapshot.val()))
-//       let listData = snapshot.val() == null ? {} : snapshot.val()
-//       if (snapshot.val() != null) {
-//         dispatch(MEASUREDETAIL(listData));
-//       //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
-//         // alert(JSON.stringify(snapshot.val()));
-//       } else {
-//         dispatch(ToastActionsCreators.displayInfo("There is no measurement list"));
-//       }
-//     });
+  const { currentUser } = firebase.auth();
+  return dispatch => {
+    dispatch(startLoading());
 
-//   }
-// };
+    firebase.database().ref('UsersList/' + currentUser.uid).once('value', function (snapshot) {
+      console.log("read DELETE data" + JSON.stringify(snapshot.val()))
+      let listData = snapshot.val() == null ? [] : snapshot.val()
+      dispatch(stopLoading());
+      if (snapshot.val() != null) {
+        dispatch(CARDDETAIL(listData));
+        //  dispatch(ToastActionsCreators.displayInfo("user card delete successfully"));
+      } else {
+        //  dispatch(ToastActionsCreators.displayInfo("Please try again"));
+      }
+
+
+
+    });
+
+  }
+};
 
 
 
@@ -735,7 +706,7 @@ export default function reducer(state = initialState, action) {
         sideImage: '',
         frontKey: '',
         bodyParameters: '',
-        measureHistory: '',
+        measureHistory: {},
         selectIndex: 0
 
 
@@ -745,7 +716,7 @@ export default function reducer(state = initialState, action) {
     case USER_DETAIL:
       return { ...state, userDetail: action.data };
     case CARD_DETAIL:
-      return { ...state, cardList: action.data };
+      return { ...state, cardList: action.data, selectIndex: 0 };
     case FRONT_IMAGE:
       return { ...state, frontImage: action.data };
     case SIDE_IMAGE:

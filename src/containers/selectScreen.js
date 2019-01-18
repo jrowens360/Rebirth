@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
-  View, Image, TextInput, TouchableOpacity, ScrollView, Modal
+  View, Image, TextInput, TouchableOpacity, Modal
 
 } from 'react-native';
 
 import Constants from '../constants';
-import Background from '../components/common/BackgroundImg';
+
 import _ from "lodash";
 import { bindActionCreators } from "redux";
 import * as UserActions from '../redux/modules/user';
 import { connect } from 'react-redux';
 import { ToastActionsCreators } from 'react-native-redux-toast';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import moment from "moment";
-
-
 
 class SelectScreen extends Component {
   constructor(props) {
@@ -28,20 +24,18 @@ class SelectScreen extends Component {
       femaleSelect: false,
       gender: '',
       height: '',
-      frontImg: props.frontImage,
-      sideImg: props.sideImage,
-      apiKey: 'APIKey 35ce6ef2466f0330482bc753ea456777715011c3',
-      frontKey: props.frontKey,
+      // frontImg: props.frontImage,
+      // sideImg: props.sideImage,
+      // apiKey: 'APIKey 35ce6ef2466f0330482bc753ea456777715011c3',
+      // frontKey: props.frontKey,
       feet: '',
       inch: ''
-
-
     };
   }
 
 
   onMale() {
-    //  this.props.navigation.navigate("signup")
+
     this.setState({
       maleSelect: true,
       femaleSelect: false,
@@ -51,18 +45,12 @@ class SelectScreen extends Component {
         this.setState({
           gender: 'male'
         })
-
-        console.log("male select");
       }
       else {
         this.setState({
           gender: 'female'
         })
-
-        console.log("female select");
       }
-
-
     });
 
 
@@ -85,11 +73,8 @@ class SelectScreen extends Component {
         })
 
       }
-
-
     });
 
-    // this.props.navigation.navigate("SignIn")
 
   }
   setModalVisible(visible) {
@@ -118,15 +103,13 @@ class SelectScreen extends Component {
     var inc = inch * 2.54
     var h = await (ft + inc).toFixed()
     this.setState({ height: h })
-   
+
     this.setModalVisible(!this.state.modalVisible);
   }
 
   onContinue() {
     let { dispatch } = this.props.navigation;
     let { gender, height } = this.state;
-    // //let { navigate } = this.props.navigation;
-
 
     if (_.isEmpty(gender.trim())) {
 
@@ -134,33 +117,33 @@ class SelectScreen extends Component {
       return;
     }
     if (_.isEmpty(height.trim())) {
-      //alert(enterMobile);
+
       dispatch(ToastActionsCreators.displayInfo('Please enter your height'))
       return;
     }
 
 
+    this.props.navigation.navigate("Payment", { userGender: gender, userHeight: height })
+    // this.props.UserActions.ImageParameter({ ...this.state }, (key) => {
+    //   this.setState({ frontKey: key }, () => {
 
-    this.props.UserActions.ImageParameter({ ...this.state }, (key) => {
-      this.setState({ frontKey: key }, () => {
+    //     this.props.UserActions.ImageSideParameter({ ...this.state }, () => {
 
-        this.props.UserActions.ImageSideParameter({ ...this.state }, () => {
+    //       this.props.UserActions.CompleteParameter({ ...this.state }, () => {
 
-          this.props.UserActions.CompleteParameter({ ...this.state }, () => {
+    //         this.props.UserActions.addMeasurementFirebase(this.props.maesureData);
 
-            this.props.UserActions.addMeasurementFirebase(this.props.maesureData);
-
-          })
-
-
-        });
-
-      });
+    //       })
 
 
+    //     });
 
-    });
-    // this.props.UserActions.CompleteParameter({ ...this.state });
+    //   });
+
+
+
+    // });
+
 
   }
 
@@ -227,8 +210,6 @@ class SelectScreen extends Component {
                     autoFocus={false}
                     autoCorrect={false}
                     value={this.state.feet}
-                    // onBlur={ () => this._onBlur() }
-                    // onFocus={ () => this._onFocus() }
                     style={styles.textInputStyle}
                     placeholder='feet'
                     placeholderTextColor={'gray'}
@@ -246,16 +227,12 @@ class SelectScreen extends Component {
                     autoFocus={false}
                     autoCorrect={false}
                     value={this.state.inch}
-                    // onBlur={ () => this._onBlur() }
-                    // onFocus={ () => this._onFocus() }
                     style={[styles.textInputStyle, { marginLeft: 10 }]}
                     placeholder='inches'
                     placeholderTextColor={'gray'}
                     underlineColorAndroid={"gray"}
                     keyboardType='phone-pad'
                     onChangeText={(inch) => this.setState({ inch })}
-
-
                   />
 
                 </View>
@@ -294,8 +271,6 @@ class SelectScreen extends Component {
                 autoCorrect={false}
                 editable={false}
                 value={this.state.height ? this.state.feet + "  feet  " + this.state.inch + " inchs" : "Enter height"}
-                // onBlur={ () => this._onBlur() }
-                // onFocus={ () => this._onFocus() }
                 style={[styles.textInputStyle, { color: 'white' }]}
                 placeholder='Enter height'
                 placeholderTextColor={'gray'}
@@ -308,8 +283,7 @@ class SelectScreen extends Component {
           </View>
 
 
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}
-          >
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }} >
             <TouchableOpacity onPress={() => this.onContinue()} style={{
               marginTop: 15, alignItems: 'center', color: 'white',
               backgroundColor: "white", paddingVertical: 10, paddingHorizontal: 15, borderRadius: 10
@@ -339,9 +313,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     // paddingHorizontal:Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,
     backgroundColor: Constants.Colors.Purple,
-    // backgroundColor: 'black',
-    // alignItems: 'center',
-    //justifyContent: 'center',
     padding: 10
 
   },
@@ -388,39 +359,22 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
     flexWrap: 'wrap'
-    // marginHorizontal: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 20,
-
-
 
   },
-  // bottomConatiner: {
-  //   flex: 1,
-  //   marginBottom: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 20,
-  //   position: 'absolute', bottom: 0,
-  //   alignItems: 'center',
-  //   justifyContent: "center",
-  //   //height:Constants.BaseStyle.DEVICE_HEIGHT / 100 * 40,
-  // },
-  // subConatiner: {
-  //   marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 5,
-  //   alignItems: 'center',
-  //   flexDirection: "row",
-  //   alignItems: "center"
 
-  // },
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
 });
-const mapStateToProps = state => ({
-  frontImage: state.user.frontImage,
-  sideImage: state.user.sideImage,
-  frontKey: state.user.frontKey,
-  maesureData: state.user.bodyParameters,
+// const mapStateToProps = state => ({
+//   frontImage: state.user.frontImage,
+//   sideImage: state.user.sideImage,
+//   frontKey: state.user.frontKey,
+//   maesureData: state.user.bodyParameters,
 
-});
+// });
 
 const mapDispatchToProps = dispatch => ({
   UserActions: bindActionCreators(UserActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectScreen);
+export default connect(null, mapDispatchToProps)(SelectScreen);
 

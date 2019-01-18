@@ -23,7 +23,7 @@ import DatePicker from 'react-native-datepicker'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Background from '../components/common/BackgroundImg';
 import * as UserActions from '../redux/modules/user';
-// import ImagePicker from "react-native-image-crop-picker";
+
 import RNFetchBlob from 'react-native-fetch-blob'
 import ImagePicker from 'react-native-image-picker';
 const options = {
@@ -64,29 +64,22 @@ class PersonalDetail extends Component {
 
   }
   componentWillReceiveProps(props) {
-    console.log("ne props " + JSON.stringify(props.userDetail));
+   
     let { name, email, phone, dob, profileImg } = props.userDetail;
-    //var encoded = encodeURI(profileImg);
-    
     this.setState({ name, email, phone, dob, imageUrl: profileImg, avatarSource: { uri: profileImg } }, () => {
-      console.log("set value here " + JSON.stringify(this.state.avatarSource));
+      // console.log("set value here " + JSON.stringify(this.state.avatarSource));
     
     });
 
 
   }
 
-  
-
-
-
   save() {
 
 
     let { dispatch } = this.props.navigation;
     let { name, email, phone, dob } = this.state;
-    //let { navigate } = this.props.navigation;
-
+  
     if (_.isEmpty(name.trim())) {
 
       dispatch(ToastActionsCreators.displayInfo('Please enter your name'))
@@ -95,13 +88,13 @@ class PersonalDetail extends Component {
 
 
     if (_.isEmpty(phone.trim())) {
-      //alert(enterMobile);
+  
       dispatch(ToastActionsCreators.displayInfo('Please enter your phone number'))
       return;
     }
 
     if (!Regex.validateMobile(phone.trim())) {
-      //alert(enterValidMobile);
+    
       dispatch(ToastActionsCreators.displayInfo('Please enter a valid phone number'))
       return;
     }
@@ -109,12 +102,12 @@ class PersonalDetail extends Component {
 
 
     if (_.isEmpty(email.trim())) {
-      //alert(enterEmail);
+    
       dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
       return;
     }
     if (!Regex.validateEmail(email.trim())) {
-      //alert(enterValidEmail);
+    
       dispatch(ToastActionsCreators.displayInfo('Please Enter a valid email'))
       return;
     }
@@ -127,32 +120,19 @@ class PersonalDetail extends Component {
       return;
     }
 
-
-    // if (this.state.imageUrl) {
       this.props.UserActions.updateUserData({ ...this.state });
 
-    // } else {
-    //   this.getSelectedImages();
-
-
-    // }
-
-
-
-
-
-
+ 
 
   }
   onSelect = (picked) => {
-    // alert("come here"+picked);
-
+ 
     if (picked === 'gallery') {
 
 
       ImagePicker.launchImageLibrary(options, (response) => {
 
-        console.log('Response = ', response);
+       // console.log('Response = ', response);
 
         if (response.didCancel) {
           console.log('User cancelled image picker');
@@ -181,7 +161,7 @@ class PersonalDetail extends Component {
 
       ImagePicker.launchCamera(options, (response) => {
 
-        console.log('Response = ', response);
+     //   console.log('Response = ', response);
 
         if (response.didCancel) {
           console.log('User cancelled image picker');
@@ -209,7 +189,7 @@ class PersonalDetail extends Component {
   }
 
   getSelectedImages = () => {
-    console.log("my state",this.state);
+  
     let { dispatch } = this.props.navigation;
     dispatch({ type: "LOADING_START" });
    
@@ -224,7 +204,7 @@ class PersonalDetail extends Component {
 
     let uploadBlob = null
     const imageRef = firebase.storage().ref('images').child(Math.floor(Date.now()) + '.jpg')
-    console.log("firbase" + imageRef);
+  //  console.log("firbase" + imageRef);
     let mime = 'image/jpg'
 
 
@@ -294,8 +274,6 @@ class PersonalDetail extends Component {
               <Text style={styles.headerTxt}> Personal Details  </Text>
               <View></View>
             </View>
-
-
             <View style={styles.mainContainer}>
 
               <View style={styles.container}>
@@ -303,7 +281,6 @@ class PersonalDetail extends Component {
                   <Image source={this.state.avatarSource} style={styles.imageStyle} />
 
                   <View>
-
                     <Text style={[styles.textStyle]}>
                       Select Photo</Text>
                     <View style={{ flexDirection: "row", marginLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 6, marginTop: 8 }}>
@@ -332,7 +309,6 @@ class PersonalDetail extends Component {
                   onFocus={() => this._onFocus()}
                   placeholder='Name'
                   placeholderTextColor={'gray'}
-                //  underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                   onChangeText={(name) => this.setState({ name })}
                 />
                 <View style={{flexDirection:'row'}}>
@@ -398,13 +374,9 @@ class PersonalDetail extends Component {
                     dateInput: [styles.rowLeft],
                     placeholderText: { color: 'gray' },
                     dateText: { color: 'gray' }
-                    // ... You can check the source to find the other keys.
                   }}
                   onDateChange={(dob) => this.setState({ dob })}
                 />
-
-
-
                 <TouchableOpacity onPress={() => { this.save() }}
 
                   style={styles.buttonStyle} >
@@ -492,9 +464,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     padding: 0,
-    //marginRight:6,
-    // marginHorizontal:0,
-    //marginLeft: (Constants.BaseStyle.DEVICE_WIDTH / 100) * 5,
     marginTop: 2,
     marginVertical: Constants.BaseStyle.DEVICE_WIDTH * 1 / 200,
     borderBottomWidth: 1,
@@ -503,8 +472,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomColor: 'gray', justifyContent: 'flex-start', marginLeft: 8
 
-
-    //borderBottomColor:Constants.Colors.Blue
   },
   rowIcon: {
     width: Constants.BaseStyle.DEVICE_WIDTH * 5 / 100,

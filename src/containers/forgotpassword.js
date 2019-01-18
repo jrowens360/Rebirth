@@ -28,7 +28,6 @@ class ForgotPassword extends Component {
     this.state = {
       email: '',
       hasFocus: false
-
     }
   }
 
@@ -37,21 +36,16 @@ class ForgotPassword extends Component {
 
     let { dispatch } = this.props.navigation;
     let { email } = this.state;
-    //let { navigate } = this.props.navigation;
-
     if (_.isEmpty(email.trim())) {
-      //alert(enterEmail);
+
       dispatch(ToastActionsCreators.displayInfo('Please enter your email'))
       return;
     }
     if (!Regex.validateEmail(email.trim())) {
-      //alert(enterValidEmail);
+
       dispatch(ToastActionsCreators.displayInfo('Enter a valid email'))
       return;
     }
-
-
-
     this.props.UserActions.forgotPasswordFirebase({ ...this.state });
 
 
@@ -78,7 +72,7 @@ class ForgotPassword extends Component {
 
           <ScrollView keyboardDismissMode={Platform.OS === 'ios' ? 'on-drag' : 'interactive'} keyboardShouldPersistTaps="always" >
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5, alignItems: 'center' }}>
-              <TouchableOpacity   style={{paddingHorizontal:6}}onPress={() => this.props.navigation.goBack()}>
+              <TouchableOpacity style={{ paddingHorizontal: 6 }} onPress={() => this.props.navigation.goBack()}>
                 <Icon name="angle-left" size={40} color='white' />
               </TouchableOpacity>
               <Text style={styles.forgotTxt}> Forgot Password </Text>
@@ -86,8 +80,6 @@ class ForgotPassword extends Component {
             </View>
             <View style={{ flex: 1, paddingHorizontal: 20, justifyContent: "center", }}>
               <Image source={Constants.Images.user.splashLogo} style={styles.imageStyle} />
-
-
               <TextInput
                 autoFocus={false}
                 onBlur={() => this._onBlur()}
@@ -99,10 +91,7 @@ class ForgotPassword extends Component {
                 underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(email) => this.setState({ email })}
               />
-
-
               <TouchableOpacity onPress={() => this.forgotSubmit()}
-
                 style={styles.buttonStyle} >
                 <Text style={{ color: Constants.Colors.Purple }}>Submit</Text>
               </TouchableOpacity>
@@ -121,7 +110,6 @@ class ForgotPassword extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal:Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,
     backgroundColor: '#F5FCFF',
 
 
@@ -131,12 +119,6 @@ const styles = StyleSheet.create({
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 6,
     color: 'white'
 
-  },
-
-  navIcons: {
-    // marginLeft:Constants.BaseStyle.DEVICE_WIDTH/100 * 5,
-
-    // height:Constants.BaseStyle.DEVICE_WIDTH*6/100,
   },
   imageStyle: {
     width: Constants.BaseStyle.DEVICE_WIDTH * 70 / 100,
