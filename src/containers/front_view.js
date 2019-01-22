@@ -57,7 +57,6 @@ class FrontView extends Component {
   onSelect = (picked, slectedView) => {
 
     if (slectedView == 'frontView') {
-
       this.setState({
         avatarFrontView: '',
 
@@ -127,15 +126,10 @@ class FrontView extends Component {
 
             }, () => {
               this.props.UserActions.uploadImage({ ...this.state });
-
-
-
             });
           }
 
         });
-
-
 
       }
 
@@ -167,18 +161,13 @@ class FrontView extends Component {
               this.props.UserActions.uploadSideImage({ ...this.state });
 
             });
-
-
-
           }
 
 
         });
       } else {
         ImagePicker.launchCamera(options, (response) => {
-
           console.log('Response  side camera = ', response);
-
           if (response.didCancel) {
             console.log('User cancelled image picker');
           } else if (response.error) {
@@ -190,17 +179,11 @@ class FrontView extends Component {
             this.setState({
               avatarSideView: source,
               nextButton: false
-
             }, () => {
               this.props.UserActions.uploadSideImage({ ...this.state });
-
-
             });
           }
         });
-
-
-
       }
     }
 
@@ -321,8 +304,8 @@ const styles = StyleSheet.create({
     width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
   },
   textStyle: { color: "black", flex: 1, paddingLeft: 10, fontWeight: '500' },
-  bottomDefaultText: { color: 'gray', alignSelf: 'center', fontSize: 20, padding: 10 },
-  bottomText: { color: 'white', alignSelf: 'center', fontSize: 20, padding: 10 },
+  bottomDefaultText: { color: 'gray', alignSelf: 'center', fontSize: 20, paddingHorizontal: 12 ,paddingVertical:5 },
+  bottomText: { color: Constants.Colors.Purple, alignSelf: 'center', fontSize: 20, paddingHorizontal: 12 ,paddingVertical:5},
 
 
   itemStyle: {
@@ -348,10 +331,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
 
-    // borderRadius: Constants.BaseStyle.DEVICE_WIDTH*15/100,
-    // borderColor:'yellow',
-    // borderWidth:4
-
   },
   imageDefaultStyle: {
     flex: 1, width: '100%',
@@ -359,7 +338,10 @@ const styles = StyleSheet.create({
   },
   textStyle: { color: 'black', alignSelf: 'center', padding: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2.5, fontSize: 20 },
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
-  nextTxt: { padding: 2 }
+  nextTxt: { paddingHorizontal: 6,paddingVertical:1,backgroundColor:'white',marginTop:3,elevation: 2, 
+  borderRadius: 5,
+  
+  }
 
 
 })

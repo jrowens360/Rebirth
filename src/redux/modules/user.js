@@ -26,6 +26,8 @@ export const FRONT_KEY = "FRONT_KEY";
 export const BODY_PARAMS = "BODY_PARAMS";
 export const MEASURE_DETAIL = "MEASURE_DETAIL";
 export const SELECT_INDEX = "SELECT_INDEX";
+export const FILTER_INDEX = "FILTER_INDEX";
+export const SORT_INDEX = "SORT_INDEX";
 
 //----------------- Action Creators-----------------------//
 
@@ -42,6 +44,8 @@ export const FRONTKEY = (data) => ({ type: FRONT_KEY, data });
 export const BODYPARAMS = (data) => ({ type: BODY_PARAMS, data });
 export const MEASUREDETAIL = (data) => ({ type: MEASURE_DETAIL, data });
 export const SELECTINDEX = (data) => ({ type: SELECT_INDEX, data });
+export const FILTERINDEX = (data) => ({ type: FILTER_INDEX, data });
+export const SORTINDEX = (data) => ({ type: SORT_INDEX, data });
 //perform API's
 
 
@@ -579,6 +583,8 @@ export const measurementFromFirebase = () => {
       let listData = snapshot.val() == null ? {} : snapshot.val()
       if (snapshot.val() != null) {
         dispatch(MEASUREDETAIL(listData));
+        dispatch(FILTERINDEX(0));
+        dispatch(SORTINDEX(0));
         //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
         // alert(JSON.stringify(snapshot.val()));
       } else {
@@ -682,8 +688,11 @@ const initialState = {
   sideImage: '',
   frontKey: '',
   bodyParameters: '',
-  measureHistory: '',
-  selectIndex: 0
+  measureHistory: {},
+  selectIndex: 0,
+  filterIndex:0,
+  sortIndex:0,
+
 
 
 
@@ -707,7 +716,9 @@ export default function reducer(state = initialState, action) {
         frontKey: '',
         bodyParameters: '',
         measureHistory: {},
-        selectIndex: 0
+        selectIndex: 0,
+        filterIndex:0,
+        sortIndex:0,
 
 
       };
@@ -729,8 +740,10 @@ export default function reducer(state = initialState, action) {
       return { ...state, measureHistory: action.data };
     case "SELECT_INDEX":
       return { ...state, selectIndex: action.index };
-
-
+    case FILTER_INDEX:
+      return { ...state, filterIndex: action.data };
+    case SORT_INDEX:
+      return { ...state, sortIndex: action.data };
     default:
       return state;
   }

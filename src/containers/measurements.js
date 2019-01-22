@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Constants from '../constants';
 import { connect } from 'react-redux';
-import NavigationBar from 'react-native-navbar';
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as UserActions from '../redux/modules/user';
@@ -27,7 +27,9 @@ class Measurements extends Component {
       measureObj: {},
       modalVisible: false,
       modalfilterVisible: false,
-      measureHistory: props.measureHistory != null ? props.measureHistory : {}
+      measureHistory:  Object.keys(props.measureHistory).length != 0   ? props.measureHistory : {},
+      filterIndex:0,
+      sortIndex:0
 
     };
   }
@@ -46,15 +48,18 @@ class Measurements extends Component {
   }
 
   sortModal(value) {
+    let { dispatch } = this.props.navigation;
     this.setModalVisible(!this.state.modalVisible);
     switch (value) {
 
       case 'ascending':
+      dispatch(UserActions.SORTINDEX(0))
         this.setState({ sortValue: true })
 
         break;
       case 'descending':
-        this.setState({ sortValue: false })
+      dispatch(UserActions.SORTINDEX(1))
+        this.setState({ sortValue: false})
 
         break;
 
@@ -62,6 +67,7 @@ class Measurements extends Component {
 
   }
   filterModal(value) {
+    let { dispatch } = this.props.navigation;
     this.setModalFilter(!this.state.modalfilterVisible);
     for (const prop of Object.getOwnPropertyNames(this.state.measureObj)) {
       delete this.state.measureObj[prop];
@@ -70,12 +76,13 @@ class Measurements extends Component {
     switch (value) {
 
       case 'alldata':
-     
-        console.log("all", this.state.measureObj)
+      
+       // console.log("all", this.state.measureObj)
+       dispatch(UserActions.FILTERINDEX(0))
 
         break;
       case 'yesterday':
-
+      
         var dateTo = moment().subtract(1, 'd');
         //  console.log("my time",dateFrom);
         //  console.log("my time stemp time",dateTo, Math.floor(Date.now()).toString(), Math.floor(dateFrom).toString(), Math.floor(dateTo).toString());
@@ -91,32 +98,13 @@ class Measurements extends Component {
           }
 
         })
-        console.log("day", this.state.measureObj)
+        dispatch(UserActions.FILTERINDEX(1))
+       // console.log("day", this.state.measureObj)
         break;
-      case 'lastmonth':
-        var dateTo = moment().subtract(30, 'd');
-        //  console.log("my time",dateFrom);
-        //  console.log("my time stemp time",dateTo, Math.floor(Date.now()).toString(), Math.floor(dateFrom).toString(), Math.floor(dateTo).toString());
-        //   console.log(this.props.measureHistory);
-        var fil = Object.entries(this.state.measureHistory).filter((key) => {
-          if (key[0] > Math.floor(dateTo).toString()) {
-            console.log("my key", key[0], "my value", key[1])
-            this.state.measureObj[key[0]] = key[1];
-            return true;
-
-          } else {
-            return false;
-          }
-
-        })
-
-
-        console.log("month", this.state.measureObj)
-
-        break;
+    
 
       case 'lastweek':
-
+      
         // var dateFrom = moment();
         var dateTo = moment().subtract(7, 'd');
         //  console.log("my time",dateFrom);
@@ -134,10 +122,32 @@ class Measurements extends Component {
 
         })
 
+        dispatch(UserActions.FILTERINDEX(2))
+       // console.log("week", this.state.measureObj)
 
-        console.log("week", this.state.measureObj)
 
 
+        break;
+        case 'lastmonth':
+     
+        var dateTo = moment().subtract(30, 'd');
+        //  console.log("my time",dateFrom);
+        //  console.log("my time stemp time",dateTo, Math.floor(Date.now()).toString(), Math.floor(dateFrom).toString(), Math.floor(dateTo).toString());
+        //   console.log(this.props.measureHistory);
+        var fil = Object.entries(this.state.measureHistory).filter((key) => {
+          if (key[0] > Math.floor(dateTo).toString()) {
+            console.log("my key", key[0], "my value", key[1])
+            this.state.measureObj[key[0]] = key[1];
+            return true;
+
+          } else {
+            return false;
+          }
+
+        })
+
+        dispatch(UserActions.FILTERINDEX(3))
+      //  console.log("month", this.state.measureObj)
 
         break;
 
@@ -157,13 +167,11 @@ class Measurements extends Component {
         visible={this.state.modalVisible}
         onRequestClose={() => {
           this.setState({
-            modalVisible:false
-           })
+            modalVisible: false
+          })
         }}>
         <View style={{
           flex: 1,
-          // backgroundColor:Constants.Colors.Purple,
-          // alignItems: 'center',
           marginBottom: 20,
           justifyContent: 'center'
         }}>
@@ -177,7 +185,10 @@ class Measurements extends Component {
                   this.sortModal("ascending");
 
                 }}>
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Ascending</Text>
+                <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+                {this.state.sortIndex == 0? <Icon name="check" size={30} color='black'  />:<View style={{ width:30}}></View>} 
+                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17,marginLeft:5 ,padding:2  }}> Ascending</Text>
+                </View>
               </TouchableOpacity>
 
               <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
@@ -188,29 +199,14 @@ class Measurements extends Component {
                   this.sortModal("descending");
 
                 }}>
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Descending</Text>
+                   <View style={{ flexDirection:'row' ,justifyContent:'center',alignItems:'center'}}>
+                   {this.state.sortIndex == 1? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>} 
+                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17,marginLeft:2 ,padding:5 }}> Descending</Text>
+                </View>
               </TouchableOpacity>
 
             </View>
-            {/* <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View> */}
-            {/* <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity
-              style={{ flex: 1, padding: 5 }}
-              onPress={() => {
-                this.setState({ modalVisible: false });
-              }}>
-              <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Cancel</Text>
-            </TouchableOpacity>
-            <View style={{ backgroundColor: Constants.Colors.Purple, height: '100%', width: 2 }}></View>
-            <TouchableOpacity
-              style={{ flex: 1, padding: 5 }}
-              onPress={() => {
-                this.submit();
-    
-              }}>
-              <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Submit</Text>
-            </TouchableOpacity>
-          </View> */}
+          
 
 
           </View>
@@ -231,9 +227,9 @@ class Measurements extends Component {
         transparent={true}
         visible={this.state.modalfilterVisible}
         onRequestClose={() => {
-         this.setState({
-          modalfilterVisible:false
-         })
+          this.setState({
+            modalfilterVisible: false
+          })
         }}>
         <View style={{
           flex: 1,
@@ -247,48 +243,35 @@ class Measurements extends Component {
             {/* <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Please enter Card cvv number</Text> */}
             <View style={{ justifyContent: 'center' }}>
               <TouchableOpacity onPress={() => { this.filterModal("alldata"); }}>
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> All Data</Text>
+              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+             {this.state.filterIndex == 0? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}    
+                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}>All Data</Text>
+                </View>
               </TouchableOpacity>
               <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
               <TouchableOpacity onPress={() => { this.filterModal("yesterday"); }}>
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Yesterday</Text>
+              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+              {this.state.filterIndex == 1? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}    
+                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}>Yesterday</Text>
+                </View>
               </TouchableOpacity>
               <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
               <TouchableOpacity onPress={() => { this.filterModal("lastweek"); }}>
+              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+              {this.state.filterIndex == 2? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}   
                 <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Last Week</Text>
+                </View>
               </TouchableOpacity>
               <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
               <TouchableOpacity onPress={() => { this.filterModal("lastmonth"); }}>
+              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+              {this.state.filterIndex == 3? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}   
                 <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Last Month</Text>
-
+               </View>
               </TouchableOpacity>
 
 
             </View>
-
-
-
-
-            {/* <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View> */}
-            {/* <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
-                style={{ flex: 1, padding: 5 }}
-                onPress={() => {
-                  this.setState({ modalfilterVisible: false });
-                }}>
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Cancel</Text>
-              </TouchableOpacity>
-              <View style={{ backgroundColor: Constants.Colors.Purple, height: '100%', width: 2 }}></View>
-              <TouchableOpacity
-                style={{ flex: 1, padding: 5 }}
-                onPress={() => {
-                  this.filterModal();
-      
-                }}>
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Done</Text>
-              </TouchableOpacity>
-            </View> */}
-
 
           </View>
         </View>
@@ -301,18 +284,20 @@ class Measurements extends Component {
 
   }
 
-  componentDidMount() {
-    console.log("my object", this.state.measureObj);
+  // componentDidMount() {
+  //   console.log("my object", this.state.measureObj);
 
-  }
+  // }
   componentWillMount() {
-     this.props.UserActions.measurementFromFirebase();
-    console.log(this.state.measureHistory);
+  //   console.log( "my props", this.props);
+    this.props.UserActions.measurementFromFirebase();
+   //  console.log("my list",this.state.measureHistory);
   }
   componentWillReceiveProps(props) {
-    console.log(this.state.measureObj, "my props", props);
+  //  console.log(this.state.measureObj, "my props", props);
     this.setState({
-
+       filterIndex:props.filterIndex,
+       sortIndex:props.sortIndex,
       measureHistory: props.measureHistory != null ? props.measureHistory : {}
 
 
@@ -332,7 +317,7 @@ class Measurements extends Component {
 
 
   render() {
-   // alert(JSON.stringify(this.state))
+    // alert(JSON.stringify(this.state))
 
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
@@ -373,7 +358,7 @@ class Measurements extends Component {
 
               {this.modalForSorting()}
               {this.modalForFilter()}
-              <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 {
                   Object.keys(this.state.measureObj).length != 0
                     ?
@@ -419,8 +404,8 @@ class Measurements extends Component {
 
                       {
                         Object.keys(this.state.measureHistory).length != 0
-                          ? 
-                          <View>{this.state.sortValue ?  <View>{Object.keys(this.state.measureHistory).reverse().map((key, index) => {
+                          ?
+                          <View>{this.state.sortValue ? <View>{Object.keys(this.state.measureHistory).reverse().map((key, index) => {
 
                             const myItem = this.state.measureHistory[key]
 
@@ -438,7 +423,7 @@ class Measurements extends Component {
                               </TouchableOpacity>
                             );
 
-                          })}</View> :  <View>{Object.keys(this.state.measureHistory).map((key, index) => {
+                          })}</View> : <View>{Object.keys(this.state.measureHistory).map((key, index) => {
 
                             const myItem = this.state.measureHistory[key]
 
@@ -456,34 +441,18 @@ class Measurements extends Component {
                               </TouchableOpacity>
                             );
 
-                          })}</View> }</View>
-                          
-                          
-                         : <View><Text style={{ color: 'black', fontWeight: '600', textAlign: 'center' }}>No Measurement history</Text>
+                          })}</View>}</View>
 
 
-
-
+                          : <View><Text style={{ color: 'black', fontWeight: '600', textAlign: 'center' }}>No Measurement history</Text>
 
                           </View>
-
-
-
                       }
 
-
-
                     </View>
-
-
-
                 }
 
-
-
-
               </ScrollView>
-
             </View>
           </ScrollView>
         </KeyboardAwareScrollView>
@@ -544,7 +513,8 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = state => ({
   measureHistory: state.user.measureHistory == null ? {} : state.user.measureHistory,
-
+  filterIndex: state.user.filterIndex,
+  sortIndex: state.user.sortIndex,
 });
 
 const mapDispatchToProps = dispatch => ({

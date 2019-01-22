@@ -29,6 +29,8 @@ module.exports = {
 		visa: require("../assets/images/visa.png"),
 		sort: require("../assets/images/sort.png"),
 		filter:require("../assets/images/filter.png"),
+		
+
 
 
 
