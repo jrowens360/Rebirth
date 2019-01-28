@@ -57,12 +57,13 @@ class MeasurementDetail extends Component {
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity >
             <Text style={styles.headerTxt}> Measurement Detail </Text>
-            <View>
+            {/* <View>
               <TouchableOpacity onPress={() => this.dashBoard()}>
                 <Text style={styles.headerTxt} > Done</Text>
               </TouchableOpacity >
 
-            </View>
+            </View> */}
+            <View style={{width:30}}></View>
           </View>
 
           <View style={styles.mainContainer}>
@@ -366,6 +367,12 @@ class MeasurementDetail extends Component {
             </ScrollView>
 
           </View>
+         
+              <TouchableOpacity style={styles.donebtnStyle} onPress={() => this.dashBoard()}>
+                <Text style={{color: Constants.Colors.Purple,fontWeight: '500'}} > Done</Text>
+              </TouchableOpacity >
+
+           
         </ScrollView>
       </Background>
     );
@@ -398,7 +405,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
 
   },
-
+  donebtnStyle: {
+    color: 'white',
+    marginVertical: 5,
+    alignSelf: 'center',
+    borderRadius: 20,
+    textAlign: 'center',
+    backgroundColor:'white',
+    paddingVertical: 10,
+    paddingHorizontal: 22,
+    // width: "45%",
+    justifyContent: "center", alignItems: 'center'
+  },
 
   buttonStyle: {
     marginTop: 15,

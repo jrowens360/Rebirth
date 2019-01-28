@@ -244,9 +244,9 @@ export const updateUserData = (data) => {
 
     }).then(() => {
       dispatch(stopLoading());
-      dispatch(ToastActionsCreators.displayInfo("User profile updated successfully"));
+      dispatch(ToastActionsCreators.displayInfo("Profile Update Successful"));
 
-      console.log("user data updated")
+      //console.log("user data updated")
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -327,7 +327,7 @@ export const deleteCardFromFirebase = (data) => {
         dispatch(stopLoading());
         if (snapshot.val() != null) {
           dispatch(CARDDETAIL(listData));
-          dispatch(ToastActionsCreators.displayInfo("user card delete successfully"));
+          dispatch(ToastActionsCreators.displayInfo("Card Deleted Successfully"));
         } else {
           dispatch(ToastActionsCreators.displayInfo("Please try again"));
         }
@@ -346,13 +346,52 @@ export const deleteCardFromFirebase = (data) => {
 
 //-------------uploadImage----------------------------------------//
 
+// export const uploadImage = (data) => {
+//   console.log('data ********* ', data)
+//   let body = new FormData();
+
+//   //const uploadUri = Platform.OS === 'ios' ? data.avatarFrontView.uri.replace('file://', '') : data.avatarFrontView.uri
+//   body.append('image', { uri: data.avatarFrontView.uri, name: data.avatarFrontView.filename, filename: data.avatarFrontView.filename, type: data.avatarFrontView.type });
+
+
+
+//   console.log('data body  ********* ', body)
+//   return dispatch => {
+//     console.log('upload img******* ')
+//   //  dispatch(startLoading());
+//     RestClient.uploadImage("uploads/", body, data.apiKey).then((result) => {
+//       // console.log('result front image upload ******* ',result)
+//       //  if(result.status == 1){
+//      // dispatch(stopLoading());
+//       console.log('result ******* ', result)
+//       alert(JSON.stringify(result));
+//       if (result.status) {
+//        // dispatch(stopLoading());
+//         dispatch(FRONTIMAGE(result.name));
+//         console.log('result front image upload ******* ', result)
+
+//       } else {
+
+//         dispatch(ToastActionsCreators.displayInfo('Please try again'))
+//         console.log('status false ******* ', result)
+
+//       }
+
+
+//     }).catch(error => {
+//       console.log("error=> ", error)
+//       dispatch(ToastActionsCreators.displayInfo(error.message))
+//       dispatch(stopLoading());
+//     });
+//   }
+
+// };
+
 export const uploadImage = (data) => {
   console.log('data ********* ', data)
   let body = new FormData();
 
-  const uploadUri = Platform.OS === 'ios' ? data.avatarFrontView.uri.replace('file://', '') : data.avatarFrontView.uri
-  body.append('image', { uri: uploadUri, name: data.avatarFrontView.filename, filename: data.avatarFrontView.filename, type: data.avatarFrontView.type });
-
+  body.append('image', { uri: data.avatarFrontView.uri, name: data.avatarFrontView.filename, filename: data.avatarFrontView.filename, type: data.avatarFrontView.type });
 
 
   console.log('data body  ********* ', body)
@@ -368,15 +407,18 @@ export const uploadImage = (data) => {
       if (result.status) {
         dispatch(FRONTIMAGE(result.name));
         console.log('result front image upload ******* ', result)
-
       } else {
-
         dispatch(ToastActionsCreators.displayInfo('Please try again'))
-        console.log('status false ******* ', result)
+        console.log('result front image upload ******* ', result)
+
 
       }
-
-
+      // }
+      // dispatch(ToastActionsCreators.displayInfo(result.message));
+      // }else{
+      //   dispatch(stopLoading());
+      //   // dispatch(ToastActionsCreators.displayInfo(result.message));
+      // }
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -385,7 +427,6 @@ export const uploadImage = (data) => {
   }
 
 };
-
 export const uploadSideImage = (data) => {
   console.log('data ********* ', data)
   let body = new FormData();
@@ -462,10 +503,10 @@ export const ImageParameter = (data, callback) => {
         callback(result.key);
       } else if (result.status_code == 500) {
 
-        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review  Front Image Uploads'))
       } else {
 
-        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review  Front Image Uploads'))
       }
 
 
@@ -514,9 +555,9 @@ export const ImageSideParameter = (data, callback) => {
       }
       else if (result.status_code == 500) {
 
-        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review Side Image Uploads'))
       } else {
-        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review Side Image Uploads'))
       }
 
 
@@ -588,7 +629,7 @@ export const measurementFromFirebase = () => {
         //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
         // alert(JSON.stringify(snapshot.val()));
       } else {
-        dispatch(ToastActionsCreators.displayInfo("There is no measurement list"));
+        dispatch(ToastActionsCreators.displayInfo("No Measurements Available"));
       }
     });
 
@@ -656,7 +697,7 @@ export const CompleteParameter = (data, callback) => {
         callback(result)
 
       } else {
-        dispatch(ToastActionsCreators.displayInfo('Please Select Front and Side image again'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review Image Uploads'))
 
 
       }

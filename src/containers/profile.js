@@ -43,7 +43,7 @@ class Profile extends Component {
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity >
             <Text style={styles.headerTxt}> Profile </Text>
-            <View></View>
+            <View style={{width:30}}></View>
           </View>
 
           <View style={styles.mainContainer}>

@@ -23,7 +23,8 @@ import * as UserActions from '../redux/modules/user';
 import { startLoading, stopLoading, showToast, hideToast } from '../redux/modules/app';
 //import ImagePicker from "react-native-image-crop-picker";
 import RNFetchBlob from 'react-native-fetch-blob'
-import ImagePicker from 'react-native-image-picker';
+//import ImagePicker from 'react-native-image-picker';
+import ImagePicker from "react-native-image-crop-picker";
 const options = {
   title: 'Select Avatar',
   mediaType: 'photo',
@@ -70,61 +71,54 @@ class SignUp extends Component {
 
     if (picked === 'gallery') {
 
+  
 
-      ImagePicker.launchImageLibrary(options, (response) => {
+      ImagePicker.openPicker({
+        width: 540,
+        height: 360,
+        cropping: true,
+        enableRotationGesture: true
 
-        console.log('Response = ', response);
+      }).then(image => {
+      // console.log(image);
 
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        } else {
-          const source = { uri: response.uri, type: response.type };
-
-
-          this.setState({
-            avatarSource: source,
-          });
-
-
-
-        }
+   
+        let source = { uri: image.path, type: image.mime };
+        this.setState({
+                avatarSource: source,
+              });
+            
+      }).catch(function (error) {
+                       console.log("my error",error);
+                   });
 
 
 
-      });
 
     } else {
 
+      ImagePicker.openCamera({
+        width: 540,
+        height: 360,
+        cropping: true,
+        enableRotationGesture: true
 
-      ImagePicker.launchCamera(options, (response) => {
-
-        console.log('Response = ', response);
-
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        } else {
-          const source = { uri: response.uri, type: response.type };
-
-
-          this.setState({
-            avatarSource: source,
-          });
-        }
+      }).then(image => {
+ 
+        let source = { uri: image.path, type: image.mime };
+        this.setState({
+                avatarSource: source,
+              });
+            
+      }).catch(function (error) {
+                       console.log("my error",error);
+                   });
 
 
+  }
 
-      });
 
-
-    }
+    
   }
 
   getSelectedImages = (userData) => {
@@ -324,7 +318,7 @@ class SignUp extends Component {
               />
 
               <View style={{ flexDirection: 'row' }}>
-                <TextInput
+                {/* <TextInput
                   // value={+1}
                   style={styles.textInputStyle}
                   maxLength={1}
@@ -338,7 +332,7 @@ class SignUp extends Component {
 
                   keyboardType='phone-pad'
 
-                />
+                /> */}
                 <TextInput
                   style={[styles.textInputStyle, { flex: 1 }]}
                   maxLength={10}
@@ -370,7 +364,7 @@ class SignUp extends Component {
 
 
               <DatePicker
-                style={{ width: '100%', borderBottomColor: 'red' }}
+                style={{ width: '100%', borderBottomColor: 'red' ,marginTop:8}}
                 date={this.state.dob}
                 mode="date"
                 placeholder="DOB"
@@ -460,7 +454,7 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     color: 'white',
-    padding: 10,
+    paddingVertical: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
     borderBottomColor: 'gray',
     borderBottomWidth: 1
@@ -494,14 +488,15 @@ const styles = StyleSheet.create({
     padding: 0,
     //marginRight:6,
     // marginHorizontal:0,
-    //marginLeft: (Constants.BaseStyle.DEVICE_WIDTH / 100) * 5,
-    marginTop: 2,
+   // marginLeft: -5,
+    marginTop: 4,
     marginVertical: Constants.BaseStyle.DEVICE_WIDTH * 1 / 200,
     borderBottomWidth: 1,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderTopWidth: 0,
-    borderBottomColor: 'gray', justifyContent: 'flex-start', marginLeft: 8
+    borderBottomColor: 'gray', justifyContent: 'flex-start', 
+    //marginLeft: 8
 
 
     //borderBottomColor:Constants.Colors.Blue

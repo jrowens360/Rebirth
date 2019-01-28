@@ -84,8 +84,8 @@ class PaymentMethod extends Component {
                             <TouchableOpacity style={{ paddingHorizontal: 6 }} onPress={() => this.props.navigation.goBack()}>
                                 <Icon name="angle-left" size={40} color='white' />
                             </TouchableOpacity>
-                            <Text style={styles.headerTxt}> Payment</Text>
-                            <View></View>
+                            <Text style={styles.headerTxt}>Payment Methods</Text>
+                            <View style={{width:30}}></View>
                         </View>
                         <View style={styles.mainContainer}>
                             <FlatList
@@ -121,7 +121,8 @@ class PaymentMethod extends Component {
 
 
     creditCardImg(item) {
-        // console.log("data of item", item)
+         //console.log("data of item", item)
+        // alert(JSON.stringify(item))
         switch (item.type) {
             case 'master-card':
                 return (
@@ -133,9 +134,29 @@ class PaymentMethod extends Component {
                     <Image source={Constants.Images.user.visa} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
                 );
+            case 'american-express':
+                return (
+                    <Image source={Constants.Images.user.american} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+                );
+            case 'discover':
+                return (
+                    <Image source={Constants.Images.user.discover} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+                );
+            case 'diners-club':
+            return (
+                <Image source={Constants.Images.user.diners} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+            );
+            case 'jcb':
+            return (
+                <Image source={Constants.Images.user.jcb} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+            );
             default:
                 return (
-                    <Image source={{ uri: "http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png" }} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+                    <Image source={Constants.Images.user.unknown} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
                 );
         }

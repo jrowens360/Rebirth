@@ -23,6 +23,7 @@ import Background from '../components/common/BackgroundImg';
 //import ImagePicker from "react-native-image-crop-picker";
 import * as UserActions from '../redux/modules/user';
 const currentDate = moment().add(1, 'days').format('YYYY-MM-DD');
+import axios from 'axios';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'react-native-fetch-blob'
 const options = {
@@ -38,6 +39,16 @@ const options = {
   },
   //storageOptions: { skipBackup: true, path: 'images', cameraRoll: true, waitUntilSaved: true }
 };
+// var options = {
+//   title: 'Select Avatar',
+//   customButtons: [
+//     { name: 'fb', title: 'Choose Photo from Facebook' },
+//   ],
+//   storageOptions: {
+//     skipBackup: true,
+//     path: 'images'
+//   }
+// };
 class FrontView extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +65,17 @@ class FrontView extends Component {
   }
 
 
+  GetFilename(url){
+   if (url)
+   {
+      var m = url.toString().match(/.*\/(.+?)\./);
+      if (m && m.length > 1)
+      {
+         return m[1];
+      }
+   }
+   return "";
+}
   onSelect = (picked, slectedView) => {
 
     if (slectedView == 'frontView') {
@@ -76,35 +98,78 @@ class FrontView extends Component {
 
             var extArray = response.uri.split(".");
             var ext = extArray[extArray.length - 1];
-            const source = { uri: response.uri, type: Platform.OS === 'ios' ? "image/" + ext : response.type, filename: response.fileName };
-            console.log(response);
-            // console.log('image@@@@@@ type: ', 'file://' + RNFS.DocumentDirectoryPath );
-            //  var file_path ='file://' + RNFS.DocumentDirectoryPath+'/'+response.fileName
-            // RNFS.writeFile(file_path, response.data, 'base64')
-            // .then((success) => {
-            //   console.log('FILE WRITTEN!');
-            // const source = { uri: Platform.OS === 'ios'? file_path:response.uri,type: Platform.OS === 'ios'? "image/jpeg":response.type,filename:response.fileName};
+            var filename =this.GetFilename(response.uri)
+            const source = { uri: response.uri, type: "image/"+ext , filename:filename+"."+ext};
+          //  console.log(response);
+            
+           //  console.log(filename)
+          
             this.setState({
               avatarFrontView: source,
               nextButton: false
 
             }, () => {
-              // RNFS.readFile(file_path,'base64')
-              // .then((success) => {
-              //   console.log(success);
-
-              //     this.props.UserActions.uploadImage({ ...this.state });
-              // })
-              // .catch((err) => {
-              //   console.log(err.message);
-              // });
-              //
+             
               this.props.UserActions.uploadImage({ ...this.state });
-              // });
+           
 
             })
           }
         });
+//         ImagePicker.openPicker({
+//           width: 400,
+//           height: 400,
+//           cropping: true,
+//           enableRotationGesture: true
+  
+//         }).then(image => {
+//          console.log(image);
+
+//        //   var extension =image.mime.substring(image.mime.type.lastIndexOf('/') + 1, image.mime.length);
+//           let source = { uri: image.path, type: image.mime ,filename: image.filename,name:image.filename};
+//          // const source = { uri: response.uri, type: Platform.OS === 'ios' ? "image/" + ext : response.type, filename: response.fileName };
+//           // alert(JSON.stringify(image));
+//           // this.setState({
+//           //   visible: false
+//           // });
+  
+//           this.setState({
+//             avatarFrontView: source,
+//                    nextButton: false
+//           },()=>{
+// //             var bodyFormData = new FormData();
+// //             bodyFormData.append('image',{
+// //               uri: image.path,
+// //               name: image.filename,
+// //               type: image.mime
+// //             }); 
+// // console.log(bodyFormData);
+// //             axios({
+             
+// //               method: 'post',
+// //               url: 'http://saia.3dlook.me/api/v1/uploads/',
+// //               data: bodyFormData,
+// //               config: { headers: { 
+// //                 "Authorization":"APIKey 35ce6ef2466f0330482bc753ea456777715011c3",
+// //               "Content-Type":"multipart/form-data" }}
+// //           })
+// //           .then(function (response) {
+// //               console.log("my data",response);
+// //           })
+// //           .catch(function (error) {
+// //               console.log("my error",error);
+// //           });
+          
+
+
+
+
+//             this.props.UserActions.uploadImage({ ...this.state });
+
+//           });
+  
+//           //alert(JSON.stringify(image));
+//         }).catch(e => console.log(e));
 
       } else {
 
@@ -119,7 +184,12 @@ class FrontView extends Component {
           } else if (response.customButton) {
             console.log('User tapped custom button: ', response.customButton);
           } else {
-            const source = { uri: response.uri, type: response.type, filename: response.fileName };
+            var extArray = response.uri.split(".");
+            var ext = extArray[extArray.length - 1];
+            var filename =this.GetFilename(response.uri)
+            const source = { uri: response.uri, type: "image/"+ext , filename:filename+"."+ext};
+
+          
             this.setState({
               avatarFrontView: source,
               nextButton: false
@@ -152,7 +222,12 @@ class FrontView extends Component {
           } else if (response.customButton) {
             console.log('User tapped custom button: ', response.customButton);
           } else {
-            const source = { uri: response.uri, type: response.type, filename: response.fileName };
+        
+            var extArray = response.uri.split(".");
+            var ext = extArray[extArray.length - 1];
+            var filename =this.GetFilename(response.uri)
+            const source = { uri: response.uri, type: "image/"+ext , filename:filename+"."+ext};
+            
             this.setState({
               avatarSideView: source,
               nextButton: false
@@ -175,7 +250,11 @@ class FrontView extends Component {
           } else if (response.customButton) {
             console.log('User tapped custom button: ', response.customButton);
           } else {
-            const source = { uri: response.uri, type: response.type, filename: response.fileName };
+            var extArray = response.uri.split(".");
+            var ext = extArray[extArray.length - 1];
+            var filename =this.GetFilename(response.uri)
+            const source = { uri: response.uri, type: "image/"+ext , filename:filename+"."+ext};
+           
             this.setState({
               avatarSideView: source,
               nextButton: false
@@ -189,11 +268,6 @@ class FrontView extends Component {
 
   }
 
-
-
-  save() {
-
-  }
   onNext() {
     switch (this.state.buttonPress) {
       case 0:
@@ -220,7 +294,7 @@ class FrontView extends Component {
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity>
             <Text style={styles.headerTxt}> New Measurement </Text>
-            <View></View>
+            <View style={{width:30}}></View>
           </View>
           {this.state.sideView ? this.cardSideView() : this.cardFrontView()}
 
@@ -304,8 +378,8 @@ const styles = StyleSheet.create({
     width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
   },
   textStyle: { color: "black", flex: 1, paddingLeft: 10, fontWeight: '500' },
-  bottomDefaultText: { color: 'gray', alignSelf: 'center', fontSize: 20, paddingHorizontal: 12 ,paddingVertical:5 },
-  bottomText: { color: Constants.Colors.Purple, alignSelf: 'center', fontSize: 20, paddingHorizontal: 12 ,paddingVertical:5},
+  bottomDefaultText: { color: 'gray', alignSelf: 'center',  paddingHorizontal: 14 ,paddingVertical:7 ,fontWeight: '500'},
+  bottomText: { color: Constants.Colors.Purple, alignSelf: 'center',  paddingHorizontal: 14 ,paddingVertical:7,fontWeight: '500'},
 
 
   itemStyle: {
@@ -338,8 +412,8 @@ const styles = StyleSheet.create({
   },
   textStyle: { color: 'black', alignSelf: 'center', padding: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2.5, fontSize: 20 },
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
-  nextTxt: { paddingHorizontal: 6,paddingVertical:1,backgroundColor:'white',marginTop:3,elevation: 2, 
-  borderRadius: 5,
+  nextTxt: { paddingHorizontal: 7,paddingVertical:1,backgroundColor:'white',marginTop:3,elevation: 2, 
+  borderRadius: 20,
   
   }
 

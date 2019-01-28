@@ -18,7 +18,7 @@ import Background from '../components/common/BackgroundImg';
 import { bindActionCreators } from "redux";
 import _ from "lodash";
 
-import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
+import { CreditCardInput} from "react-native-credit-card-input";
 class AddCard extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +29,8 @@ class AddCard extends Component {
             cvc: '',
             name: '',
             type: '',
-            vaild: false
+            vaild: false,
+            status:''
         };
 
     }
@@ -37,14 +38,12 @@ class AddCard extends Component {
 
     componentWillMount() {
         const { params } = this.props.navigation.state;
-        console.log("parameters" + JSON.stringify(params))
+        //console.log("parameters" + JSON.stringify(params))
         const item = params ? params.data : [];
         this.setState({
             cards: item
         });
-        // () => {
-        //     console.log("i")
-        // }
+     
 
     }
 
@@ -63,21 +62,32 @@ class AddCard extends Component {
         this.setState({
             cardDetail,
             vaild: form.valid,
+            status:form.status
         });
-        //  console.log("card  data" + JSON.stringify(cardDetail), JSON.stringify(form));
+         console.log("card  data" + JSON.stringify(cardDetail), JSON.stringify(form));
 
     }
 
     ShowCard() {
 
-        // console.log("CARD DATA BEFORE CARD ADD", this.state.cards);
+        //console.log("CARD DATA BEFORE CARD ADD", this.state);
 
         let { dispatch } = this.props.navigation;
         if (this.state.vaild) {
             this.state.cards.push(this.state.cardDetail);
             this.props.UserActions.addCardListFirebase({ ...this.state });
         } else {
-            dispatch(ToastActionsCreators.displayInfo('Please fill vaild info of card'))
+            if(this.state.status.number =='invalid' ||this.state.status.number =="incomplete" ){
+                dispatch(ToastActionsCreators.displayInfo("The credit card number is not valid."))
+
+            }else if(this.state.status.expiry =='invalid' || this.state.status.expiry =="incomplete" ){
+
+                dispatch(ToastActionsCreators.displayInfo("Your credit card has expired, please update your card."))
+
+            }else{
+                dispatch(ToastActionsCreators.displayInfo('Please fill vaild info of card'))
+            }
+            
         }
 
         // console.log("list  data"+JSON.stringify( this.state.cards));
@@ -99,7 +109,7 @@ class AddCard extends Component {
                                 <Icon name="angle-left" size={30} color='white' />
                             </TouchableOpacity>
                             <Text style={styles.headerTxt}> Add Card  </Text>
-                            <View></View>
+                            <View style={{width:30}}></View>
 
                         </View>
                         <View style={styles.mainContainer}>

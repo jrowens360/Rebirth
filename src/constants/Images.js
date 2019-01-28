@@ -29,6 +29,11 @@ module.exports = {
 		visa: require("../assets/images/visa.png"),
 		sort: require("../assets/images/sort.png"),
 		filter:require("../assets/images/filter.png"),
+		unknown: require("../assets/images/unknown.png"),
+		jcb: require("../assets/images/jcb.png"),
+		american: require("../assets/images/american.png"),
+		diners: require("../assets/images/diners.png"),
+		discover: require("../assets/images/discover.png"),
 		
 
 

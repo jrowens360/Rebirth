@@ -34,7 +34,7 @@ class Info extends Component {
         return (
             <Background style={styles.container} src={Constants.Images.user.infobg}>
                 <Text style={styles.maintext}>How to take Photos?</Text>
-                <Text style={styles.text}>Please select how you prefer to take photos</Text>
+                {/* <Text style={styles.text}>Please select how you prefer to take photos</Text> */}
                 <View style={styles.mainContainer}>
                     <ScrollableTabView
                         onChangeTab={(value) => {
@@ -44,8 +44,8 @@ class Info extends Component {
                                 }
                             );
                         }}                  >
-                        <Info_Profile tabLabel="Take a Selfie" img={Constants.Images.user.infoFront} />
-                        <Info_Profile tabLabel="Ask for help" img={Constants.Images.user.infoSide} />
+                        <Info_Profile tabLabel="Front View" img={Constants.Images.user.infoFront} />
+                        <Info_Profile tabLabel="Side View" img={Constants.Images.user.infoSide} />
                     </ScrollableTabView>
                 </View>
 

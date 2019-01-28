@@ -103,7 +103,7 @@ class ChangePassword extends Component {
                 <Icon name="angle-left" size={40} color='white' />
               </TouchableOpacity>
               <Text style={styles.headerTxt}> Change Password  </Text>
-              <View></View>
+              <View style={{width:30}}></View>
             </View>
             <View style={styles.mainContainer}>
 

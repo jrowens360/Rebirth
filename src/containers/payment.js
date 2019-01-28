@@ -142,7 +142,7 @@ class Payment extends Component {
       addressZip: cardDetail.postalCode,
     }
 
-    console.log('params created', JSON.stringify(cardParams));
+    //console.log('params created', JSON.stringify(cardParams));
 
     return stripe
       .createTokenWithCard(cardParams)
@@ -158,7 +158,7 @@ class Payment extends Component {
           this.paidApis()
 
         } else {
-          dispatch(ToastActionsCreators.displayInfo(result.body.error))
+          dispatch(ToastActionsCreators.displayInfo( "The transaction was declined. Please use a different card or contact your banking institution."))
           dispatch(stopLoading());
 
         }
@@ -203,7 +203,7 @@ class Payment extends Component {
     let { cvv } = this.state;
     if (_.isEmpty(cvv.trim())) {
 
-      dispatch(ToastActionsCreators.displayInfo('Please enter your cvv number'))
+      dispatch(ToastActionsCreators.displayInfo('For Security Purposes, Ple*se Confirm CVV'))
       return;
     }
 
@@ -231,7 +231,7 @@ class Payment extends Component {
                 <Icon name="angle-left" size={40} color='white' />
               </TouchableOpacity>
               <Text style={styles.headerTxt}> Payment </Text>
-              <View></View>
+              <View style={{width:30}}></View>
             </View>
             <View style={styles.mainContainer}>
               <View style={{
@@ -241,7 +241,7 @@ class Payment extends Component {
                 <Text style={{ color: 'black' }}> Payment Amount
                 </Text>
                 <Text style={{ color: 'black', textAlign: 'right', fontSize: 50 }}>
-                  <Text style={{ fontSize: 25 }} > {'\u0024'} </Text>.99</Text>
+                 {'\u0024'} 0.99</Text>
 
               </View>
 
@@ -270,7 +270,7 @@ class Payment extends Component {
                         autoCorrect={false}
                         value={this.state.cvv}
                         style={styles.textInputStyle}
-                        placeholder='Your Card CVV'
+                        placeholder='CVV'
                         placeholderTextColor={'gray'}
                         keyboardType='phone-pad'
                         onChangeText={(cvv) => this.setState({ cvv })}
@@ -311,7 +311,7 @@ class Payment extends Component {
               />
 
               <TouchableOpacity style={styles.buttonStyle} onPress={() => this.complete()}>
-                <Text style={styles.paymenText}>Complete payment</Text>
+                <Text style={styles.paymenText}>Submit Payment</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigation.navigate("AddCard", {
                 data: this.state.cardList == null ? [] : this.state.cardList,

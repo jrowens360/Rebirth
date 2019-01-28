@@ -147,7 +147,9 @@ class SelectScreen extends Component {
 
   }
 
-
+onModal(){
+  this.setState({ modalVisible: true });
+}
   render() {
     return (
       <View style={styles.container} >
@@ -155,8 +157,8 @@ class SelectScreen extends Component {
           <TouchableOpacity style={{ paddingHorizontal: 6 }} onPress={() => this.props.navigation.goBack()}>
             <Icon name="angle-left" size={40} color='white' />
           </TouchableOpacity >
-          <Text style={styles.headerTxt}> Selection </Text>
-          <View></View>
+          <Text style={styles.headerTxt}>Gender/Height Selections </Text>
+          <View style={{width:30}}></View>
 
         </View>
         {/* <ScrollView> */}
@@ -186,7 +188,7 @@ class SelectScreen extends Component {
 
 
           </View>
-          <Text style={{ color: "white", textAlign: "center", fontSize: 15, marginTop: 10 }}>Please mention your height :</Text>
+          <Text style={{ color: "white", textAlign: "center", fontSize: 15, marginTop: 10 }}>What is your Height?</Text>
 
           <Modal
             animationType="slide"
@@ -228,7 +230,7 @@ class SelectScreen extends Component {
                     autoCorrect={false}
                     value={this.state.inch}
                     style={[styles.textInputStyle, { marginLeft: 10 }]}
-                    placeholder='inches'
+                    placeholder='Inches'
                     placeholderTextColor={'gray'}
                     underlineColorAndroid={"gray"}
                     keyboardType='phone-pad'
@@ -262,10 +264,8 @@ class SelectScreen extends Component {
           </Modal>
           <View style={{ alignItems: 'center', justifyContent: 'center' }}
           >
-            <TouchableOpacity onPress={() => {
-              this.setModalVisible(!this.state.modalVisible);
-            }} >
-              <TextInput
+           <TouchableOpacity onPress={() => this.onModal()}>
+              {/* <TextInput
 
                 autoFocus={false}
                 autoCorrect={false}
@@ -278,7 +278,9 @@ class SelectScreen extends Component {
                 onChangeText={(height) => this.setState({ height })}
 
 
-              />
+              /> */}
+               <Text style={{ color: 'white', fontWeight: '500',  padding: 10,
+                       marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2}}>{this.state.height ? this.state.feet + "  feet  " + this.state.inch + " inchs" : "Enter height"}</Text>
             </TouchableOpacity>
           </View>
 
@@ -286,9 +288,9 @@ class SelectScreen extends Component {
           <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }} >
             <TouchableOpacity onPress={() => this.onContinue()} style={{
               marginTop: 15, alignItems: 'center', color: 'white',
-              backgroundColor: "white", paddingVertical: 10, paddingHorizontal: 15, borderRadius: 10
+              backgroundColor: "white", paddingVertical: 10, paddingHorizontal: 15, borderRadius: 20
             }}    >
-              <Text style={{ color: Constants.Colors.Purple, fontSize: 18, fontWeight: 'bold' }}>Continue</Text>
+              <Text style={{ color: Constants.Colors.Purple, fontWeight: '500' }}>Continue</Text>
             </TouchableOpacity>
           </View>
         </View>

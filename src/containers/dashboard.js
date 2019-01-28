@@ -60,7 +60,7 @@ class Dashboard extends Component {
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
         <Image source={Constants.Images.user.splashLogo} style={styles.imageStyle} resizeMode='contain' />
         <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', }}>
-          <Text style={styles.text}>Add Your first Measurement </Text>
+          <Text style={styles.text}>Create Measurement</Text>
           <TouchableOpacity
             onPress={() => this.onFront()}
             style={styles.floatStyle}          >

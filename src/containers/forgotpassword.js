@@ -76,7 +76,7 @@ class ForgotPassword extends Component {
                 <Icon name="angle-left" size={40} color='white' />
               </TouchableOpacity>
               <Text style={styles.forgotTxt}> Forgot Password </Text>
-              <View></View>
+              <View style={{width:30}}></View>
             </View>
             <View style={{ flex: 1, paddingHorizontal: 20, justifyContent: "center", }}>
               <Image source={Constants.Images.user.splashLogo} style={styles.imageStyle} />

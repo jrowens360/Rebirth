@@ -25,7 +25,9 @@ import Background from '../components/common/BackgroundImg';
 import * as UserActions from '../redux/modules/user';
 
 import RNFetchBlob from 'react-native-fetch-blob'
-import ImagePicker from 'react-native-image-picker';
+//import ImagePicker from 'react-native-image-picker';
+
+import ImagePicker from "react-native-image-crop-picker";
 const options = {
   title: 'Select Avatar',
   mediaType:'photo',
@@ -130,59 +132,49 @@ class PersonalDetail extends Component {
     if (picked === 'gallery') {
 
 
-      ImagePicker.launchImageLibrary(options, (response) => {
+        ImagePicker.openPicker({
+          width: 540,
+          height: 360,
+          cropping: true,
+          enableRotationGesture: true
+  
+        }).then(image => {
+        // console.log(image);
 
-       // console.log('Response = ', response);
-
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        } else {
-          const source = { uri: response.uri, type: response.type };
-
-
+     
+          let source = { uri: image.path, type: image.mime };
           this.setState({
-            avatarSource: source,
-          },()=>{
-
-            this.getSelectedImages()
-          });
-        }
-
-
-
-      });
-
-    } else {
+                  avatarSource: source,
+                },()=>{
+                  this.getSelectedImages()
+                });
+              
+        }).catch(function (error) {
+                         console.log("my error",error);
+                     });
+       
+       } else {
 
 
-      ImagePicker.launchCamera(options, (response) => {
 
-     //   console.log('Response = ', response);
-
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        } else {
-          const source = { uri: response.uri, type: response.type };
-
+        ImagePicker.openCamera({
+          width: 540,
+          height: 360,
+          cropping: true,
+          enableRotationGesture: true
+  
+        }).then(image => {
+   
+          let source = { uri: image.path, type: image.mime };
           this.setState({
-            avatarSource: source,
-          },()=>{
-
-            this.getSelectedImages()
-          });
-        }
-
-
-
-      });
+                  avatarSource: source,
+                },()=>{
+                  this.getSelectedImages()
+                });
+              
+        }).catch(function (error) {
+                         console.log("my error",error);
+                     });
 
 
     }
@@ -200,11 +192,11 @@ class PersonalDetail extends Component {
     const fs = RNFetchBlob.fs
     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
     window.Blob = Blob
-    let user = firebase.auth().currentUser
+    //let user = firebase.auth().currentUser
 
     let uploadBlob = null
     const imageRef = firebase.storage().ref('images').child(Math.floor(Date.now()) + '.jpg')
-  //  console.log("firbase" + imageRef);
+    console.log("firbase" + image);
     let mime = 'image/jpg'
 
 
@@ -272,7 +264,7 @@ class PersonalDetail extends Component {
                 <Icon name="angle-left" size={40} color='white' />
               </TouchableOpacity>
               <Text style={styles.headerTxt}> Personal Details  </Text>
-              <View></View>
+              <View style={{width:30}}></View>
             </View>
             <View style={styles.mainContainer}>
 
@@ -359,7 +351,7 @@ class PersonalDetail extends Component {
                 
 
                 <DatePicker
-                  style={{ width: '100%', borderBottomColor: 'gray' }}
+                  style={{ width: '100%', borderBottomColor: 'gray',marginTop:3 }}
                   date={this.state.dob}
                   mode="date"
                   placeholder="DOB"
@@ -426,10 +418,11 @@ const styles = StyleSheet.create({
     paddingLeft: Constants.BaseStyle.DEVICE_WIDTH / 100 * 5,
   },
   textInputStyle: {
-    padding: 8,
+    paddingVertical: 8,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1,
     borderBottomColor:'gray',
-    borderBottomWidth:1
+    borderBottomWidth:1,
+    marginLeft:2
 
   },
   imageStyle: {
@@ -470,7 +463,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderTopWidth: 0,
-    borderBottomColor: 'gray', justifyContent: 'flex-start', marginLeft: 8
+    borderBottomColor: 'gray', justifyContent: 'flex-start', marginLeft: 2
 
   },
   rowIcon: {

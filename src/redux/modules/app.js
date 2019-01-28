@@ -25,6 +25,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
+    console.log(action)
     switch (action.type) {
         case LOADING_START:
             return { ...state, isLoading: true };

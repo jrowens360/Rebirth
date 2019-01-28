@@ -18,18 +18,25 @@ import * as UserActions from '../redux/modules/user';
 import Background from '../components/common/BackgroundImg';
 import { bindActionCreators } from "redux";
 import moment from 'moment';
-
+import { SinglePickerMaterialDialog } from 'react-native-material-dialog';
+const SHORT_LIST = ['Ascending', 'Descending'];
+const FILTER_LIST = ['All Data', 'Yesterday','Last Week','Last Month'];
 class Measurements extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      list:true,
       sortValue: true,
       measureObj: {},
       modalVisible: false,
       modalfilterVisible: false,
       measureHistory:  Object.keys(props.measureHistory).length != 0   ? props.measureHistory : {},
       filterIndex:0,
-      sortIndex:0
+      sortIndex:0,
+      sortPicker: false,
+      sortItem: {"value":0},
+      filterPicker: false,
+      filterItem: {"value":0},
 
     };
   }
@@ -40,24 +47,28 @@ class Measurements extends Component {
     this.setState({ modalfilterVisible: visible });
   }
   filterBy() {
+    this.setState({filterPicker: true})
     // alert(!this.state.modalVisible)
-    this.setModalFilter(!this.state.modalVisible)
+   // this.setState({ modalfilterVisible: true});
+   // this.setModalFilter(!this.state.modalVisible)
   }
   sortBy() {
-    this.setModalVisible(!this.state.modalVisible)
+    this.setState({sortPicker: true})
+    //this.setModalVisible(!this.state.modalVisible)
   }
 
   sortModal(value) {
     let { dispatch } = this.props.navigation;
-    this.setModalVisible(!this.state.modalVisible);
+   // this.setModalVisible(!this.state.modalVisible);
+  // alert(JSON.stringify("hhhh"+value));
     switch (value) {
 
-      case 'ascending':
+      case 'Ascending':
       dispatch(UserActions.SORTINDEX(0))
-        this.setState({ sortValue: true })
-
+        this.setState({ sortValue: true });
+        
         break;
-      case 'descending':
+      case 'Descending':
       dispatch(UserActions.SORTINDEX(1))
         this.setState({ sortValue: false})
 
@@ -68,26 +79,47 @@ class Measurements extends Component {
   }
   filterModal(value) {
     let { dispatch } = this.props.navigation;
-    this.setModalFilter(!this.state.modalfilterVisible);
+  
+    this.setState({ list:false});
     for (const prop of Object.getOwnPropertyNames(this.state.measureObj)) {
       delete this.state.measureObj[prop];
     }
 
     switch (value) {
 
-      case 'alldata':
-      
-       // console.log("all", this.state.measureObj)
-       dispatch(UserActions.FILTERINDEX(0))
+      case 'All Data':
+
+  
+      //  console.log("my time",dateFrom);
+      //  console.log("my time stemp time",dateTo, Math.floor(Date.now()).toString(), Math.floor(dateFrom).toString(), Math.floor(dateTo).toString());
+      //   console.log(this.props.measureHistory);
+      if(Object.keys(this.state.measureHistory).length != 0){
+        var fil = Object.entries(this.state.measureHistory).filter((key) => {
+          //  console.log("my keyggg", key[0], "my valueggg", dateTo, Math.floor(dateTo).toString())
+          
+              console.log("my key", key[0], "my value", key[1])
+              this.state.measureObj[key[0]] = key[1];
+              return true;
+    
+           
+    
+          })
+           // console.log("all", this.state.measureObj)
+           dispatch(UserActions.FILTERINDEX(0))
+
+          
+      }
+    
 
         break;
-      case 'yesterday':
+      case 'Yesterday':
       
         var dateTo = moment().subtract(1, 'd');
         //  console.log("my time",dateFrom);
         //  console.log("my time stemp time",dateTo, Math.floor(Date.now()).toString(), Math.floor(dateFrom).toString(), Math.floor(dateTo).toString());
         //   console.log(this.props.measureHistory);
         var fil = Object.entries(this.state.measureHistory).filter((key) => {
+          console.log("my keyggg", key[0], "my valueggg", dateTo, Math.floor(dateTo).toString())
           if (key[0] > Math.floor(dateTo).toString()) {
             console.log("my key", key[0], "my value", key[1])
             this.state.measureObj[key[0]] = key[1];
@@ -99,11 +131,11 @@ class Measurements extends Component {
 
         })
         dispatch(UserActions.FILTERINDEX(1))
-       // console.log("day", this.state.measureObj)
+     //   console.log("day", this.state.measureObj)
         break;
     
 
-      case 'lastweek':
+      case 'Last Week':
       
         // var dateFrom = moment();
         var dateTo = moment().subtract(7, 'd');
@@ -128,7 +160,7 @@ class Measurements extends Component {
 
 
         break;
-        case 'lastmonth':
+        case 'Last Month':
      
         var dateTo = moment().subtract(30, 'd');
         //  console.log("my time",dateFrom);
@@ -158,136 +190,138 @@ class Measurements extends Component {
 
 
   }
-  modalForSorting() {
-    return (
+  // modalForSorting() {
+  //   return (
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          this.setState({
-            modalVisible: false
-          })
-        }}>
-        <View style={{
-          flex: 1,
-          marginBottom: 20,
-          justifyContent: 'center'
-        }}>
-          <View style={{ backgroundColor: Constants.Colors.yellow, borderRadius: 10, padding: 10, marginHorizontal: 20, paddingTop: 20 }} >
+  //     <Modal
+  //       animationType="slide"
+  //       transparent={true}
+  //       visible={this.state.modalVisible}
+  //       onRequestClose={() => {
+  //         this.setState({
+  //           modalVisible: false
+  //         })
+  //       }}>
+  //       <View style={{
+  //         flex: 1,
+  //         marginBottom: 20,
+  //         justifyContent: 'center',
+  //         backgroundColor: 'rgba(0,0,0,0.5)'
+  //       }}>
+  //         <View style={{ backgroundColor: Constants.Colors.yellow, borderRadius: 10, padding: 10, marginHorizontal: 20, paddingTop: 20 }} >
 
-            {/* <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Please enter Card cvv number</Text> */}
-            <View style={{ justifyContent: 'center' }}>
-              <TouchableOpacity
+  //           {/* <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Please enter Card cvv number</Text> */}
+  //           <View style={{ justifyContent: 'center' }}>
+  //             <TouchableOpacity
 
-                onPress={() => {
-                  this.sortModal("ascending");
+  //               onPress={() => {
+  //                 this.sortModal("ascending");
 
-                }}>
-                <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
-                {this.state.sortIndex == 0? <Icon name="check" size={30} color='black'  />:<View style={{ width:30}}></View>} 
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17,marginLeft:5 ,padding:2  }}> Ascending</Text>
-                </View>
-              </TouchableOpacity>
+  //               }}>
+  //               <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+  //               {this.state.sortIndex == 0? <Icon name="check" size={30} color='black'  />:<View style={{ width:30}}></View>} 
+  //               <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17,marginLeft:2 ,padding:2  }}>Ascending</Text>
+  //               </View>
+  //             </TouchableOpacity>
 
-              <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
+  //             <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
 
-              <TouchableOpacity
+  //             <TouchableOpacity
 
-                onPress={() => {
-                  this.sortModal("descending");
+  //               onPress={() => {
+  //                 this.sortModal("descending");
 
-                }}>
-                   <View style={{ flexDirection:'row' ,justifyContent:'center',alignItems:'center'}}>
-                   {this.state.sortIndex == 1? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>} 
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17,marginLeft:2 ,padding:5 }}> Descending</Text>
-                </View>
-              </TouchableOpacity>
+  //               }}>
+  //                  <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+  //                  {this.state.sortIndex == 1? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>} 
+  //               <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17,marginLeft:2 ,padding:2 }}> Descending</Text>
+  //               </View>
+  //             </TouchableOpacity>
 
-            </View>
+  //           </View>
           
 
 
-          </View>
-        </View>
-      </Modal>
+  //         </View>
+  //       </View>
+  //     </Modal>
 
 
-    );
+  //   );
 
 
-
-  }
-  modalForFilter() {
-    return (
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.modalfilterVisible}
-        onRequestClose={() => {
-          this.setState({
-            modalfilterVisible: false
-          })
-        }}>
-        <View style={{
-          flex: 1,
-          // backgroundColor:Constants.Colors.Purple,
-          // alignItems: 'center',
-          marginBottom: 20,
-          justifyContent: 'center'
-        }}>
-          <View style={{ backgroundColor: Constants.Colors.yellow, borderRadius: 10, padding: 10, marginHorizontal: 20, paddingTop: 20 }} >
-
-            {/* <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Please enter Card cvv number</Text> */}
-            <View style={{ justifyContent: 'center' }}>
-              <TouchableOpacity onPress={() => { this.filterModal("alldata"); }}>
-              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
-             {this.state.filterIndex == 0? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}    
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}>All Data</Text>
-                </View>
-              </TouchableOpacity>
-              <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
-              <TouchableOpacity onPress={() => { this.filterModal("yesterday"); }}>
-              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
-              {this.state.filterIndex == 1? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}    
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}>Yesterday</Text>
-                </View>
-              </TouchableOpacity>
-              <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
-              <TouchableOpacity onPress={() => { this.filterModal("lastweek"); }}>
-              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
-              {this.state.filterIndex == 2? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}   
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Last Week</Text>
-                </View>
-              </TouchableOpacity>
-              <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
-              <TouchableOpacity onPress={() => { this.filterModal("lastmonth"); }}>
-              <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
-              {this.state.filterIndex == 3? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}   
-                <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Last Month</Text>
-               </View>
-              </TouchableOpacity>
-
-
-            </View>
-
-          </View>
-        </View>
-      </Modal>
-
-
-    );
-
-
-
-  }
-
-  // componentDidMount() {
-  //   console.log("my object", this.state.measureObj);
 
   // }
+  // modalForFilter() {
+  //   return (
+
+  //     <Modal
+  //       animationType="slide"
+  //       transparent={true}
+  //       visible={this.state.modalfilterVisible}
+  //       onRequestClose={() => {
+  //         this.setState({
+  //           modalfilterVisible: false
+  //         })
+  //       }}>
+  //       <View style={{
+  //         flex: 1,
+  //         // backgroundColor:Constants.Colors.Purple,
+  //         // alignItems: 'center',
+  //         marginBottom: 20,
+  //         justifyContent: 'center'
+  //       }}>
+  //         <View style={{ backgroundColor: Constants.Colors.yellow, borderRadius: 10, padding: 10, marginHorizontal: 20, paddingTop: 20 }} >
+
+  //           {/* <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Please enter Card cvv number</Text> */}
+  //           <View style={{ justifyContent: 'center' }}>
+  //             <TouchableOpacity onPress={() => { this.filterModal("alldata"); }}>
+  //             <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+  //            {this.state.filterIndex == 0? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}    
+  //               <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}>All Data</Text>
+  //               </View>
+  //             </TouchableOpacity>
+  //             <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
+  //             <TouchableOpacity onPress={() => { this.filterModal("yesterday"); }}>
+  //             <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+  //             {this.state.filterIndex == 1? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}    
+  //               <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}>Yesterday</Text>
+  //               </View>
+  //             </TouchableOpacity>
+  //             <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
+  //             <TouchableOpacity onPress={() => { this.filterModal("lastweek"); }}>
+  //             <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+  //             {this.state.filterIndex == 2? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}   
+  //               <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Last Week</Text>
+  //               </View>
+  //             </TouchableOpacity>
+  //             <View style={{ backgroundColor: Constants.Colors.Purple, height: 2, width: '100%', marginTop: 5 }}></View>
+  //             <TouchableOpacity onPress={() => { this.filterModal("lastmonth"); }}>
+  //             <View style={{ flexDirection:'row',justifyContent:'center',alignItems:'center' }}>
+  //             {this.state.filterIndex == 3? <Icon name="check" size={30} color='black' />:<View style={{ width:30}}></View>}   
+  //               <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 17 }}> Last Month</Text>
+  //              </View>
+  //             </TouchableOpacity>
+
+
+  //           </View>
+
+  //         </View>
+  //       </View>
+  //     </Modal>
+
+
+  //   );
+
+
+
+  // }
+
+  componentDidMount() {
+    this.setState({ list:true});
+    //this.filterModal("alldata")
+    //alert(JSON.stringify(this.state.measureHistory))
+  }
   componentWillMount() {
   //   console.log( "my props", this.props);
     this.props.UserActions.measurementFromFirebase();
@@ -301,6 +335,11 @@ class Measurements extends Component {
       measureHistory: props.measureHistory != null ? props.measureHistory : {}
 
 
+    },()=>{
+      if(this.state.list){
+        this.filterModal('All Data')
+      }
+     
     });
 
 
@@ -317,7 +356,7 @@ class Measurements extends Component {
 
 
   render() {
-    // alert(JSON.stringify(this.state))
+    // console.log( "my propshhhhhh", this.props);
 
     return (
       <Background style={styles.container} src={Constants.Images.user.dashboardbg}  >
@@ -332,7 +371,7 @@ class Measurements extends Component {
                 <Icon name="angle-left" size={40} color='white' />
               </TouchableOpacity>
               <Text style={styles.headerTxt}> Measurements  </Text>
-              <View></View>
+              <View style={{width:30}}></View>
             </View>
 
 
@@ -355,9 +394,34 @@ class Measurements extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
+              <SinglePickerMaterialDialog
+                  title={'Sort by'}
+                  scrolled
+                  items={SHORT_LIST.map((row, index) => ({ value: index, label: row }))}
+                  visible={this.state.sortPicker}
+                  selectedItem={this.state.sortItem}
+                  onCancel={() => this.setState({ sortPicker: false })}
+                  onOk={result => {
+                    
+                    this.setState({ sortPicker: false , sortItem: result.selectedItem});
+                    this.sortModal(result.selectedItem.label);
+                  }}
+                />
 
-              {this.modalForSorting()}
-              {this.modalForFilter()}
+              <SinglePickerMaterialDialog
+                  title={'Filter by!'}
+                  scrolled
+                  items={FILTER_LIST.map((row, index) => ({ value: index, label: row }))}
+                  visible={this.state.filterPicker}
+                  selectedItem={this.state.filterItem}
+                  onCancel={() => this.setState({ filterPicker: false })}
+                  onOk={result => {
+                    this.setState({ filterPicker: false , filterItem: result.selectedItem});
+                    this.filterModal(result.selectedItem.label);
+                  }}
+                />
+              {/* {this.modalForSorting()} */}
+              {/* {this.modalForFilter()} */}
             <ScrollView showsVerticalScrollIndicator={false}>
                 {
                   Object.keys(this.state.measureObj).length != 0
@@ -402,53 +466,8 @@ class Measurements extends Component {
 
                     : <View>
 
-                      {
-                        Object.keys(this.state.measureHistory).length != 0
-                          ?
-                          <View>{this.state.sortValue ? <View>{Object.keys(this.state.measureHistory).reverse().map((key, index) => {
-
-                            const myItem = this.state.measureHistory[key]
-
-                            return (
-
-                              <TouchableOpacity onPress={() => this.onMeasurement(myItem)}>
-                                <View>
-                                  <View style={styles.flatview}>
-                                    <Text style={{ color: 'black', fontWeight: '600' }}>{new Date(parseInt(key)).toLocaleString()}</Text>
-                                    {/* <Text >{Math.round(myItem * 100) / 100}cm</Text> */}
-                                    <Icon name="angle-right" size={25} color='black' />
-                                  </View>
-                                  <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2, marginHorizontal: 10 }}></View>
-                                </View>
-                              </TouchableOpacity>
-                            );
-
-                          })}</View> : <View>{Object.keys(this.state.measureHistory).map((key, index) => {
-
-                            const myItem = this.state.measureHistory[key]
-
-                            return (
-
-                              <TouchableOpacity onPress={() => this.onMeasurement(myItem)}>
-                                <View>
-                                  <View style={styles.flatview}>
-                                    <Text style={{ color: 'black', fontWeight: '600' }}>{new Date(parseInt(key)).toLocaleString()}</Text>
-                                    {/* <Text >{Math.round(myItem * 100) / 100}cm</Text> */}
-                                    <Icon name="angle-right" size={25} color='black' />
-                                  </View>
-                                  <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2, marginHorizontal: 10 }}></View>
-                                </View>
-                              </TouchableOpacity>
-                            );
-
-                          })}</View>}</View>
-
-
-                          : <View><Text style={{ color: 'black', fontWeight: '600', textAlign: 'center' }}>No Measurement history</Text>
-
-                          </View>
-                      }
-
+               
+<Text style={{ color: 'black', fontWeight: '600', textAlign: 'center' }}>No Measurement History</Text>
                     </View>
                 }
 
