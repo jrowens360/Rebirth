@@ -217,9 +217,16 @@ onModal(){
                     placeholderTextColor={'gray'}
                     underlineColorAndroid={"gray"}
                     keyboardType='phone-pad'
-                    onChangeText={(feet) => this.setState({ feet })}
+                    onChangeText={(feet) => {
+                      
+                      this.setState({ feet },()=>{
+                        if(!_.isEmpty(feet.trim())){
+                          this.secondTextInput.focus();
+                        }
+                       
+                      })}}
                     returnKeyType={"next"}
-                    onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                   // onSubmitEditing={() => { this.secondTextInput.focus(); }}
 
 
                   />
