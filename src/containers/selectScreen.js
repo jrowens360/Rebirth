@@ -188,7 +188,7 @@ onModal(){
 
 
           </View>
-          <Text style={{ color: "white", textAlign: "center", fontSize: 15, marginTop: 10 }}>What is your Height?</Text>
+          <Text style={{ color: "white", textAlign: "center", fontSize: 15, marginTop: 15 }}>What is your Height?</Text>
 
           <Modal
             animationType="slide"

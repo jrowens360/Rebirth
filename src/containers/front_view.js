@@ -37,18 +37,9 @@ const options = {
     path: 'images',
 
   },
-  //storageOptions: { skipBackup: true, path: 'images', cameraRoll: true, waitUntilSaved: true }
+ 
 };
-// var options = {
-//   title: 'Select Avatar',
-//   customButtons: [
-//     { name: 'fb', title: 'Choose Photo from Facebook' },
-//   ],
-//   storageOptions: {
-//     skipBackup: true,
-//     path: 'images'
-//   }
-// };
+
 class FrontView extends Component {
   constructor(props) {
     super(props);
@@ -100,9 +91,7 @@ class FrontView extends Component {
             var ext = extArray[extArray.length - 1];
             var filename =this.GetFilename(response.uri)
             const source = { uri: response.uri, type: "image/"+ext , filename:filename+"."+ext};
-          //  console.log(response);
-            
-           //  console.log(filename)
+        
           
             this.setState({
               avatarFrontView: source,
@@ -116,60 +105,7 @@ class FrontView extends Component {
             })
           }
         });
-//         ImagePicker.openPicker({
-//           width: 400,
-//           height: 400,
-//           cropping: true,
-//           enableRotationGesture: true
-  
-//         }).then(image => {
-//          console.log(image);
 
-//        //   var extension =image.mime.substring(image.mime.type.lastIndexOf('/') + 1, image.mime.length);
-//           let source = { uri: image.path, type: image.mime ,filename: image.filename,name:image.filename};
-//          // const source = { uri: response.uri, type: Platform.OS === 'ios' ? "image/" + ext : response.type, filename: response.fileName };
-//           // alert(JSON.stringify(image));
-//           // this.setState({
-//           //   visible: false
-//           // });
-  
-//           this.setState({
-//             avatarFrontView: source,
-//                    nextButton: false
-//           },()=>{
-// //             var bodyFormData = new FormData();
-// //             bodyFormData.append('image',{
-// //               uri: image.path,
-// //               name: image.filename,
-// //               type: image.mime
-// //             }); 
-// // console.log(bodyFormData);
-// //             axios({
-             
-// //               method: 'post',
-// //               url: 'http://saia.3dlook.me/api/v1/uploads/',
-// //               data: bodyFormData,
-// //               config: { headers: { 
-// //                 "Authorization":"APIKey 35ce6ef2466f0330482bc753ea456777715011c3",
-// //               "Content-Type":"multipart/form-data" }}
-// //           })
-// //           .then(function (response) {
-// //               console.log("my data",response);
-// //           })
-// //           .catch(function (error) {
-// //               console.log("my error",error);
-// //           });
-          
-
-
-
-
-//             this.props.UserActions.uploadImage({ ...this.state });
-
-//           });
-  
-//           //alert(JSON.stringify(image));
-//         }).catch(e => console.log(e));
 
       } else {
 

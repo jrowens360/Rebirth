@@ -395,7 +395,7 @@ class Measurements extends Component {
                 </TouchableOpacity>
               </View>
               <SinglePickerMaterialDialog
-                  title={'Sort by'}
+                  title={'Sort By'}
                   scrolled
                   items={SHORT_LIST.map((row, index) => ({ value: index, label: row }))}
                   visible={this.state.sortPicker}
@@ -409,7 +409,7 @@ class Measurements extends Component {
                 />
 
               <SinglePickerMaterialDialog
-                  title={'Filter by!'}
+                  title={'Filter '}
                   scrolled
                   items={FILTER_LIST.map((row, index) => ({ value: index, label: row }))}
                   visible={this.state.filterPicker}

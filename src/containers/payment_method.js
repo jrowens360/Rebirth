@@ -96,7 +96,7 @@ class PaymentMethod extends Component {
                                     <View style={styles.flatview}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                             {this.creditCardImg(item)}
-                                            <Text style={{ paddingLeft: 10 }}>{item.number}</Text>
+                                            <Text style={{ paddingLeft: 10 }}>{"**************" +item.number.substr(item.number.length - 4, item.number.length)}</Text>
                                         </View>
                                         <TouchableOpacity onPress={() => this.DeteleCardItem(index)}>
 

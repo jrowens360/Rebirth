@@ -21,6 +21,9 @@ import stripe from 'tipsi-stripe';
 import { ToastActionsCreators } from 'react-native-redux-toast';
 import _ from "lodash";
 import { startLoading, stopLoading, showToast, hideToast } from '../redux/modules/app';
+import {
+  MaterialDialog,
+ } from 'react-native-material-dialog';
 stripe.setOptions({
   publishableKey: 'pk_test_EM9PMIvqS63oMeyj18XyZXJL',
 });
@@ -46,11 +49,16 @@ class Payment extends Component {
       apiKey: 'APIKey 35ce6ef2466f0330482bc753ea456777715011c3',
       frontKey: props.frontKey,
       feet: '',
-      inch: ''
+      inch: '',
+      cvvmodal:false
 
 
     };
   }
+  componentWillMount() {
+    this.props.UserActions.cardsFromFirebase();
+
+}
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
@@ -125,7 +133,7 @@ class Payment extends Component {
       height: params ? params.userHeight : ''
     });
     dispatch(startLoading());
-    this.setState({ modalVisible: false });
+    this.setState({ cvvmodal: false });
     // console.log(this.state.cardDetail);
     let { cardDetail, cvv } = this.state;
 
@@ -148,7 +156,7 @@ class Payment extends Component {
       .createTokenWithCard(cardParams)
       .then(stripeTokenInfo => {
 
-        console.log('Token created', { stripeTokenInfo });
+       // console.log('Token created', { stripeTokenInfo });
         return this.doPayment(stripeTokenInfo, 100, 'usd');
       })
       .then((result) => {
@@ -189,8 +197,8 @@ class Payment extends Component {
 
         // console.log("my card detail", this.state.cardDetail)
       })
-
-      this.setModalVisible()
+this.setState({cvvmodal:true})
+     // this.setModalVisible()
     } else {
       dispatch(ToastActionsCreators.displayInfo('Please add your card'))
     }
@@ -203,7 +211,7 @@ class Payment extends Component {
     let { cvv } = this.state;
     if (_.isEmpty(cvv.trim())) {
 
-      dispatch(ToastActionsCreators.displayInfo('For Security Purposes, Ple*se Confirm CVV'))
+      dispatch(ToastActionsCreators.displayInfo('For Security Purposes, Please Confirm CVV'))
       return;
     }
 
@@ -213,7 +221,7 @@ class Payment extends Component {
   onselectPress = (index) => {
     let { dispatch } = this.props.navigation;
     dispatch({ type: "SELECT_INDEX", index })
-    console.log("my index", index)
+    //console.log("my index", index)
     // this.setState({activeIndex:index},()=>{ console.log("active index",this.state.activeIndex)});
 
   }
@@ -246,7 +254,7 @@ class Payment extends Component {
               </View>
 
               <Text style={{ color: 'black', fontSize: 18, marginTop: Constants.BaseStyle.DEVICE_WIDTH / 100 * 3, fontWeight: '500' }}> Saved Cards </Text>
-              <Modal
+              {/* <Modal
                 animationType="slide"
                 transparent={true}
                 visible={this.state.modalVisible}
@@ -262,7 +270,7 @@ class Payment extends Component {
                 }}>
                   <View style={{ backgroundColor: Constants.Colors.yellow, borderRadius: 10, padding: 10, marginHorizontal: 20, paddingTop: 20 }} >
 
-                    <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}> Please enter card cvv number</Text>
+                    <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>For Security Purposes, Please Confirm CVV</Text>
                     <View style={{ justifyContent: 'center' }}>
                       <TextInput
                         maxLength={3}
@@ -298,7 +306,39 @@ class Payment extends Component {
                     </View>
                   </View>
                 </View>
-              </Modal>
+              </Modal> */}
+                   <MaterialDialog
+          visible={this.state.cvvmodal}
+        // title={'For Security Purposes, Please Confirm CVV'}
+        //   // titleColor="black"
+          colorAccent='black'
+          backgroundColor="white"
+          okLabel="SUBMIT"
+          onOk={() => {
+            this.submit();
+          }}
+        
+          onCancel={() => {
+            this.setState({ cvvmodal: false });
+          }}
+        >
+             <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>For Security Purposes, Please Confirm CVV</Text>
+                    <View style={{ justifyContent: 'center' }}>
+                      <TextInput
+                        maxLength={3}
+                        autoFocus={true}
+                        autoCorrect={false}
+                        value={this.state.cvv}
+                        style={styles.textInputStyle}
+                        placeholder='CVV'
+                        placeholderTextColor={'black'}
+                        keyboardType='phone-pad'
+                        onChangeText={(cvv) => this.setState({ cvv })}
+                        underlineColorAndroid={'black'}
+
+                      />
+                    </View>
+        </MaterialDialog>
 
               <FlatList
                 style={styles.flatlist}

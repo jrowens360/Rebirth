@@ -293,7 +293,7 @@ export const addCardListFirebase = (data) => {
         if (snapshot.val() != null) {
           dispatch(CARDDETAIL(listData));
           dispatch(goBack());
-          dispatch(ToastActionsCreators.displayInfo("user cards "));
+       //   dispatch(ToastActionsCreators.displayInfo("user cards "));
         } else {
           dispatch(ToastActionsCreators.displayInfo("Please try again"))
 
@@ -503,10 +503,10 @@ export const ImageParameter = (data, callback) => {
         callback(result.key);
       } else if (result.status_code == 500) {
 
-        dispatch(ToastActionsCreators.displayInfo('Please Review  Front Image Uploads'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review Image Uploads'))
       } else {
 
-        dispatch(ToastActionsCreators.displayInfo('Please Review  Front Image Uploads'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review Image Uploads'))
       }
 
 
@@ -555,9 +555,9 @@ export const ImageSideParameter = (data, callback) => {
       }
       else if (result.status_code == 500) {
 
-        dispatch(ToastActionsCreators.displayInfo('Please Review Side Image Uploads'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review Image Uploads'))
       } else {
-        dispatch(ToastActionsCreators.displayInfo('Please Review Side Image Uploads'))
+        dispatch(ToastActionsCreators.displayInfo('Please Review  Image Uploads'))
       }
 
 
