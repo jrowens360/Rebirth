@@ -36,7 +36,7 @@ export default class Root extends Component{
           />
         	<Progress/>
           <Navigator/>
-          <Toast messageStyle={styles.toastStyle} />
+          <Toast messageStyle={styles.toastStyle} containerStyle={{ backgroundColor: Constants.Colors.Purple }}/>
        
         </SafeAreaView>
       )

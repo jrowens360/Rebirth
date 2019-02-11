@@ -26,6 +26,7 @@ class FlateListView extends Component {
         return (
             <View style={styles.flatview}>
                 <RadioButton
+                
                     animation={'bounceIn'}
                     isSelected={this.props.selectIndex == this.props.index}
                     onPress={() => {
@@ -33,7 +34,7 @@ class FlateListView extends Component {
                     }
                     }
                 />
-                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center',paddingLeft:5 }}>
                     {this.creditCardImg(this.props.item)}
                     <Text style={{ paddingLeft: 10 }}>{"**************" + this.props.item.number.substr(this.props.item.number.length - 4, this.props.item.number.length)}</Text>
                 </View>
@@ -46,23 +47,39 @@ class FlateListView extends Component {
         switch (item.type) {
             case 'master-card':
                 return (
-
                     <Image source={Constants.Images.user.masterCard} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
                 );
             case 'visa':
                 return (
-
                     <Image source={Constants.Images.user.visa} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
                 );
-            default:
+            case 'american-express':
                 return (
-
-                    <Image source={{ uri: "http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png" }} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+                    <Image source={Constants.Images.user.american} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
                 );
+            case 'discover':
+                return (
+                    <Image source={Constants.Images.user.discover} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
 
+                );
+            case 'diners-club':
+            return (
+                <Image source={Constants.Images.user.diners} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+            );
+            case 'jcb':
+            return (
+                <Image source={Constants.Images.user.jcb} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+            );
+            default:
+                return (
+                    <Image source={Constants.Images.user.unknown} style={{ height: 30, width: 40 }} resizeMode='contain'></Image>
+
+                );
         }
 
 

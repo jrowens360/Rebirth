@@ -88,7 +88,7 @@ class ForgotPassword extends Component {
                 placeholder='Email'
                 keyboardType='email-address'
                 placeholderTextColor={'gray'}
-                underlineColorAndroid={this._getULColor(this.state.hasFocus)}
+               // underlineColorAndroid={this._getULColor(this.state.hasFocus)}
                 onChangeText={(email) => this.setState({ email })}
               />
               <TouchableOpacity onPress={() => this.forgotSubmit()}
@@ -117,7 +117,10 @@ const styles = StyleSheet.create({
   textInputStyle: {
     padding: 10,
     marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 6,
-    color: 'white'
+    color: 'white',
+
+    borderBottomColor:'gray',
+    borderBottomWidth:1
 
   },
   imageStyle: {

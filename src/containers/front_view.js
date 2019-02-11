@@ -234,7 +234,7 @@ class FrontView extends Component {
           </View>
           {this.state.sideView ? this.cardSideView() : this.cardFrontView()}
 
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' ,marginVertical:15}}>
             <TouchableOpacity style={styles.nextTxt} disabled={this.state.nextButton} onPress={() => this.onNext()}>
               <Text style={this.state.nextButton ? styles.bottomDefaultText : styles.bottomText} >{this.state.buttonTxt}</Text>
             </TouchableOpacity>
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   },
   textStyle: { color: 'black', alignSelf: 'center', padding: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2.5, fontSize: 20 },
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
-  nextTxt: { paddingHorizontal: 7,paddingVertical:1,backgroundColor:'white',marginTop:3,elevation: 2, 
+  nextTxt: { paddingHorizontal: 7,paddingVertical:1,backgroundColor:Constants.Colors.darkYellow,marginTop:3,elevation: 2, 
   borderRadius: 20,
   
   }

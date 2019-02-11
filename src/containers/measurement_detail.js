@@ -57,12 +57,7 @@ class MeasurementDetail extends Component {
               <Icon name="angle-left" size={40} color='white' />
             </TouchableOpacity >
             <Text style={styles.headerTxt}> Measurement Detail </Text>
-            {/* <View>
-              <TouchableOpacity onPress={() => this.dashBoard()}>
-                <Text style={styles.headerTxt} > Done</Text>
-              </TouchableOpacity >
-
-            </View> */}
+           
             <View style={{width:30}}></View>
           </View>
 
@@ -407,7 +402,7 @@ const styles = StyleSheet.create({
   },
   donebtnStyle: {
     color: 'white',
-    marginVertical: 5,
+    marginVertical: 8,
     alignSelf: 'center',
     borderRadius: 20,
     textAlign: 'center',

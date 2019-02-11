@@ -131,7 +131,7 @@ export const signInFirebase = (data) => {
     dispatch(startLoading());
     firebase.auth().signInWithEmailAndPassword(data.email, data.password).then((user) => {
       dispatch(stopLoading());
-      dispatch(ToastActionsCreators.displayInfo("User login successfully"));
+     // dispatch(ToastActionsCreators.displayInfo("User login successfully"));
       dispatch(USERLOGIN());
       dispatch(USERINFO());
     }).catch(error => {

@@ -157,7 +157,7 @@ onModal(){
           <TouchableOpacity style={{ paddingHorizontal: 6 }} onPress={() => this.props.navigation.goBack()}>
             <Icon name="angle-left" size={40} color='white' />
           </TouchableOpacity >
-          <Text style={styles.headerTxt}>Gender/Height Selections </Text>
+          <Text style={styles.headerTxt}>Gender & Height Selections </Text>
           <View style={{width:30}}></View>
 
         </View>
@@ -188,7 +188,7 @@ onModal(){
 
 
           </View>
-          <Text style={{ color: "white", textAlign: "center", fontSize: 15, marginTop: 15 }}>What is your Height?</Text>
+          <Text style={{ color: "white", textAlign: "center", fontSize: 15, marginTop: "17%" }}>What is your Height?</Text>
 
           <Modal
             animationType="slide"
@@ -287,7 +287,7 @@ onModal(){
 
               /> */}
                <Text style={{ color: 'white', fontWeight: '500',  padding: 10,
-                       marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2}}>{this.state.height ? this.state.feet + "  feet  " + this.state.inch + " inchs" : "Enter height"}</Text>
+                       marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2}}>{this.state.height ? this.state.feet + "  feet  " + this.state.inch + " Inches" : "Enter height"}</Text>
             </TouchableOpacity>
           </View>
 
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
 
   },
   profileRow: {
-    marginTop: "20%",
+    marginTop: "12%",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

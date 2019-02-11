@@ -30,7 +30,7 @@ const initialState = AppNavigator.router.getStateForAction(NavigationActions.res
 
 export default function reducer(state = initialState, action) {
     //console.log('action *********',action.payload)
-    let firstState = "Splash";
+    let firstState = "SignIn";
     if(action.payload && action.payload.user && action.payload.user.userStatus){
         firstState = "dashboard"
     }
