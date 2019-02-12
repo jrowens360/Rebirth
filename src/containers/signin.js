@@ -19,6 +19,17 @@ import * as UserActions from '../redux/modules/user';
 import Constants from '../constants';
 
 
+var firebase = require("firebase");
+
+ var config = {
+  apiKey: "AIzaSyDRAvtiKzJKzM6-5UDreh_lCRcccf8ifVM",
+  authDomain: "rebirth-89283.firebaseapp.com",
+  databaseURL: "https://rebirth-89283.firebaseio.com",
+  projectId: "rebirth-89283",
+  storageBucket: "rebirth-89283.appspot.com",
+  messagingSenderId: "708324252016"
+};
+
 
  class SignIn extends Component {
 
@@ -37,6 +48,15 @@ import Constants from '../constants';
   }
 
 
+
+  componentDidMount(){
+    if (!firebase.apps.length) {
+        firebase.initializeApp(config);
+      
+    }
+    console.disableYellowBox = true;
+
+  }
   signInSubmit() {
 
     let { dispatch } = this.props.navigation;

@@ -64,7 +64,7 @@ class Payment extends Component {
   }
 
   componentDidMount() {
-    console.log("component did mount", this.props);
+   // console.log("component did mount", this.props);
     this.setState({
 
       cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? this.props.cardList.cardList : []
@@ -74,7 +74,7 @@ class Payment extends Component {
   }
   componentWillReceiveProps(props) {
 
-    console.log(this.props);
+   // console.log(this.props);
     this.setState({
 
       cardList: this.props.cardList != null || typeof (this.props.cardList.cardList) != "undefined" ? props.cardList.cardList : []
@@ -311,6 +311,7 @@ this.setState({cvvmodal:true})
           visible={this.state.cvvmodal}
         // title={'For Security Purposes, Please Confirm CVV'}
         //   // titleColor="black"
+          addPadding ={false}
           colorAccent='black'
           backgroundColor="white"
           okLabel="SUBMIT"
