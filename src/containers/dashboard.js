@@ -10,6 +10,7 @@ import Constants from '../constants';
 import { connect } from 'react-redux';
 import Background from '../components/common/BackgroundImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SplashScreen from 'react-native-splash-screen';
 
 var firebase = require("firebase");
 
@@ -31,6 +32,7 @@ class Dashboard extends Component {
     }
   }
   componentDidMount() {
+    SplashScreen.hide()
     if (this.state.userStatus) {
       if (!firebase.apps.length) {
         firebase.initializeApp(config);

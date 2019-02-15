@@ -17,6 +17,8 @@ import Regex from '../utilities/Regex';
 import Background from '../components/common/BackgroundImg';
 import * as UserActions from '../redux/modules/user';
 import Constants from '../constants';
+import SplashScreen from 'react-native-splash-screen';
+
 
 
 var firebase = require("firebase");
@@ -46,10 +48,11 @@ var firebase = require("firebase");
 
     }
   }
-
+	
 
 
   componentDidMount(){
+    SplashScreen.hide()
     if (!firebase.apps.length) {
         firebase.initializeApp(config);
       

@@ -309,11 +309,13 @@ this.setState({cvvmodal:true})
               </Modal> */}
                    <MaterialDialog
           visible={this.state.cvvmodal}
+         // style={backgroundColor = Constants.Colors.Purple}
         // title={'For Security Purposes, Please Confirm CVV'}
         //   // titleColor="black"
+        // backgroundColor = {Constants.Colors.Purple}
           addPadding ={false}
-          colorAccent='black'
-          backgroundColor="white"
+          colorAccent= 'white'
+          backgroundColor= {Constants.Colors.Purple}
           okLabel="SUBMIT"
           onOk={() => {
             this.submit();
@@ -323,19 +325,19 @@ this.setState({cvvmodal:true})
             this.setState({ cvvmodal: false });
           }}
         >
-             <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>For Security Purposes, Please Confirm CVV</Text>
+             <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold',paddingTop:10,paddingHorizontal:10 }}>For Security Purposes, Please Confirm CVV</Text>
                     <View style={{ justifyContent: 'center' }}>
                       <TextInput
-                        maxLength={3}
+                        maxLength={4}
                         autoFocus={true}
                         autoCorrect={false}
                         value={this.state.cvv}
                         style={styles.textInputStyle}
                         placeholder='CVV'
-                        placeholderTextColor={'black'}
+                        placeholderTextColor='white'
                         keyboardType='phone-pad'
                         onChangeText={(cvv) => this.setState({ cvv })}
-                        underlineColorAndroid={'black'}
+                        underlineColorAndroid='white'
 
                       />
                     </View>
@@ -460,9 +462,9 @@ const styles = StyleSheet.create({
   headerTxt: { padding: 10, alignSelf: 'center', fontSize: 20, color: 'white' },
   textInputStyle: {
 
-    color: 'black',
+    color:'white',
     padding: 10,
-    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 2,
+    marginTop: Constants.BaseStyle.DEVICE_HEIGHT / 100 * 1,
 
   },
 

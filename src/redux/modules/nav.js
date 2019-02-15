@@ -1,5 +1,9 @@
 'use strict';
 import Idx from "../../utilities/Idx";
+import {
+    Platform
+
+  } from 'react-native';
 import { NavigationActions } from "react-navigation";
 import { AppNavigator } from "../../config/navigator";
 import { REHYDRATE } from "redux-persist/constants";

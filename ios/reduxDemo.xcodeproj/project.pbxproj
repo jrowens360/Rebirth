@@ -60,6 +60,7 @@
 		CFFACEA07B7943109FA958E3 /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98ADE4E5C31A4E2D86615DD0 /* libRNVectorIcons-tvOS.a */; };
 		D305401321E3C36D000FF710 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D305401221E3C36D000FF710 /* libRNFS.a */; };
 		D305401421E3C39B000FF710 /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */; };
+		D385F9F52215FDF600A3EAC9 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3759AB5221376DB001C4C34 /* libSplashScreen.a */; };
 		D3D1FEC921FFBD30008A7311 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D1FEC321FFBC43008A7311 /* libimageCropPicker.a */; };
 		D3D1FECB21FFC514008A7311 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D1FECA21FFC514008A7311 /* RSKImageCropper.framework */; };
 		D3D1FECC21FFC514008A7311 /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D3D1FECA21FFC514008A7311 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -392,6 +393,13 @@
 			remoteGlobalIDString = 3A3A7F1A1DC27B520030F9DC;
 			remoteInfo = TPSStripe;
 		};
+		D3759AB4221376DB001C4C34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3759A83221376DA001C4C34 /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 		D37AF33C21DE9AE200D8E687 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D37AF31221DE9AE200D8E687 /* RNFetchBlob.xcodeproj */;
@@ -479,6 +487,7 @@
 		D3053F9821E3C10B000FF710 /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		D3053FCD21E3C15A000FF710 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D305401221E3C36D000FF710 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3759A83221376DA001C4C34 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		D37AF31221DE9AE200D8E687 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		D3D1FEB821FFBBED008A7311 /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = "<group>"; };
 		D3D1FEB921FFBBED008A7311 /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = "<group>"; };
@@ -503,6 +512,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D385F9F52215FDF600A3EAC9 /* libSplashScreen.a in Frameworks */,
 				D3D1FEC921FFBD30008A7311 /* libimageCropPicker.a in Frameworks */,
 				D305401421E3C39B000FF710 /* libcxxreact.a in Frameworks */,
 				D3D1FECB21FFC514008A7311 /* RSKImageCropper.framework in Frameworks */,
@@ -714,6 +724,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D3759A83221376DA001C4C34 /* SplashScreen.xcodeproj */,
 				D3D1FEBC21FFBC43008A7311 /* imageCropPicker.xcodeproj */,
 				D3053F9821E3C10B000FF710 /* RNFS.xcodeproj */,
 				D37AF31221DE9AE200D8E687 /* RNFetchBlob.xcodeproj */,
@@ -838,6 +849,14 @@
 			isa = PBXGroup;
 			children = (
 				D331F33121CDA81E0061D3D7 /* libTPSStripe.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D3759A84221376DA001C4C34 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D3759AB5221376DB001C4C34 /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1082,6 +1101,10 @@
 				{
 					ProductGroup = D331F2EE21CDA80C0061D3D7 /* Products */;
 					ProjectRef = 7A31C49C54B949C6B29728F8 /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = D3759A84221376DA001C4C34 /* Products */;
+					ProjectRef = D3759A83221376DA001C4C34 /* SplashScreen.xcodeproj */;
 				},
 				{
 					ProductGroup = D331F2F621CDA80C0061D3D7 /* Products */;
@@ -1407,6 +1430,13 @@
 			remoteRef = D331F33021CDA81E0061D3D7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D3759AB5221376DB001C4C34 /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = D3759AB4221376DB001C4C34 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D37AF33D21DE9AE200D8E687 /* libRNFetchBlob.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1624,13 +1654,7 @@
 				INFOPLIST_FILE = reduxDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1659,13 +1683,7 @@
 				INFOPLIST_FILE = reduxDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1705,6 +1723,7 @@
 					"$(SRCROOT)/../react-native/React",
 					"$(SRCROOT)/../../React",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = reduxDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1750,6 +1769,7 @@
 					"$(SRCROOT)/../react-native/React",
 					"$(SRCROOT)/../../React",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = reduxDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1791,13 +1811,7 @@
 				);
 				INFOPLIST_FILE = "reduxDemo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1835,13 +1849,7 @@
 				);
 				INFOPLIST_FILE = "reduxDemo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1878,13 +1886,7 @@
 				);
 				INFOPLIST_FILE = "reduxDemo-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1921,13 +1923,7 @@
 				);
 				INFOPLIST_FILE = "reduxDemo-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

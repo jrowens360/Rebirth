@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import {
     StyleSheet,
-    View,
-    InteractionManager,
-    Platform,
-    Alert,
-    Linking,
+   
     StatusBar,
     SafeAreaView
 } from 'react-native'
@@ -13,6 +9,8 @@ import Progress from './components/common/Progress'
 import Navigator from "./config/navigator"
 import { Toast } from 'react-native-redux-toast';
 import Constants from './constants';
+
+
 
 export default class Root extends Component{
   /* *
@@ -22,12 +20,14 @@ export default class Root extends Component{
     super(props);
   }
 
+ 
   /* *
    * @function: Default render function
    * */
   render(){
     return (
       <SafeAreaView style={styles.container}>
+       
        
           <StatusBar
         
@@ -37,7 +37,7 @@ export default class Root extends Component{
         	<Progress/>
           <Navigator/>
           <Toast messageStyle={styles.toastStyle} containerStyle={{ backgroundColor: Constants.Colors.Purple }}/>
-       
+        
         </SafeAreaView>
       )
   }

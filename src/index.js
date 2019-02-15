@@ -6,7 +6,9 @@ import configureStore from "./config/configureStore";
 import Root from './Root';
 //import configureClient, { destroySocketClient } from "./utilities/SocketClient";
 import { pushNotificationInit , pushNotificationRemove }from "./utilities/PushNotification";
+//import SplashScreen from 'react-native-smart-splash-screen'
 //import { checkPermissions }from "./utilities/Locations";
+import SplashScreen from 'react-native-splash-screen';
 
 //let socketClient = null;
 
@@ -48,6 +50,9 @@ class Main extends Component{
 	}
 
 	componentWillMount() {
+
+
+	
 		/* *
 		 * @function: Initiliazing push notification utility
 		 * */

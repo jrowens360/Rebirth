@@ -139,6 +139,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     compile project(':react-native-fs')
     compile project(':react-native-vector-icons')

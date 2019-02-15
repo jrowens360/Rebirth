@@ -9,6 +9,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "SplashScreen.h"
 
 @implementation AppDelegate
 
@@ -39,6 +40,7 @@
     
     statusBar.backgroundColor = [UIColor colorWithRed:96.0/255.0 green:0.0/255.0 blue:186.0/255.0 alpha:1.0];//set whatever color you like
   }
+  [SplashScreen show];
   return YES;
 }
 

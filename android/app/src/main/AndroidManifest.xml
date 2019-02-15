@@ -10,12 +10,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+    
         android:name=".MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/appicon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_roundicon"
-        android:theme="@style/AppTheme">
+        >
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher" />
@@ -40,22 +41,30 @@
         </service>
 
         <activity
+           android:theme="@style/SplashTheme"
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-
-        </activity>
-        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-        <activity android:name=".SplashScreen">
-
-            <intent-filter>
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true"
+        >
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        
+        </activity>
+
+     
+
+        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <activity android:name=".Splash"
+            android:theme="@style/SplashTheme"
+           android:label="@string/app_name">
+         
 
         </activity>
     </application>
