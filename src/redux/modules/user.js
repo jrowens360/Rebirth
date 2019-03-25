@@ -1,6 +1,6 @@
 'use strict';
 import {
-  Platform,
+  Platform,alert
 } from 'react-native';
 import _ from "lodash";
 import { startLoading, stopLoading, showToast, hideToast } from './app';
@@ -615,8 +615,11 @@ export const addMeasurementFirebase = (data) => {
 export const measurementFromFirebase = () => {
 
   const { currentUser } = firebase.auth();
+ if(currentUser != null && currentUser.uid !=null){
   return dispatch => {
     dispatch(startLoading());
+   // dispatch(ToastActionsCreators.displayInfo(""+currentUser.uid));
+   // dispatch(ToastActionsCreators.displayInfo(""+currentUser.uid));
     firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").once('value', function (snapshot) {
       dispatch(stopLoading());
 
@@ -632,8 +635,14 @@ export const measurementFromFirebase = () => {
         dispatch(ToastActionsCreators.displayInfo("No Measurements Available"));
       }
     });
-
   }
+
+ }else{
+  return dispatch => {}
+ }
+  
+  
+ 
 };
 
 

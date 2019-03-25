@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     width: Constants.BaseStyle.DEVICE_WIDTH / 100 * 7
   },
   textStyle: { color: "black", flex: 1, paddingLeft: 10, fontWeight: '500' },
-  bottomDefaultText: { color: 'gray', alignSelf: 'center',  paddingHorizontal: 14 ,paddingVertical:7 ,fontWeight: '500'},
+  bottomDefaultText: { color: 'black', alignSelf: 'center',  paddingHorizontal: 14 ,paddingVertical:7 ,fontWeight: '500'},
   bottomText: { color: Constants.Colors.Purple, alignSelf: 'center',  paddingHorizontal: 14 ,paddingVertical:7,fontWeight: '500'},
 
 
