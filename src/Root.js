@@ -36,7 +36,7 @@ export default class Root extends Component{
           />
         	<Progress/>
           <Navigator/>
-          <Toast messageStyle={styles.toastStyle} containerStyle={{ backgroundColor: Constants.Colors.Purple }}/>
+          <Toast   messageStyle={styles.toastStyle} containerStyle={{ backgroundColor: Constants.Colors.Purple }}/>
         
         </SafeAreaView>
       )
@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
   },
   toastStyle:{
      color: Constants.Colors.White,
+     textAlign: 'center',
+     
   }
 });
 

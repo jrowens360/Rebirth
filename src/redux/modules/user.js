@@ -1,6 +1,6 @@
 'use strict';
 import {
-  Platform,alert
+  Platform, alert
 } from 'react-native';
 import _ from "lodash";
 import { startLoading, stopLoading, showToast, hideToast } from './app';
@@ -131,7 +131,7 @@ export const signInFirebase = (data) => {
     dispatch(startLoading());
     firebase.auth().signInWithEmailAndPassword(data.email, data.password).then((user) => {
       dispatch(stopLoading());
-     // dispatch(ToastActionsCreators.displayInfo("User login successfully"));
+      // dispatch(ToastActionsCreators.displayInfo("User login successfully"));
       dispatch(USERLOGIN());
       dispatch(USERINFO());
     }).catch(error => {
@@ -293,7 +293,7 @@ export const addCardListFirebase = (data) => {
         if (snapshot.val() != null) {
           dispatch(CARDDETAIL(listData));
           dispatch(goBack());
-       //   dispatch(ToastActionsCreators.displayInfo("user cards "));
+          //   dispatch(ToastActionsCreators.displayInfo("user cards "));
         } else {
           dispatch(ToastActionsCreators.displayInfo("Please try again"))
 
@@ -547,9 +547,9 @@ export const ImageSideParameter = (data, callback) => {
     //  console.log(requestObject);
     RestClient.uploadCompeleImage("step/", body, data.apiKey).then((result) => {
       console.log('side  image prameter ******* ', result)
-      //  if(result.status == 1){
+
       dispatch(stopLoading());
-      // dispatch(ToastActionsCreators.displayInfo('Data saved successfully'))
+
       if (result.status) {
         callback();
       }
@@ -561,13 +561,6 @@ export const ImageSideParameter = (data, callback) => {
       }
 
 
-
-      //console.log('data front body params   ********* ',result)
-      // dispatch(ToastActionsCreators.displayInfo(result.message));
-      // }else{
-      //   dispatch(stopLoading());
-      //   // dispatch(ToastActionsCreators.displayInfo(result.message));
-      // }
     }).catch(error => {
       console.log("error=> ", error)
       dispatch(ToastActionsCreators.displayInfo(error.message))
@@ -583,8 +576,7 @@ export const ImageSideParameter = (data, callback) => {
 //-------------AddMeasurementInFirebase----------------------------------------//
 export const addMeasurementFirebase = (data) => {
 
-  // var dateTo = moment().subtract(20,'d');
-  // Math.floor(Date.now()).toString()
+
 
   console.log("measurement input", data)
   const { currentUser } = firebase.auth();
@@ -596,8 +588,7 @@ export const addMeasurementFirebase = (data) => {
       { "measureList": data }
     ).then((saveData) => {
       console.log('result measurement save ******* ', saveData),
-        // alert(JSON.stringify(saveData));
-        //    dispatch(ToastActionsCreators.displayInfo('Data fetech successfully'))
+
         dispatch(goTo({ route: 'MeasurementDetail', params: {} }));
       dispatch(stopLoading());
       // });
@@ -615,34 +606,34 @@ export const addMeasurementFirebase = (data) => {
 export const measurementFromFirebase = () => {
 
   const { currentUser } = firebase.auth();
- if(currentUser != null && currentUser.uid !=null){
-  return dispatch => {
-    dispatch(startLoading());
-   // dispatch(ToastActionsCreators.displayInfo(""+currentUser.uid));
-   // dispatch(ToastActionsCreators.displayInfo(""+currentUser.uid));
-    firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").once('value', function (snapshot) {
-      dispatch(stopLoading());
+  if (currentUser != null && currentUser.uid != null) {
+    return dispatch => {
+      dispatch(startLoading());
+      // dispatch(ToastActionsCreators.displayInfo(""+currentUser.uid));
+      // dispatch(ToastActionsCreators.displayInfo(""+currentUser.uid));
+      firebase.database().ref('UsersList/' + currentUser.uid).child("userMeasurement").once('value', function (snapshot) {
+        dispatch(stopLoading());
 
-      console.log("read measurement data" + JSON.stringify(snapshot.val()))
-      let listData = snapshot.val() == null ? {} : snapshot.val()
-      if (snapshot.val() != null) {
-        dispatch(MEASUREDETAIL(listData));
-        dispatch(FILTERINDEX(0));
-        dispatch(SORTINDEX(0));
-        //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
-        // alert(JSON.stringify(snapshot.val()));
-      } else {
-        dispatch(ToastActionsCreators.displayInfo("No Measurements Available"));
-      }
-    });
+        console.log("read measurement data" + JSON.stringify(snapshot.val()))
+        let listData = snapshot.val() == null ? {} : snapshot.val()
+        if (snapshot.val() != null) {
+          dispatch(MEASUREDETAIL(listData));
+          dispatch(FILTERINDEX(0));
+          dispatch(SORTINDEX(0));
+          //  dispatch(ToastActionsCreators.displayInfo("user measurement details list"));
+          // alert(JSON.stringify(snapshot.val()));
+        } else {
+          dispatch(ToastActionsCreators.displayInfo("No Measurements Available"));
+        }
+      });
+    }
+
+  } else {
+    return dispatch => { }
   }
 
- }else{
-  return dispatch => {}
- }
-  
-  
- 
+
+
 };
 
 
@@ -740,8 +731,8 @@ const initialState = {
   bodyParameters: '',
   measureHistory: {},
   selectIndex: 0,
-  filterIndex:0,
-  sortIndex:0,
+  filterIndex: 0,
+  sortIndex: 0,
 
 
 
@@ -767,8 +758,8 @@ export default function reducer(state = initialState, action) {
         bodyParameters: '',
         measureHistory: {},
         selectIndex: 0,
-        filterIndex:0,
-        sortIndex:0,
+        filterIndex: 0,
+        sortIndex: 0,
 
 
       };

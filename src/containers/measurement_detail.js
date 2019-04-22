@@ -91,6 +91,15 @@ class MeasurementDetail extends Component {
                     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
                   </View>);
                 }
+                // if (key == "hips") {
+                //   return (<View>
+                //     <View style={styles.flatview}>
+                //       <Text >{'Abdomen'}</Text>
+                //       <Text style={styles.paramTxt}>{Math.round(value * 100) / 100} <Text style={styles.paramTxt}>{' in'}</Text></Text>
+                //     </View>
+                //     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                //   </View>);
+                // }
 
 
 
@@ -126,7 +135,20 @@ class MeasurementDetail extends Component {
                 }
 
 
+              
+
+                if (key == "low_hips") {
+                 
+                  return (<View>
+                    <View style={styles.flatview}>
+                      <Text >{'Hips'}</Text>
+                      <Text style={styles.paramTxt}>{Math.round(volumevalue * 100) / 100} <Text style={styles.paramTxt}>{' in'}</Text></Text>
+                    </View>
+                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
+                  </View>);
+                }
                 if (key == "hips") {
+                
                   return (<View>
                     <View style={styles.flatview}>
                       <Text >{'Abdomen'}</Text>
@@ -136,60 +158,19 @@ class MeasurementDetail extends Component {
                   </View>);
                 }
 
-                if (key == "low_hips") {
-                  return (<View>
-                    <View style={styles.flatview}>
-                      <Text >{'Low Hips'}</Text>
-                      <Text style={styles.paramTxt}>{Math.round(volumevalue * 100) / 100} <Text style={styles.paramTxt}>{' in'}</Text></Text>
-                    </View>
-                    <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
-                  </View>);
-                }
-// if(key == "test_data"){
-
- 
-  
-// }
-
-                // if (key["LEGS_HIGH_M0_MOD_L"] == "LEGS_HIGH_M0_MOD_L") {
-                //   return (<View>
-                //     <View style={styles.flatview}>
-                //       <Text >{'Thigh'}</Text>
-                //       <Text style={styles.paramTxt}>{Math.round(volumevalue * 100) / 100} <Text style={styles.paramTxt} >{' in'}</Text></Text>
-                //     </View>
-                //     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
-                //   </View>);
-                // }
-                // if (key.KNEES_J_MOD_L == "KNEES_J_MOD_L") {
-                //   return (<View>
-                //     <View style={styles.flatview}>
-                //       <Text >{'Knee'}</Text>
-                //       <Text style={styles.paramTxt}>{Math.round(volumevalue * 100) / 100} <Text style={styles.paramTxt}>{' in'}</Text></Text>
-                //     </View>
-                //     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
-                //   </View>);
-                // }
-                // if (key == "hips") {
-                //   return (<View>
-                //     <View style={styles.flatview}>
-                //       <Text >{'Abdomen'}</Text>
-                //       <Text style={styles.paramTxt}>{Math.round(volumevalue * 100) / 100} <Text style={styles.paramTxt}>{' inch'}</Text></Text>
-                //     </View>
-                //     <View style={{ borderBottomColor: 'gray', borderBottomWidth: 2 }}></View>
-                //   </View>);
-                // }
                
 
               })
               }
  {Object.keys(this.state.bodyParameters.volume_parameters.test_data).map((tkey, index) => {
-    var testValue = '';
+    var testvalue = '';
     const mytestItem =this.state.bodyParameters.volume_parameters.test_data[tkey]
     if (typeof (mytestItem) != 'object') {
       testvalue = mytestItem / 2.54
     }
 
-    if(tkey =="LEGS_HIGH_M0_MOD_L") {
+    if(tkey =="LEGS_HIGH_END_MOD_L") {
+      console.log("value from testvalue ",mytestItem);
       return (<View>
         <View style={styles.flatview}>
           <Text >{'Thigh'}</Text>
@@ -211,7 +192,7 @@ class MeasurementDetail extends Component {
   })
   }
               
-              {Object.keys(this.state.bodyParameters.side_parameters).map((key, index) => {
+              {/* {Object.keys(this.state.bodyParameters.side_parameters).map((key, index) => {
                 var sidevalue = '';
                 const mySideItem = this.state.bodyParameters.side_parameters[key]
                 if (typeof (mySideItem) != 'object') {
@@ -240,7 +221,7 @@ class MeasurementDetail extends Component {
 
 
               })
-              }
+              } */}
             </ScrollView>
 
           </View>

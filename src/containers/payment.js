@@ -341,6 +341,7 @@ this.setState({cvvmodal:true})
 
                       />
                     </View>
+                    <View style={{ backgroundColor:'white',height:1,paddingHorizontal:2 }}></View>
         </MaterialDialog>
 
               <FlatList
